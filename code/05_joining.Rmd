@@ -1,0 +1,249 @@
+---
+title: 'Joining'
+author: "Jae Yeon Kim"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output:
+  html_document:
+    number_sections: true
+    toc: yes
+  pdf_document:
+    toc: yes
+---
+
+This workshop is for students who alreay have some experience with `dplyr` and `tidyr` and upgrade their data wrangling skills in R.
+
+# Setup 
+
+`pacman` is a great package management tool in R. (For more information, see [the package vignette](http://trinker.github.io/pacman/vignettes/Introduction_to_pacman.html).)
+
+```{r}
+
+# p_load loads and, if necessary, install missing packages. 
+# install.packages() + library() = p_load()
+# If you just want to install, then use p_install()
+
+if (!require("pacman")) install.packages("pacman")
+pacman::p_load(
+  tidyverse, # for the tidyverse framework
+  nycflights13 # for exercise 
+  )
+
+```
+
+Relational data = multiple tables of data
+
+![Relational data example](https://d33wubrfki0l68.cloudfront.net/245292d1ea724f6c3fd8a92063dcd7bfb9758d02/5751b/diagrams/relational-nycflights.png)
+
+**Key ideas**
+
+- A **primary key** "uniquely identifies an observation in its own table"
+
+```{r}
+
+# Example
+planes$tailnum %>% head()
+
+```
+
+Verify primary key
+
+`tailnum` should be unique. Thus, the result should be 0. 
+
+```{r}
+planes %>%
+  count(tailnum) %>%
+  filter(n > 1)
+```
+
+If a dataframe doesn't have primary key, you can add one called a **surrogate** key.
+
+```{r}
+
+# Toy example
+df <- tibble(x = c(1:3),
+             y = c(4:6))
+
+# Add a row_index column 
+df <- df %>% rowid_to_column("ID")
+
+```
+- A **foreign** key "uniquely identifies an observation in another table."
+
+```{r}
+flights$tailnum %>% head()
+```
+
+# Mutating joins
+
+> Add new variables to one data frame from matching observations in another"
+
+Using a simple toy example is great because it is easy to see how things work in that much narrrow context. 
+
+- Toy example 
+
+```{r}
+
+# Table 1 
+x <- tibble(key = c(1:4),
+            val_x = c("x1", "x2", "x3", "x4"))
+
+# Table 2
+y <- tibble(key = c(1:5),
+            val_y = c("y1", "y2", "y3", "y4", "y5"))
+
+```
+
+## Inner Join
+
+`inner_join()` keeps the matched values in both tables. If the left table is a subset of the right table, then the result of `left_join()` is same as `inner_join()`.
+
+```{r}
+
+inner_join(x, y)
+
+```
+
+![Mutating joins](https://d33wubrfki0l68.cloudfront.net/aeab386461820b029b7e7606ccff1286f623bae1/ef0d4/diagrams/join-venn.png)
+
+## Left Join
+
+`left_join()`, `right_join()` and `full_join()` are outer join functions. Unlike `inner_join()`, outer join functions keep observations that appear in at least one of the tables.
+
+`left_join()` keeps only the matched observations in the right table.
+
+```{r}
+
+left_join(x, y)
+
+```
+
+## Right Join
+
+`right_join()` does the opposite.
+
+```{r}
+
+right_join(x, y)
+
+```
+
+## Full Join
+
+`full_join()` keeps the observations from both tables. If they were unmatched, then NAs were recordered in one of the two tables.
+
+```{r}
+
+full_join(x, y)
+
+```
+
+# Filtering joins 
+
+> Filter observations from one data frame based on whether or not they match an observation in the other table.
+
+## Semi Join
+
+- Filtering without joining 
+
+```{r}
+
+# Create the list of the top 10 destinations 
+top_dest <- flights %>%
+  count(dest, sort = TRUE) %>%
+  top_n(10)
+
+# Filter
+filtered <- flights %>%
+  filter(dest %in% top_dest$dest)
+
+```
+
+- Using semi join: only keep (INCLUDE) the rows that were matched between the two tables 
+
+```{r}
+
+joined <- flights %>%
+  semi_join(top_dest)
+
+```
+
+## Anti Join
+
+`anti_join()` dose the opposite. Exclude the rows that were matched between the two tables. 
+
+```{r}
+
+flights %>%
+  anti_join(planes, by = "tailnum") %>%
+  count(tailnum, sort = TRUE)
+
+```
+
+# Set operations 
+
+> Treat observations as if they were set elements. 
+
+Another toy example. 
+
+```{r}
+
+df1 <- tibble(x = c(1, 2),
+              y = c(1, 1))
+  
+df2 <- tibble(x = c(1, 1),
+              y = c(1, 2))
+
+df1
+
+df2
+
+```
+
+## Intersect 
+
+Return matched observations in the two tables
+
+```{r}
+
+intersect(df1, df2)
+
+```
+
+## Union
+
+Return unique observations in the two tables 
+
+```{r}
+
+union(df1, df2)
+
+```
+
+## Set Diff 
+
+Return observations in the left but not in the right table 
+
+```{r}
+
+setdiff(df1, df2)
+
+```
+
+# Binding 
+
+## Bind Rows 
+
+```{r}
+
+bind_rows(df1, df2)
+
+```
+
+## Bind Columns 
+
+```{r}
+
+bind_cols(df1, df2)
+
+```
+

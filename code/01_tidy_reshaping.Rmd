@@ -1,0 +1,498 @@
+---
+title: 'Tidy Data and Reshaping'
+author: "Jae Yeon Kim"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output:
+  html_document:
+    number_sections: true
+    toc: yes
+  pdf_document:
+    toc: yes
+---
+
+This workshop is for students who already have some experience with `dplyr` and `tidyr` and upgrade their data wrangling skills in R.
+
+# Setup 
+
+`pacman` is a great package management tool in R. (For more information, see [the package vignette](http://trinker.github.io/pacman/vignettes/Introduction_to_pacman.html).)
+
+```{r include = FALSE}
+
+# p_load loads and, if necessary, install missing packages. 
+# install.packages() + library() = p_load()
+# If you just want to install, then use p_install()
+
+if (!require("pacman")) install.packages("pacman")
+pacman::p_load(
+  tidyverse, # for the tidyverse framework
+  here # for computational reproducibility 
+  )
+
+```
+
+# (Optional) Project-oriented workflow 
+
+Read Jenny Bryan's great article on [project-oriented workflow](https://www.tidyverse.org/blog/2017/12/workflow-vs-script/). The key idea is [computatinoal reproduciblity](http://web.stanford.edu/~vcs/talks/Utah2018-STODDEN.pdf). To ensure that, we need to make a project self-contained. 
+
+- Almost in all cases, `setwd()` is not reproducible outside the author's local machine. Instead, learn to use `here()`'. 
+- Do not save .RData when you quit R and don't load. Using [Bash](https://www.gnu.org/software/bash/), add the following line in `.bash_profile`: `alias R='R --no-save --no-restore-data'` (More information on [invoking R](https://colinfay.me/intro-to-r/appendix-b-invoking-r.html) by W. N. Venables and D. M. Smith (R Core Team))
+
+# (Required) Project organization 
+
+Read [Software Carpentry](https://software-carpentry.org/lessons/index.html)'s great article on [project management in RStudio](https://swcarpentry.github.io/r-novice-gapminder/02-project-intro/). 
+
+*Tips for file organization*
+
+- For more information, see ["Googe Enough Practices in Scientific Computing"](https://github.com/swcarpentry/good-enough-practices-in-scientific-computing/blob/gh-pages/good-enough-practices-for-scientific-computing.pdf) by [PLOS](https://plos.org/)
+
+1. Treat data as read only (raw data should be RAW!)
+
+```{r}
+dir.create(here::here("data"))
+```
+
+2. Separate read-only data from processed data 
+
+```{r}
+dir.create(here::here("processed_data"))
+```
+
+3. Treat generated outputs as disposable 
+
+```{r}
+dir.create(here::here("outputs"))
+```
+
+4. Separate function definition and application
+
+```{r}
+dir.create(here::here("functions"))
+```
+
+5. Save the data in the data directory 
+
+6. Version control [Using Git from RStudio](https://swcarpentry.github.io/git-novice/14-supplemental-rstudio/)
+  
+The rest of the workshop follows the basic structure in [the Data Wrangling Cheat Sheet](https://rstudio.com/wp-content/uploads/2015/02/data-wrangling-cheatsheet.pdf) created by RStudio.
+
+# Tidy Data 
+
+Many of the following examples draw on [R for Data Science](https://r4ds.had.co.nz/) by Garrett Grolemund and Hadley Wickham.
+
+> "Tidy data sets are easy to manipulate, model and visualize, and have a specific structure: each variable is a column, each observation is a row, and each type of observational unit is a table." - Hadley Wickham
+
+1. Variables -> **Columns** 
+2. Observations -> **Rows** 
+3. Values -> **Cells** 
+
+A tidy data can be stored in a `data.frame` or [`tibble`](https://tibble.tidyverse.org/) object.
+
+![Tidy Data Example (Source: R for Data Science)](https://garrettgman.github.io/images/tidy-1.png)
+
+> "If your data is tidy, element-wise execution will ensure that observations are preserved across functions and operations. Each value will only be paired with other values that appear in the same row of the data frame." - Garrett Grolemund and Hadley Wickham
+
+- Nevertheless, don't be religious. 
+
+> In summary, tidy data is a useful conceptual idea and is often the right way to go for general, small data sets, but may not be appropriate for all problems. - Jeff Leek 
+
+For instance, in many data science applications, linear algebra-based computations are essential. These computations are optimized to work on matrices, not tidy data frames. (For more information, read [Jeff Leek's blog post](https://simplystatistics.org/2016/02/17/non-tidy-data/).)
+
+
+```{r}
+
+library(tidyverse)
+
+```
+
+This is what a tidy data looks like. 
+
+```{r}
+
+table1
+
+```
+
+**Additional tips**
+
+Packages for importing data:
+
+1. Basic: `readr`
+2. SPSS, Stata, and SAS files: `haven`
+3. Database: `DBI`
+4. json: `jsonlite`
+5. Web APIs: `httr`
+6. HTML: `rvest`
+
+# Reshape Data 
+
+Let's take a look at the cases of untidy data. 
+
+![Messy Data Case 1 (Source: R for Data Science)](https://garrettgman.github.io/images/tidy-5.png)
+
+## Longer 
+
+```{r}
+
+table4a
+
+```
+
+- 1999 and 2000 are year observations.
+- Each row represents two observations. 
+
+Let's pivot (rotate by 90 degree). [`pivot_longer`](https://tidyr.tidyverse.org/reference/pivot_longer.html) increases the number of rows (longer) and decreases the number of columns. The inverse function is `pivot_wider`. These functions improve the usability of `gather()` and `spread()`.
+
+![What pivot_longer() does (Source: https://www.storybench.org)](https://www.storybench.org/wp-content/uploads/2019/08/pivot-longer-image.png)
+
+```{r}
+
+table4a %>%
+  pivot_longer(
+    cols = c("1999", "2000"), # Putting two columns together  
+    names_to = "year", # Shorter columns (the columns going to be in one column called year)
+    values_to = "cases") # Longer rows (the values are going to be in a separate column called named cases)
+
+```
+
+**Practice**
+
+- This exercise comes from [`pivot` function vigenette](https://tidyr.tidyverse.org/articles/pivot.html).  
+- week information should be saved in one column. Let's pivot. 
+
+```{r}
+billboard
+```
+
+Note that R defines missing values in two ways. 
+
+- Implicit missing values: simply not present in the data.
+
+- Explicit missing values: flagged with NA. This can be dropped (implicit) by adding `values_drop_na = TRUE` in `pivot_longer()`.
+
+
+```{r}
+
+billboard %>%
+  pivot_longer(
+    cols = starts_with("wk"), # Using regular expressions 
+    names_to = "week",
+    values_to = "rank",
+    values_drop_na = TRUE # Dropping NAs
+  )
+
+```
+
+```{r}
+
+billboard %>%
+  pivot_longer(
+    cols = starts_with("wk"), # Using regular expressions 
+    names_to = "week",
+    names_prefix = "wk", # Stripping off 'wk'
+    values_to = "rank",
+    values_drop_na = TRUE # Dropping NAs
+  )
+
+```
+
+**Practice**
+
+Another technique to turn implicit missing values into explicit ones is using `complete()` function.
+
+The following example was inspired by [this stackoverflow post](https://stackoverflow.com/questions/51019672/complete-dataframe-with-missing-combinations-of-values).
+
+```{r}
+
+df <- tibble(distance = c(rep("NPR",3), rep(100, 3)),
+             years = c(3,4,7,1,5,6),
+             area = seq(10, 60, by = 10))
+
+```
+
+```{r}
+
+df %>%
+  complete(distance, 
+           years = 1:7, # This is the full list 
+           fill = list(area = 0)) # Fill NAs with 0s
+
+```
+
+## Wider 
+
+- Each observation is spread across two rows. 
+
+```{r}
+table2
+```
+
+- Note the following two patterns. I
+
+- In `pivot_longer()`, the arguments are named `names_to` and `values_to` (*to*). In `pivot_wider()`, this pattern is opposite. The arguments are named `names_from` and `values_from` (*from*). 
+
+- The number of required arguments for `pivot_longer()` is three (col, names_to, values_to). The number of required arguments for `pivot_wider()` is two (names_from, values_from).
+
+![What pivot_wider() does (Source: https://www.storybench.org)](https://www.storybench.org/wp-content/uploads/2019/08/pivot-wider-image.png)
+
+```{r}
+table2 %>%
+  pivot_wider(
+    names_from = type, # first 
+    values_from = count # second
+  )
+```
+
+**Practice 1**
+
+Learn to use `pivot_wider()` to make implicit missing values explicit. 
+
+```{r}
+
+df <- tibble(distance = c(rep("NPR",3), rep(100, 3)),
+             years = c(3,4,7,1,5,6),
+             area = seq(10, 60, by = 10))
+
+```
+
+- There are several basic ways to treat missing values in R.
+
+1. `drop_na(data, ...)`: Drop NAs 
+2. `fill(data, ..., direction = c("down", "up"))`: Fill in NAs in ... columns with most recent non-NA values 
+3. `replace_na(data, replace = list(), ...)`: Replace NA's by column 
+
+```{r}
+
+df %>%
+  pivot_wider(names_from = years, 
+              values_from = area) %>%
+  pivot_longer(2:7, names_to = "years", 
+               values_to = "area") %>%
+  mutate(area = replace_na(area, 0)) 
+# If you want to drop NAs, use `drop_na()` 
+
+```
+  
+**Practice 2**
+
+- This exercise comes from [`pivot` function vigenette](https://tidyr.tidyverse.org/articles/pivot.html).  
+
+- Let's make station a dummy variable 
+
+```{r}
+fish_encounters
+```
+
+```{r}
+
+fish_encounters %>% pivot_wider(
+  names_from = station, 
+  values_from = seen
+)
+
+```
+
+- Let's turn NAs into 0s 
+
+```{r}
+fish_encounters %>% pivot_wider(
+  names_from = station, 
+  values_from = seen,
+  values_fill = list(seen = 0)
+)
+```
+
+```{r}
+
+library(tidycensus)
+
+us_rent_income
+
+```
+
+- Generate column name from multiple variables 
+
+```{r}
+
+us_rent_income %>%
+  pivot_wider(names_from = variable, values_from = c(estimate, moe))
+
+```
+
+## Separate 
+
+![Messy Data Case 2 (Source: R for Data Science)](https://garrettgman.github.io/images/tidy-6.png)
+```{r}
+df <- data.frame(x = c(NA, "Dad.apple", "Mom.orange", "Daughter.banana"))
+
+df
+
+# Separate 
+df %>%
+  separate(x, into = c("Name", "Preferred_fruit"))
+
+# Don't need the first variable 
+
+df %>%
+  separate(x, into = c(NA, "Preferred_fruit"))
+```
+
+**Practice**
+
+```{r}
+table3
+```
+
+- Note `sep` argument. You can specify how to separate joined values. 
+
+```{r}
+table3 %>%
+  separate(rate, into = c("cases", "population"), sep = "/")
+```
+
+- Note `convert` argument. You can specify whether automatically convert the new values or not.
+
+```{r}
+table3 %>%
+  separate(rate, into = c("cases", "population"), sep = "/", convert = TRUE)
+```
+
+# Split Cells 
+
+## Unite 
+
+`pivot_longer()` <-> `pivot_wider()`
+
+`separate()` <-> `unite()`
+
+```{r}
+
+# Create a toy example
+df <- data.frame(name = c("Jae", "Sun", "Jane", NA),
+            birthmonth = c("April", "April", "June", NA))
+
+# Include missing values
+df %>% unite("contact", c("name", "birthmonth"))
+
+# Do not include missing values 
+df %>% unite("contact", c("name", "birthmonth"), na.rm = TRUE)
+
+```
+
+**Practice**
+
+This example was inspired by a blog post titled ["Compute Correlations Using the Tidyverse"](http://albertotb.com/Compute-correlations-using-the-tidyverse/) written by Alberto Torres Barrán.
+
+- Toy data 
+
+**Additional tips**
+
+Two ways to create a tibble object. 
+
+```{r}
+# 1. By columns: 
+  
+toy1 <- tibble(x = 1:3, y = c("CA", "NY", "TX"))
+
+# 2. By rows: 
+
+toy2 <- tribble(~x, ~y,
+                      1,  "CA",
+                      2,  "NY",
+                      3,  "TX",)
+
+# Check 
+toy1 == toy2 
+
+```
+
+
+```{r}
+
+# For reproducibility 
+set.seed(1234)
+
+# Toy data
+patients <- tibble(date = lubridate::ymd(rep(c(20020101, 20191101, 20200301), each = 3)), 
+                virus = rep(
+                  c("sars", "mers", "covid"), # Vector
+                  each = 3), # Each element of the vector will be repeated by the number defined by each argument 
+                affected = sample(
+                  1:20, # Data
+                  size = 9, # The number of rows to select  
+                  replace = TRUE)) # Replacement 
+
+```
+
+- Correlation-matrix 
+
+The following code is adapted from [this stackoverflow post](https://stackoverflow.com/questions/58837773/pivot-wider-issue-values-in-values-from-are-not-uniquely-identified-output-w). 
+
+**Additional tips**
+ 
+`tibble' package has some great tools to work with row names (for more information, see [this package vigentte](https://tibble.tidyverse.org/reference/rownames.html)).
+
+1. Detect row names: `has_rownames(data)`, `has_rownames(data)`
+
+2. Remove row names: `remove_rownmaes(data)`
+
+3. Convert row names to column: `row_names_to_column(data, var = "new column name") %>% as_tibble()`
+
+4. Add rowid as a column: `rowid_to_column(data)`
+
+```{r}
+
+# Prefer the `select()` function from `dplyr` package (select function can exist in many packages)
+conflicted::conflict_prefer("select", "dplyr")
+
+cor_matrix <- 
+  patients %>%
+    group_by(virus) %>%
+    mutate(row = row_number()) %>%  # Without this identifier you will get an error because of the duplicate rows 
+    pivot_wider(names_from = virus, 
+                values_from = affected, 
+                values_fill = list(affected = 0)) %>%
+    select(-c("row", "date")) %>%
+    cor() # Calculate correlations
+
+cor_matrix
+```
+
+- Turn the correlation matrix into a tidy data set 
+
+```{r}
+
+cor_matrix %>%
+  as.data.frame() %>% # Don't use tibble()
+  rownames_to_column(var = "virus1") %>%
+  pivot_longer(cols = -virus1,
+               names_to = "virus2", 
+               values_to = "corr")
+
+```
+
+## Arrange 
+
+- Order rows 
+
+```{r}
+
+dplyr::arrange(mtcars, mpg) # Low to High (default)
+
+dplyr::arrange(mtcars, desc(mpg)) # High to Row
+
+```
+
+## Rename 
+
+- Rename columns 
+
+```{r}
+
+df <- tibble(y = c(2011, 2012, 2013))
+
+df 
+
+df %>% rename(Year = # OLD name  
+                y) # NEW name
+
+```

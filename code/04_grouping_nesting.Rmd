@@ -1,0 +1,241 @@
+---
+title: 'Grouping and nesting'
+author: "Jae Yeon Kim"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output:
+  html_document:
+    number_sections: true
+    toc: yes
+  pdf_document:
+    toc: yes
+---
+
+This workshop is for students who alreay have some experience with `dplyr` and `tidyr` and upgrade their data wrangling skills in R.
+
+# Setup 
+
+`pacman` is a great package management tool in R. (For more information, see [the package vignette](http://trinker.github.io/pacman/vignettes/Introduction_to_pacman.html).)
+
+```{r include = FALSE}
+
+# p_load loads and, if necessary, install missing packages. 
+# install.packages() + library() = p_load()
+# If you just want to install, then use p_install()
+
+if (!require("pacman")) install.packages("pacman")
+pacman::p_load(
+  tidyverse, # for the tidyverse framework
+  modelr, # for using the tidyverse framework to model outcomes 
+  gapminder # data 
+  )
+
+```
+
+# Grouping 
+
+## Grouped summaries 
+
+- Calculate the mean of `gdpPercap`.
+
+```{r}
+
+gapminder %>%
+  group_by(continent) %>% # 
+  summarise(mean_gdp = mean(gdpPercap))
+
+```
+
+- Calculate multiple summary statistics.
+
+```{r}
+
+gapminder %>%
+  group_by(continent) %>% # 
+  summarise(mean_gdp = mean(gdpPercap),
+            count = n())
+
+```
+
+- Other summary statistics
+
+1. Measures of spread: `median(x)`, `sd(x)`, `IQR(x)`, `mad(x)` (the median absolute deviation)
+
+```{r}
+
+# The Interquartile Range = The Difference Between 75th and 25th Percentiles 
+
+gapminder %>%
+  group_by(continent) %>% # 
+  summarise(IQR_gdp = IQR(gdpPercap))
+
+```
+
+2. Measures of rank: `min(x)`, `quantile(x, 0.25)`, `max(x)`
+
+```{r}
+
+gapminder %>%
+  group_by(continent) %>% # 
+  summarise(min_gdp = min(gdpPercap),
+            max_gdp = max(gdpPercap))
+
+```
+
+3. Measures of position: `first(x)`, `last(x)`, `nth(x, 2)`
+
+```{r}
+
+gapminder %>%
+  group_by(continent) %>% 
+  summarise(first_gdp = first(gdpPercap),
+            last_gdp = last(gdpPercap))
+
+gapminder %>%
+  group_by(continent) %>% 
+  arrange(gdpPercap) %>% # Adding arrange
+  summarise(first_gdp = first(gdpPercap),
+            last_gdp = last(gdpPercap))
+
+```
+
+4. Measures of counts: `n(x)` (all rows), `sum(!is.na(x))` (only non-missing rows) = `n_distinct(x)`
+
+```{r}
+
+gapminder %>%
+  group_by(continent) %>%
+  summarise(ns = n())
+
+```
+
+5. Counts and proportions of logical values: `sum(condition about x)` (the number of TRUEs in x), `mean(condition about x)` (the proportion of TRUEs in x)
+
+```{r}
+
+gapminder %>%
+  group_by(continent) %>% 
+  summarise(rich_countries = mean(gdpPercap > 20000))
+
+```
+
+
+# Nesting
+
+## Nest
+
+The following example comes from [R for Data Science](https://r4ds.had.co.nz/many-models.html) by by Garrett Grolemund and Hadley Wickham.
+
+- How can you run multiple models simultaneously? Using a nested data frame. 
+
+- Grouped data: each row = an observation
+
+- Nested data: each row = a group
+
+```{r}
+
+# Nest 
+nested <- gapminder %>%
+  group_by(country, continent) %>%
+  nest() 
+
+# country & continent (two grouping variables) + data
+names(nested)
+
+# Data = listed columns 
+
+nested$data[[1]]
+
+```
+
+- Custom function 
+
+```{r}
+
+lm_model <- function(df) {
+  
+  lm(lifeExp ~ year, data = df)
+}
+
+```
+
+- Apply function to the nested data 
+
+```{r}
+
+# Apply lm_model to the nested data 
+
+nested <- nested %>%
+  mutate(models = purrr::map(data, lm_model)) # Add the list object as a new column
+
+# Display the result by filtering rows 
+
+nested %>%
+  filter(continent == "Asia")
+
+```
+
+## Unnest 
+
+`glance()` function from `broom` package inspects the quality of a statistical model.
+
+**Additional tips**
+
+- `broom::glance(model)`: for evaluating model quality and/or complexcity 
+- `broom::tidy(model)`: for extracting each coefficient in the model (the estimates + its variability)
+- `broom::augment(model, data)`: for getting extra values (residuals, and influence statisics)
+
+
+```{r}
+
+glanced <- nested %>%
+  mutate(glance = map(models, broom::glance))
+
+```
+
+`unnest()` unpacks the list objects stored in glance column 
+
+```{r}
+
+glanced %>% 
+  unnest(glance) %>%
+  arrange(BIC) # Low to High; Lower BIC indicates a better model fit 
+
+glanced %>% 
+  unnest(glance) %>%
+  ggplot(aes(continent, BIC)) +
+    geom_jitter(width = 0.5)
+
+```
+
+- Another use case of `unnest()` is for simplifying list columns. 
+
+- The following example does not work because `quantitle(mpg)` has many objects. 
+
+```{r eval=FALSE, include=FALSE}
+
+mtcars %>%
+  group_by(cyl) %>%
+  summarise(q = quantile(mpg))
+
+```
+
+- Let's put these many objects in a list. Now, it works but it's difficult to know what's inside the listed-column `q`.
+
+```{r}
+
+mtcars %>%
+  group_by(cyl) %>%
+  summarise(q = list(quantile(mpg)))
+
+```
+
+- We can unpack the listed column using `unnest()`.
+
+```{r}
+
+mtcars %>%
+  group_by(cyl) %>%
+  summarise(q = list(quantile(mpg))) %>%
+  unnest()
+
+```
