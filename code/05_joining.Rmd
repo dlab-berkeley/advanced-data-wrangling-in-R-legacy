@@ -10,7 +10,7 @@ output:
     toc: yes
 ---
 
-This workshop is for students who alreay have some experience with `dplyr` and `tidyr` and upgrade their data wrangling skills in R.
+This workshop is for students who already have some experience with `dplyr` and `tidyr` and upgrade their data wrangling skills in R.
 
 # Setup 
 
@@ -77,7 +77,7 @@ flights$tailnum %>% head()
 
 > Add new variables to one data frame from matching observations in another"
 
-Using a simple toy example is great because it is easy to see how things work in that much narrrow context. 
+Using a simple toy example is great because it is easy to see how things work in that much narrow context. 
 
 - Toy example 
 
@@ -129,7 +129,7 @@ right_join(x, y)
 
 ## Full Join
 
-`full_join()` keeps the observations from both tables. If they were unmatched, then NAs were recordered in one of the two tables.
+`full_join()` keeps the observations from both tables. If they were unmatched, then NAs were recoded in one of the two tables.
 
 ```{r}
 

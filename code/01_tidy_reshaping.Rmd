@@ -45,6 +45,8 @@ Read [Software Carpentry](https://software-carpentry.org/lessons/index.html)'s g
 
 - For more information, see ["Googe Enough Practices in Scientific Computing"](https://github.com/swcarpentry/good-enough-practices-in-scientific-computing/blob/gh-pages/good-enough-practices-for-scientific-computing.pdf) by [PLOS](https://plos.org/)
 
+- You can create directories on your computer from R using `dir.create` function. 
+
 1. Treat data as read only (raw data should be RAW!)
 
 ```{r}
@@ -95,7 +97,7 @@ A tidy data can be stored in a `data.frame` or [`tibble`](https://tibble.tidyver
 
 > In summary, tidy data is a useful conceptual idea and is often the right way to go for general, small data sets, but may not be appropriate for all problems. - Jeff Leek 
 
-For instance, in many data science applications, linear algebra-based computations are essential. These computations are optimized to work on matrices, not tidy data frames. (For more information, read [Jeff Leek's blog post](https://simplystatistics.org/2016/02/17/non-tidy-data/).)
+For instance, in many data science applications, linear algebra-based computations are essential (e.g., [Principal Component Analysis](https://www.math.upenn.edu/~kazdan/312S13/JJ/PCA-JJ.pdf)). These computations are optimized to work on matrices, not tidy data frames. (For more information, read [Jeff Leek's blog post](https://simplystatistics.org/2016/02/17/non-tidy-data/).)
 
 
 ```{r}
@@ -151,6 +153,24 @@ table4a %>%
     cols = c("1999", "2000"), # Putting two columns together  
     names_to = "year", # Shorter columns (the columns going to be in one column called year)
     values_to = "cases") # Longer rows (the values are going to be in a separate column called named cases)
+
+```
+
+- Noticed a problem? 
+
+- Yes, the data type of year should be numeric not character. By default, `pivot_longer()` transforms uninformative columns to character.
+
+- You can fix this problem by using `names_transform` argument. 
+
+```{r}
+
+table4a %>%
+  pivot_longer(
+    cols = c("1999", "2000"), # Put two columns together  
+    names_to = "year", # Shorter columns (the columns going to be in one column called year)
+    values_to = "cases", # Longer rows (the values are going to be in a separate column called named cases)
+    names_transform = list(year = readr::parse_number)
+    ) # Transform the column 
 
 ```
 
@@ -496,3 +516,12 @@ df %>% rename(Year = # OLD name
                 y) # NEW name
 
 ```
+
+
+```{r}
+library(reprex)
+
+(y <- 1:4)
+mean(y)
+```
+

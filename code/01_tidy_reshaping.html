@@ -377,7 +377,7 @@ summary {
 
 <h1 class="title toc-ignore">Tidy Data and Reshaping</h1>
 <h4 class="author">Jae Yeon Kim</h4>
-<h4 class="date">19 May, 2020</h4>
+<h4 class="date">27 May, 2020</h4>
 
 </div>
 
@@ -420,7 +420,8 @@ summary {
 <p>Read <a href="https://software-carpentry.org/lessons/index.html">Software Carpentry</a>’s great article on <a href="https://swcarpentry.github.io/r-novice-gapminder/02-project-intro/">project management in RStudio</a>.</p>
 <p><em>Tips for file organization</em></p>
 <ul>
-<li>For more information, see <a href="https://github.com/swcarpentry/good-enough-practices-in-scientific-computing/blob/gh-pages/good-enough-practices-for-scientific-computing.pdf">“Googe Enough Practices in Scientific Computing”</a> by <a href="https://plos.org/">PLOS</a></li>
+<li><p>For more information, see <a href="https://github.com/swcarpentry/good-enough-practices-in-scientific-computing/blob/gh-pages/good-enough-practices-for-scientific-computing.pdf">“Googe Enough Practices in Scientific Computing”</a> by <a href="https://plos.org/">PLOS</a></p></li>
+<li><p>You can create directories on your computer from R using <code>dir.create</code> fucntion.</p></li>
 </ul>
 <ol style="list-style-type: decimal">
 <li>Treat data as read only (raw data should be RAW!)</li>
@@ -477,7 +478,7 @@ summary {
 <blockquote>
 <p>In summary, tidy data is a useful conceptual idea and is often the right way to go for general, small data sets, but may not be appropriate for all problems. - Jeff Leek</p>
 </blockquote>
-<p>For instance, in many data science applications, linear algebra-based computations are essential. These computations are optimized to work on matrices, not tidy data frames. (For more information, read <a href="https://simplystatistics.org/2016/02/17/non-tidy-data/">Jeff Leek’s blog post</a>.)</p>
+<p>For instance, in many data science applications, linear algebra-based computations are essential (e.g., <a href="https://www.math.upenn.edu/~kazdan/312S13/JJ/PCA-JJ.pdf">Principal Component Analysis</a>). These computations are optimized to work on matrices, not tidy data frames. (For more information, read <a href="https://simplystatistics.org/2016/02/17/non-tidy-data/">Jeff Leek’s blog post</a>.)</p>
 <pre class="r"><code>library(tidyverse)</code></pre>
 <p>This is what a tidy data looks like.</p>
 <pre class="r"><code>table1</code></pre>

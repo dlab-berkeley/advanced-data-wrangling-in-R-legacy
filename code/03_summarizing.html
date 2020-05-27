@@ -377,7 +377,7 @@ summary {
 
 <h1 class="title toc-ignore">Summarizing</h1>
 <h4 class="author">Jae Yeon Kim</h4>
-<h4 class="date">19 May, 2020</h4>
+<h4 class="date">27 May, 2020</h4>
 
 </div>
 
@@ -390,11 +390,17 @@ summary {
 <li><a href="#sumarise-all"><span class="toc-section-number">3.1</span> Sumarise all</a></li>
 <li><a href="#summarise-if"><span class="toc-section-number">3.2</span> Summarise if</a></li>
 <li><a href="#summarise-at"><span class="toc-section-number">3.3</span> Summarise at</a></li>
+<li><a href="#summarise-across"><span class="toc-section-number">3.4</span> summarise + across</a>
+<ul>
+<li><a href="#summarise-all"><span class="toc-section-number">3.4.1</span> Summarise all</a></li>
+<li><a href="#summarise-if-1"><span class="toc-section-number">3.4.2</span> Summarise if</a></li>
+<li><a href="#select-at"><span class="toc-section-number">3.4.3</span> Select at</a></li>
+</ul></li>
 </ul></li>
 </ul>
 </div>
 
-<p>This workshop is for students who alreay have some experience with <code>dplyr</code> and <code>tidyr</code> and upgrade their data wrangling skills in R.</p>
+<p>This workshop is for students who already have some experience with <code>dplyr</code> and <code>tidyr</code> and upgrade their data wrangling skills in R.</p>
 <div id="setup" class="section level1" number="1">
 <h1 number="1"><span class="header-section-number">1</span> Setup</h1>
 <p><code>pacman</code> is a great package management tool in R. (For more information, see <a href="http://trinker.github.io/pacman/vignettes/Introduction_to_pacman.html">the package vignette</a>.)</p>
@@ -413,7 +419,7 @@ if (!require(&quot;pacman&quot;)) install.packages(&quot;pacman&quot;)</code></p
 <div id="counting" class="section level1" number="2">
 <h1 number="2"><span class="header-section-number">2</span> Counting</h1>
 <ul>
-<li>How mnay countries in each continent?</li>
+<li>How may countries in each continent?</li>
 </ul>
 <pre class="r"><code>gapminder %&gt;%
   count(continent)</code></pre>
@@ -452,7 +458,7 @@ gapminder %&gt;%
 ## 4 Americas    300
 ## 5 Oceania      24</code></pre>
 <ul>
-<li>Count by multiple variabls; It’s clear that gapminder is a panel data</li>
+<li>Count by multiple variables; It’s clear that gapminder is a panel data</li>
 </ul>
 <pre class="r"><code>gapminder %&gt;%
   count(continent, year, sort = TRUE) </code></pre>
@@ -546,13 +552,14 @@ gapminder %&gt;%
 <div id="summarizing" class="section level1" number="3">
 <h1 number="3"><span class="header-section-number">3</span> Summarizing</h1>
 <ul>
-<li>We will learn more about grouping and summarising later.</li>
+<li>We will learn more about grouping and summarizing later.</li>
 </ul>
 <pre class="r"><code>gapminder %&gt;%
   group_by(continent) %&gt;%
   summarise(n = n(), 
             mean_gdp = mean(gdpPercap),
             sd_gdp = sd(gdpPercap))</code></pre>
+<pre><code>## `summarise()` ungrouping output (override with `.groups` argument)</code></pre>
 <pre><code>## # A tibble: 5 x 4
 ##   continent     n mean_gdp sd_gdp
 ##   &lt;fct&gt;     &lt;int&gt;    &lt;dbl&gt;  &lt;dbl&gt;
@@ -626,6 +633,78 @@ wide_gapminder %&gt;%
 ##   lifeExp
 ##     &lt;dbl&gt;
 ## 1    71.9</code></pre>
+</div>
+<div id="summarise-across" class="section level2" number="3.4">
+<h2 number="3.4"><span class="header-section-number">3.4</span> summarise + across</h2>
+<ul>
+<li><p>If you find using <code>summarise_all()</code>, <code>summarise_if()</code> and <code>summarise_at()</code> confusing, here’s a solution: use <code>summarise()</code> with <code>across()</code>.</p></li>
+<li><p>Check your <code>dplyr</code> package version by typing <code>packageVersion(&quot;dplyr&quot;)</code>. If the current installed version is less than 1.0, then update by typing <code>update.packages(&quot;dplyr&quot;)</code>. You may need to restart R to make it work.</p></li>
+</ul>
+<div id="summarise-all" class="section level3" number="3.4.1">
+<h3 number="3.4.1"><span class="header-section-number">3.4.1</span> Summarise all</h3>
+<pre class="r"><code>wide_gapminder %&gt;%
+  summarise(across(Albania:`United Kingdom`, mean, na.rm = TRUE))</code></pre>
+<pre><code>## # A tibble: 1 x 30
+##   Albania Austria Belgium `Bosnia and Her… Bulgaria Croatia `Czech Republic`
+##     &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;            &lt;dbl&gt;    &lt;dbl&gt;   &lt;dbl&gt;            &lt;dbl&gt;
+## 1   3255.  20412.  19901.            3485.    6384.   9332.           13920.
+## # … with 23 more variables: Denmark &lt;dbl&gt;, Finland &lt;dbl&gt;, France &lt;dbl&gt;,
+## #   Germany &lt;dbl&gt;, Greece &lt;dbl&gt;, Hungary &lt;dbl&gt;, Iceland &lt;dbl&gt;, Ireland &lt;dbl&gt;,
+## #   Italy &lt;dbl&gt;, Montenegro &lt;dbl&gt;, Netherlands &lt;dbl&gt;, Norway &lt;dbl&gt;,
+## #   Poland &lt;dbl&gt;, Portugal &lt;dbl&gt;, Romania &lt;dbl&gt;, Serbia &lt;dbl&gt;, `Slovak
+## #   Republic` &lt;dbl&gt;, Slovenia &lt;dbl&gt;, Spain &lt;dbl&gt;, Sweden &lt;dbl&gt;,
+## #   Switzerland &lt;dbl&gt;, Turkey &lt;dbl&gt;, `United Kingdom` &lt;dbl&gt;</code></pre>
+</div>
+<div id="summarise-if-1" class="section level3" number="3.4.2">
+<h3 number="3.4.2"><span class="header-section-number">3.4.2</span> Summarise if</h3>
+<pre class="r"><code>wide_gapminder %&gt;%
+  summarise(across(is.double, mean, na.rm = TRUE))</code></pre>
+<pre><code>## Warning: Predicate functions must be wrapped in `where()`.
+## 
+##   # Bad
+##   data %&gt;% select(is.double)
+## 
+##   # Good
+##   data %&gt;% select(where(is.double))
+## 
+## ℹ Please update your code.
+## This message is displayed once per session.</code></pre>
+<pre><code>## # A tibble: 1 x 31
+##   lifeExp Albania Austria Belgium `Bosnia and Her… Bulgaria Croatia
+##     &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;            &lt;dbl&gt;    &lt;dbl&gt;   &lt;dbl&gt;
+## 1    71.9   3255.  20412.  19901.            3485.    6384.   9332.
+## # … with 24 more variables: `Czech Republic` &lt;dbl&gt;, Denmark &lt;dbl&gt;,
+## #   Finland &lt;dbl&gt;, France &lt;dbl&gt;, Germany &lt;dbl&gt;, Greece &lt;dbl&gt;, Hungary &lt;dbl&gt;,
+## #   Iceland &lt;dbl&gt;, Ireland &lt;dbl&gt;, Italy &lt;dbl&gt;, Montenegro &lt;dbl&gt;,
+## #   Netherlands &lt;dbl&gt;, Norway &lt;dbl&gt;, Poland &lt;dbl&gt;, Portugal &lt;dbl&gt;,
+## #   Romania &lt;dbl&gt;, Serbia &lt;dbl&gt;, `Slovak Republic` &lt;dbl&gt;, Slovenia &lt;dbl&gt;,
+## #   Spain &lt;dbl&gt;, Sweden &lt;dbl&gt;, Switzerland &lt;dbl&gt;, Turkey &lt;dbl&gt;, `United
+## #   Kingdom` &lt;dbl&gt;</code></pre>
+</div>
+<div id="select-at" class="section level3" number="3.4.3">
+<h3 number="3.4.3"><span class="header-section-number">3.4.3</span> Select at</h3>
+<pre class="r"><code>wide_gapminder %&gt;%
+  summarise(across(-c(1:4), 
+               mean, na.rm = TRUE))</code></pre>
+<pre><code>## # A tibble: 1 x 30
+##   Albania Austria Belgium `Bosnia and Her… Bulgaria Croatia `Czech Republic`
+##     &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;            &lt;dbl&gt;    &lt;dbl&gt;   &lt;dbl&gt;            &lt;dbl&gt;
+## 1   3255.  20412.  19901.            3485.    6384.   9332.           13920.
+## # … with 23 more variables: Denmark &lt;dbl&gt;, Finland &lt;dbl&gt;, France &lt;dbl&gt;,
+## #   Germany &lt;dbl&gt;, Greece &lt;dbl&gt;, Hungary &lt;dbl&gt;, Iceland &lt;dbl&gt;, Ireland &lt;dbl&gt;,
+## #   Italy &lt;dbl&gt;, Montenegro &lt;dbl&gt;, Netherlands &lt;dbl&gt;, Norway &lt;dbl&gt;,
+## #   Poland &lt;dbl&gt;, Portugal &lt;dbl&gt;, Romania &lt;dbl&gt;, Serbia &lt;dbl&gt;, `Slovak
+## #   Republic` &lt;dbl&gt;, Slovenia &lt;dbl&gt;, Spain &lt;dbl&gt;, Sweden &lt;dbl&gt;,
+## #   Switzerland &lt;dbl&gt;, Turkey &lt;dbl&gt;, `United Kingdom` &lt;dbl&gt;</code></pre>
+<pre class="r"><code>wide_gapminder %&gt;%
+  summarise(across(contains(&quot;life&quot;), 
+               mean, na.rm = TRUE))</code></pre>
+<pre><code>## # A tibble: 1 x 1
+##   lifeExp
+##     &lt;dbl&gt;
+## 1    71.9</code></pre>
+<p>Note that this workshop does not cover creating new variables using <code>mutate()</code> because many techniqes you learned from playing with <code>summarise()</code> can be directly applied to <code>mutate()</code>. For instance, you can also combine <code>mutate()</code> and <code>across()</code> to create new variables based on specified conditions.</p>
+</div>
 </div>
 </div>
 

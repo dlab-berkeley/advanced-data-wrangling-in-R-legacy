@@ -10,7 +10,7 @@ output:
     toc: yes
 ---
 
-This workshop is for students who alreay have some experience with `dplyr` and `tidyr` and upgrade their data wrangling skills in R.
+This workshop is for students who already have some experience with `dplyr` and `tidyr` and upgrade their data wrangling skills in R.
 
 # Setup 
 
@@ -18,7 +18,7 @@ This workshop is for students who alreay have some experience with `dplyr` and `
 
 ```{r}
 
-# p_load loads and, if necessary, install missing pac￣kages. 
+# p_load loads and, if necessary, install missing packages. 
 # install.packages() + library() = p_load()
 # If you just want to install, then use p_install()
 
@@ -77,7 +77,7 @@ starwars %>%
 
 ```{r}
 
-# Filter names incldue ars; `grepl` is a base R function  
+# Filter names include ars; `grepl` is a base R function  
 
 starwars %>%
   filter(grepl("ars", tolower(name)))

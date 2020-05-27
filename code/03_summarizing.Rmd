@@ -10,7 +10,7 @@ output:
     toc: yes
 ---
 
-This workshop is for students who alreay have some experience with `dplyr` and `tidyr` and upgrade their data wrangling skills in R.
+This workshop is for students who already have some experience with `dplyr` and `tidyr` and upgrade their data wrangling skills in R.
 
 # Setup 
 
@@ -34,7 +34,7 @@ This part of the workshop heavily draws on [the suzanbert's dplyr blog post](htt
 
 # Counting 
 
-- How mnay countries in each continent?
+- How may countries in each continent?
 
 ```{r}
 
@@ -58,7 +58,7 @@ gapminder %>%
 
 ```
 
-- Count by multiple variabls; It's clear that gapminder is a panel data 
+- Count by multiple variables; It's clear that gapminder is a panel data 
 
 ```{r}
 
@@ -107,7 +107,7 @@ gapminder %>%
 
 # Summarizing 
 
-- We will learn more about grouping and summarising later.
+- We will learn more about grouping and summarizing later.
 
 ```{r}
 
@@ -162,3 +162,41 @@ wide_gapminder %>%
                mean, na.rm = TRUE)
 
 ```
+
+## summarise + across 
+
+- If you find using `summarise_all()`, `summarise_if()` and `summarise_at()` confusing, here's a solution: use `summarise()` with `across()`.   
+
+- Check your `dplyr` package version by typing `packageVersion("dplyr")`. If the current installed version is less than 1.0, then update by typing `update.packages("dplyr")`. You may need to restart R to make it work.
+
+### Summarise all
+
+```{r}
+
+wide_gapminder %>%
+  summarise(across(Albania:`United Kingdom`, mean, na.rm = TRUE))
+
+```
+### Summarise if
+
+```{r}
+
+wide_gapminder %>%
+  summarise(across(is.double, mean, na.rm = TRUE))
+
+```
+
+### Select at 
+
+```{r}
+
+wide_gapminder %>%
+  summarise(across(-c(1:4), 
+               mean, na.rm = TRUE))
+
+wide_gapminder %>%
+  summarise(across(contains("life"), 
+               mean, na.rm = TRUE))
+
+```
+Note that this workshop does not cover creating new variables using `mutate()` because many techniques you learned from playing with `summarise()` can be directly applied to `mutate()`. For instance, you can also combine `mutate()` and `across()` to create new variables based on specified conditions. 

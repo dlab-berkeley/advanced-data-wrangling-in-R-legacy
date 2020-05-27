@@ -10,7 +10,7 @@ output:
     toc: yes
 ---
 
-This workshop is for students who alreay have some experience with `dplyr` and `tidyr` and upgrade their data wrangling skills in R.
+This workshop is for students who already have some experience with `dplyr` and `tidyr` and upgrade their data wrangling skills in R.
 
 # Setup 
 
@@ -62,7 +62,7 @@ gapminder %>%
 
 ```{r}
 
-# The Interquartile Range = The Difference Between 75th and 25th Percentiles 
+# The Interquartile Range = The Difference Between 75t and 25t Percentiles 
 
 gapminder %>%
   group_by(continent) %>% # 
@@ -162,7 +162,7 @@ lm_model <- function(df) {
 
 ```{r}
 
-# Apply lm_model to the nested data 
+# Apply m_model to the nested data 
 
 nested <- nested %>%
   mutate(models = purrr::map(data, lm_model)) # Add the list object as a new column
@@ -180,9 +180,9 @@ nested %>%
 
 **Additional tips**
 
-- `broom::glance(model)`: for evaluating model quality and/or complexcity 
+- `broom::glance(model)`: for evaluating model quality and/or complexity 
 - `broom::tidy(model)`: for extracting each coefficient in the model (the estimates + its variability)
-- `broom::augment(model, data)`: for getting extra values (residuals, and influence statisics)
+- `broom::augment(model, data)`: for getting extra values (residuals, and influence statistics)
 
 
 ```{r}
