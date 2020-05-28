@@ -377,7 +377,7 @@ summary {
 
 <h1 class="title toc-ignore">Summarizing</h1>
 <h4 class="author">Jae Yeon Kim</h4>
-<h4 class="date">27 May, 2020</h4>
+<h4 class="date">28 May, 2020</h4>
 
 </div>
 
@@ -387,23 +387,23 @@ summary {
 <li><a href="#counting"><span class="toc-section-number">2</span> Counting</a></li>
 <li><a href="#summarizing"><span class="toc-section-number">3</span> Summarizing</a>
 <ul>
-<li><a href="#sumarise-all"><span class="toc-section-number">3.1</span> Sumarise all</a></li>
-<li><a href="#summarise-if"><span class="toc-section-number">3.2</span> Summarise if</a></li>
-<li><a href="#summarise-at"><span class="toc-section-number">3.3</span> Summarise at</a></li>
-<li><a href="#summarise-across"><span class="toc-section-number">3.4</span> summarise + across</a>
+<li><a href="#basic"><span class="toc-section-number">3.1</span> Basic</a></li>
+<li><a href="#conditional"><span class="toc-section-number">3.2</span> Conditional</a>
 <ul>
-<li><a href="#summarise-all"><span class="toc-section-number">3.4.1</span> Summarise all</a></li>
-<li><a href="#summarise-if-1"><span class="toc-section-number">3.4.2</span> Summarise if</a></li>
-<li><a href="#select-at"><span class="toc-section-number">3.4.3</span> Select at</a></li>
+<li><a href="#old-way"><span class="toc-section-number">3.2.1</span> Old way</a></li>
+<li><a href="#new-way"><span class="toc-section-number">3.2.2</span> New way</a></li>
 </ul></li>
 </ul></li>
 </ul>
 </div>
 
-<p>This workshop is for students who already have some experience with <code>dplyr</code> and <code>tidyr</code> and upgrade their data wrangling skills in R.</p>
+<p>This workshop is for students who already have some experience with <code>dplyr</code> and <code>tidyr</code> and hope to upgrade their data wrangling skills in R.</p>
 <div id="setup" class="section level1" number="1">
 <h1 number="1"><span class="header-section-number">1</span> Setup</h1>
-<p><code>pacman</code> is a great package management tool in R. (For more information, see <a href="http://trinker.github.io/pacman/vignettes/Introduction_to_pacman.html">the package vignette</a>.)</p>
+<ul>
+<li><p><code>pacman</code> is a great package management tool in R. (For more information, see <a href="http://trinker.github.io/pacman/vignettes/Introduction_to_pacman.html">the package vignette</a>.)</p></li>
+<li><p>Check your <code>dplyr</code> package is up-to-date by typing <code>packageVersion(&quot;dplyr&quot;)</code>. If the current installed version is less than 1.0, then update by typing <code>update.packages(&quot;dplyr&quot;)</code>. You may need to restart R to make it work.</p></li>
+</ul>
 <pre class="r"><code># p_load loads and, if necessary, install missing packages. 
 # install.packages() + library() = p_load()
 # If you just want to install, then use p_install()
@@ -436,7 +436,7 @@ if (!require(&quot;pacman&quot;)) install.packages(&quot;pacman&quot;)</code></p
 </ul>
 <pre class="r"><code># Just add a new argument `sort = TRUE`
 gapminder %&gt;%
-  count(continent, sort = TRUE) </code></pre>
+  count(continent, sort = TRUE)</code></pre>
 <pre><code>## # A tibble: 5 x 2
 ##   continent     n
 ##   &lt;fct&gt;     &lt;int&gt;
@@ -445,7 +445,7 @@ gapminder %&gt;%
 ## 3 Europe      360
 ## 4 Americas    300
 ## 5 Oceania      24</code></pre>
-<pre class="r"><code># Same as above
+<pre class="r"><code># Same as above; How nice!
 gapminder %&gt;%
   count(continent) %&gt;%
   arrange(desc(n))</code></pre>
@@ -551,9 +551,8 @@ gapminder %&gt;%
 </div>
 <div id="summarizing" class="section level1" number="3">
 <h1 number="3"><span class="header-section-number">3</span> Summarizing</h1>
-<ul>
-<li>We will learn more about grouping and summarizing later.</li>
-</ul>
+<div id="basic" class="section level2" number="3.1">
+<h2 number="3.1"><span class="header-section-number">3.1</span> Basic</h2>
 <pre class="r"><code>gapminder %&gt;%
   group_by(continent) %&gt;%
   summarise(n = n(), 
@@ -568,8 +567,14 @@ gapminder %&gt;%
 ## 3 Asia        396    7902. 14045.
 ## 4 Europe      360   14469.  9355.
 ## 5 Oceania      24   18622.  6359.</code></pre>
-<div id="sumarise-all" class="section level2" number="3.1">
-<h2 number="3.1"><span class="header-section-number">3.1</span> Sumarise all</h2>
+</div>
+<div id="conditional" class="section level2" number="3.2">
+<h2 number="3.2"><span class="header-section-number">3.2</span> Conditional</h2>
+<div id="old-way" class="section level3" number="3.2.1">
+<h3 number="3.2.1"><span class="header-section-number">3.2.1</span> Old way</h3>
+<ul>
+<li><code>summarise_all()</code></li>
+</ul>
 <pre class="r"><code># Create a wide-shaped data example 
 wide_gapminder &lt;- gapminder %&gt;%
   filter(continent == &quot;Europe&quot;) %&gt;%
@@ -590,11 +595,8 @@ wide_gapminder %&gt;%
 ## #   Poland &lt;dbl&gt;, Portugal &lt;dbl&gt;, Romania &lt;dbl&gt;, Serbia &lt;dbl&gt;, `Slovak
 ## #   Republic` &lt;dbl&gt;, Slovenia &lt;dbl&gt;, Spain &lt;dbl&gt;, Sweden &lt;dbl&gt;,
 ## #   Switzerland &lt;dbl&gt;, Turkey &lt;dbl&gt;, `United Kingdom` &lt;dbl&gt;</code></pre>
-</div>
-<div id="summarise-if" class="section level2" number="3.2">
-<h2 number="3.2"><span class="header-section-number">3.2</span> Summarise if</h2>
 <ul>
-<li>Using a logical condition</li>
+<li><code>summarise_if()</code>: using a logical condition</li>
 </ul>
 <pre class="r"><code>wide_gapminder %&gt;%
   summarise_if(is.double, mean, na.rm = TRUE)</code></pre>
@@ -609,10 +611,10 @@ wide_gapminder %&gt;%
 ## #   Romania &lt;dbl&gt;, Serbia &lt;dbl&gt;, `Slovak Republic` &lt;dbl&gt;, Slovenia &lt;dbl&gt;,
 ## #   Spain &lt;dbl&gt;, Sweden &lt;dbl&gt;, Switzerland &lt;dbl&gt;, Turkey &lt;dbl&gt;, `United
 ## #   Kingdom` &lt;dbl&gt;</code></pre>
-</div>
-<div id="summarise-at" class="section level2" number="3.3">
-<h2 number="3.3"><span class="header-section-number">3.3</span> Summarise at</h2>
-<p><code>vars() = select()</code></p>
+<ul>
+<li><p><code>summarise_at()</code></p></li>
+<li><p><code>vars() = select()</code></p></li>
+</ul>
 <pre class="r"><code>wide_gapminder %&gt;%
   summarise_at(vars(-c(1:4)), 
                mean, na.rm = TRUE)</code></pre>
@@ -634,14 +636,13 @@ wide_gapminder %&gt;%
 ##     &lt;dbl&gt;
 ## 1    71.9</code></pre>
 </div>
-<div id="summarise-across" class="section level2" number="3.4">
-<h2 number="3.4"><span class="header-section-number">3.4</span> summarise + across</h2>
+<div id="new-way" class="section level3" number="3.2.2">
+<h3 number="3.2.2"><span class="header-section-number">3.2.2</span> New way</h3>
 <ul>
+<li><p><code>summarise()</code> + <code>across()</code></p></li>
 <li><p>If you find using <code>summarise_all()</code>, <code>summarise_if()</code> and <code>summarise_at()</code> confusing, here’s a solution: use <code>summarise()</code> with <code>across()</code>.</p></li>
-<li><p>Check your <code>dplyr</code> package version by typing <code>packageVersion(&quot;dplyr&quot;)</code>. If the current installed version is less than 1.0, then update by typing <code>update.packages(&quot;dplyr&quot;)</code>. You may need to restart R to make it work.</p></li>
+<li><p><code>summarise_all()</code></p></li>
 </ul>
-<div id="summarise-all" class="section level3" number="3.4.1">
-<h3 number="3.4.1"><span class="header-section-number">3.4.1</span> Summarise all</h3>
 <pre class="r"><code>wide_gapminder %&gt;%
   summarise(across(Albania:`United Kingdom`, mean, na.rm = TRUE))</code></pre>
 <pre><code>## # A tibble: 1 x 30
@@ -654,9 +655,9 @@ wide_gapminder %&gt;%
 ## #   Poland &lt;dbl&gt;, Portugal &lt;dbl&gt;, Romania &lt;dbl&gt;, Serbia &lt;dbl&gt;, `Slovak
 ## #   Republic` &lt;dbl&gt;, Slovenia &lt;dbl&gt;, Spain &lt;dbl&gt;, Sweden &lt;dbl&gt;,
 ## #   Switzerland &lt;dbl&gt;, Turkey &lt;dbl&gt;, `United Kingdom` &lt;dbl&gt;</code></pre>
-</div>
-<div id="summarise-if-1" class="section level3" number="3.4.2">
-<h3 number="3.4.2"><span class="header-section-number">3.4.2</span> Summarise if</h3>
+<ul>
+<li><code>summarise_if()</code></li>
+</ul>
 <pre class="r"><code>wide_gapminder %&gt;%
   summarise(across(is.double, mean, na.rm = TRUE))</code></pre>
 <pre><code>## Warning: Predicate functions must be wrapped in `where()`.
@@ -680,9 +681,9 @@ wide_gapminder %&gt;%
 ## #   Romania &lt;dbl&gt;, Serbia &lt;dbl&gt;, `Slovak Republic` &lt;dbl&gt;, Slovenia &lt;dbl&gt;,
 ## #   Spain &lt;dbl&gt;, Sweden &lt;dbl&gt;, Switzerland &lt;dbl&gt;, Turkey &lt;dbl&gt;, `United
 ## #   Kingdom` &lt;dbl&gt;</code></pre>
-</div>
-<div id="select-at" class="section level3" number="3.4.3">
-<h3 number="3.4.3"><span class="header-section-number">3.4.3</span> Select at</h3>
+<ul>
+<li><code>summarise_at()</code></li>
+</ul>
 <pre class="r"><code>wide_gapminder %&gt;%
   summarise(across(-c(1:4), 
                mean, na.rm = TRUE))</code></pre>
@@ -703,7 +704,7 @@ wide_gapminder %&gt;%
 ##   lifeExp
 ##     &lt;dbl&gt;
 ## 1    71.9</code></pre>
-<p>Note that this workshop does not cover creating new variables using <code>mutate()</code> because many techniqes you learned from playing with <code>summarise()</code> can be directly applied to <code>mutate()</code>. For instance, you can also combine <code>mutate()</code> and <code>across()</code> to create new variables based on specified conditions.</p>
+<p>Note that this workshop does not cover creating and manipulating variables using <code>mutate()</code> because many techniques you learned from playing with <code>summarise()</code> can be directly applied to <code>mutate()</code>. For instance, you can also combine <code>mutate()</code> and <code>across()</code> to create new variables based on specified conditions.</p>
 </div>
 </div>
 </div>

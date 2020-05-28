@@ -10,11 +10,13 @@ output:
     toc: yes
 ---
 
-This workshop is for students who already have some experience with `dplyr` and `tidyr` and upgrade their data wrangling skills in R.
+This workshop is for students who already have some experience with `dplyr` and `tidyr` and hope to upgrade their data wrangling skills in R.
 
 # Setup 
 
-`pacman` is a great package management tool in R. (For more information, see [the package vignette](http://trinker.github.io/pacman/vignettes/Introduction_to_pacman.html).)
+- `pacman` is a great package management tool in R. (For more information, see [the package vignette](http://trinker.github.io/pacman/vignettes/Introduction_to_pacman.html).)
+
+- Check your `dplyr` package is up-to-date by typing `packageVersion("dplyr")`. If the current installed version is less than 1.0, then update by typing `update.packages("dplyr")`. You may need to restart R to make it work.
 
 ```{r include = FALSE}
 
@@ -133,7 +135,6 @@ The following example comes from [R for Data Science](https://r4ds.had.co.nz/man
 
 ```{r}
 
-# Nest 
 nested <- gapminder %>%
   group_by(country, continent) %>%
   nest() 

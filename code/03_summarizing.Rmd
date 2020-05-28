@@ -10,11 +10,13 @@ output:
     toc: yes
 ---
 
-This workshop is for students who already have some experience with `dplyr` and `tidyr` and upgrade their data wrangling skills in R.
+This workshop is for students who already have some experience with `dplyr` and `tidyr` and hope to upgrade their data wrangling skills in R.
 
 # Setup 
 
-`pacman` is a great package management tool in R. (For more information, see [the package vignette](http://trinker.github.io/pacman/vignettes/Introduction_to_pacman.html).)
+- `pacman` is a great package management tool in R. (For more information, see [the package vignette](http://trinker.github.io/pacman/vignettes/Introduction_to_pacman.html).)
+
+- Check your `dplyr` package is up-to-date by typing `packageVersion("dplyr")`. If the current installed version is less than 1.0, then update by typing `update.packages("dplyr")`. You may need to restart R to make it work.
 
 ```{r}
 
@@ -49,9 +51,9 @@ gapminder %>%
 
 # Just add a new argument `sort = TRUE`
 gapminder %>%
-  count(continent, sort = TRUE) 
+  count(continent, sort = TRUE)
 
-# Same as above
+# Same as above; How nice!
 gapminder %>%
   count(continent) %>%
   arrange(desc(n))
@@ -107,7 +109,7 @@ gapminder %>%
 
 # Summarizing 
 
-- We will learn more about grouping and summarizing later.
+## Basic 
 
 ```{r}
 
@@ -118,8 +120,11 @@ gapminder %>%
             sd_gdp = sd(gdpPercap))
 
 ```
+## Conditional
 
-## Sumarise all 
+### Old way 
+
+- `summarise_all()`
 
 ```{r}
 
@@ -136,9 +141,7 @@ wide_gapminder %>%
 
 ```
 
-## Summarise if 
-
-- Using a logical condition 
+- `summarise_if()`: using a logical condition 
 
 ```{r}
 
@@ -146,10 +149,9 @@ wide_gapminder %>%
   summarise_if(is.double, mean, na.rm = TRUE)
 
 ```
+- `summarise_at()`
 
-## Summarise at 
-
-`vars() = select()`
+- `vars() = select()`
 
 ```{r}
 
@@ -162,14 +164,13 @@ wide_gapminder %>%
                mean, na.rm = TRUE)
 
 ```
+### New way 
 
-## summarise + across 
+- `summarise()` + `across()`
 
 - If you find using `summarise_all()`, `summarise_if()` and `summarise_at()` confusing, here's a solution: use `summarise()` with `across()`.   
 
-- Check your `dplyr` package version by typing `packageVersion("dplyr")`. If the current installed version is less than 1.0, then update by typing `update.packages("dplyr")`. You may need to restart R to make it work.
-
-### Summarise all
+- `summarise_all()`
 
 ```{r}
 
@@ -177,7 +178,7 @@ wide_gapminder %>%
   summarise(across(Albania:`United Kingdom`, mean, na.rm = TRUE))
 
 ```
-### Summarise if
+- `summarise_if()`
 
 ```{r}
 
@@ -186,7 +187,7 @@ wide_gapminder %>%
 
 ```
 
-### Select at 
+- `summarise_at()`
 
 ```{r}
 
@@ -199,4 +200,4 @@ wide_gapminder %>%
                mean, na.rm = TRUE))
 
 ```
-Note that this workshop does not cover creating new variables using `mutate()` because many techniques you learned from playing with `summarise()` can be directly applied to `mutate()`. For instance, you can also combine `mutate()` and `across()` to create new variables based on specified conditions. 
+Note that this workshop does not cover creating and manipulating variables using `mutate()` because many techniques you learned from playing with `summarise()` can be directly applied to `mutate()`. For instance, you can also combine `mutate()` and `across()` to create new variables based on specified conditions. 
