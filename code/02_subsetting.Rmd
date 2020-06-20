@@ -167,6 +167,16 @@ names(msleep)
 
 ```
 
+### Select only numeric columns 
+
+```{r}
+
+# Only numeric 
+msleep %>%
+  select(where(is.numeric))
+
+```
+
 ## Select the columns that include "sleep" in their names 
  
 ```{r}
@@ -217,13 +227,25 @@ msleep %>%
 
 ```
 
-## Select order and move it before everything 
+## Select the columns using both beginning and end string patterns 
+
+The key idea is you can use Boolean operators (`!`, `&`, `|`)to combine different string pattern matching statements. 
 
 ```{r}
 
 msleep %>%
-  select(order, everything())
+  select(starts_with("b") & ends_with("wt"))
 
+```
+
+## Select order and move it before everything 
+
+```{r}
+
+# By specifying a column 
+msleep %>%
+  select(order, everything())
+  
 ```
 
 ## Select the variables named as character 
@@ -231,7 +253,7 @@ msleep %>%
 ```{r}
 
 msleep %>%
-  select(one_of(c("name", "order"))) %>%
+  select(any_of(c("name", "order"))) %>%
   colnames()
 
 ```

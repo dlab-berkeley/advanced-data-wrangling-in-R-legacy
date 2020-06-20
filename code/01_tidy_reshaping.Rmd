@@ -141,7 +141,6 @@ Let's take a look at the cases of untidy data.
 
 table4a
 
-
 ```
 - "1999" and "2000" should not be columns because they are values of a higher-level variable (let's call it "year").
 

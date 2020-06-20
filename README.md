@@ -22,6 +22,11 @@ The Advanced Data Wrangling Workshop aims to help students to learn powerful dat
   - [Joining](https://github.com/jaeyk/advanced-data-wrangling/blob/master/code/05_joining.Rmd)
 
 ## Setup
+
+Recommended: Launch the binder above. 
+
+Or you can setup manually: 
+
 - `pacman` is a great package management tool in R. (For more information, see [the package vignette](http://trinker.github.io/pacman/vignettes/Introduction_to_pacman.html).)
 
 - Check your `dplyr` package is up-to-date by typing `packageVersion("dplyr")`. If the current installed version is less than 1.0.0, then update it by typing `update.packages("dplyr")`. You may need to restart R to make it work.

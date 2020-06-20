@@ -377,7 +377,7 @@ summary {
 
 <h1 class="title toc-ignore">Subsetting</h1>
 <h4 class="author">Jae Yeon Kim</h4>
-<h4 class="date">19 May, 2020</h4>
+<h4 class="date">04 June, 2020</h4>
 
 </div>
 
@@ -394,22 +394,27 @@ summary {
 </ul></li>
 <li><a href="#subset-variables-columns"><span class="toc-section-number">3</span> Subset Variables (Columns)</a>
 <ul>
+<li><a href="#select-only-numeric-columns"><span class="toc-section-number">3.0.1</span> Select only numeric columns</a></li>
 <li><a href="#select-the-columns-that-include-sleep-in-their-names"><span class="toc-section-number">3.1</span> Select the columns that include “sleep” in their names</a></li>
 <li><a href="#select-the-columns-that-include-either-sleep-or-wt-in-thier-names"><span class="toc-section-number">3.2</span> Select the columns that include either “sleep” or “wt” in thier names</a></li>
 <li><a href="#select-the-columns-that-starts-with-b"><span class="toc-section-number">3.3</span> Select the columns that starts with “b”</a></li>
 <li><a href="#select-the-columns-that-ends-with-wt"><span class="toc-section-number">3.4</span> Select the columns that ends with “wt”</a></li>
-<li><a href="#select-order-and-move-it-before-everything"><span class="toc-section-number">3.5</span> Select order and move it before everything</a></li>
-<li><a href="#select-the-variables-named-as-character"><span class="toc-section-number">3.6</span> Select the variables named as character</a></li>
-<li><a href="#select-the-variables-named-in-the-character-number-pattern"><span class="toc-section-number">3.7</span> Select the variables named in the character + number pattern</a></li>
+<li><a href="#select-the-columns-using-both-beginning-and-end-string-patterns"><span class="toc-section-number">3.5</span> Select the columns using both beginning and end string patterns</a></li>
+<li><a href="#select-order-and-move-it-before-everything"><span class="toc-section-number">3.6</span> Select order and move it before everything</a></li>
+<li><a href="#select-the-variables-named-as-character"><span class="toc-section-number">3.7</span> Select the variables named as character</a></li>
+<li><a href="#select-the-variables-named-in-the-character-number-pattern"><span class="toc-section-number">3.8</span> Select the variables named in the character + number pattern</a></li>
 </ul></li>
 </ul>
 </div>
 
-<p>This workshop is for students who alreay have some experience with <code>dplyr</code> and <code>tidyr</code> and upgrade their data wrangling skills in R.</p>
+<p>This workshop is for students who already have some experience with <code>dplyr</code> and <code>tidyr</code> and hope to upgrade their data wrangling skills in R.</p>
 <div id="setup" class="section level1" number="1">
 <h1 number="1"><span class="header-section-number">1</span> Setup</h1>
-<p><code>pacman</code> is a great package management tool in R. (For more information, see <a href="http://trinker.github.io/pacman/vignettes/Introduction_to_pacman.html">the package vignette</a>.)</p>
-<pre class="r"><code># p_load loads and, if necessary, install missing pac￣kages. 
+<ul>
+<li><p><code>pacman</code> is a great package management tool in R. (For more information, see <a href="http://trinker.github.io/pacman/vignettes/Introduction_to_pacman.html">the package vignette</a>.)</p></li>
+<li><p>Check your <code>dplyr</code> package is up-to-date by typing <code>packageVersion(&quot;dplyr&quot;)</code>. If the current installed version is less than 1.0, then update by typing <code>update.packages(&quot;dplyr&quot;)</code>. You may need to restart R to make it work.</p></li>
+</ul>
+<pre class="r"><code># p_load loads and, if necessary, install missing packages. 
 # install.packages() + library() = p_load()
 # If you just want to install, then use p_install()
 
@@ -430,29 +435,10 @@ if (!require(&quot;pacman&quot;)) install.packages(&quot;pacman&quot;)</code></p
 <pre class="r"><code>starwars %&gt;%
   filter(gender == &quot;female&quot;) %&gt;%
   arrange(desc(height))</code></pre>
-<pre><code>## # A tibble: 19 x 13
-##    name  height  mass hair_color skin_color eye_color birth_year gender
-##    &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; 
-##  1 Taun…    213  NA   none       grey       black             NA female
-##  2 Adi …    184  50   none       dark       blue              NA female
-##  3 Ayla…    178  55   none       blue       hazel             48 female
-##  4 Shaa…    178  57   none       red, blue… black             NA female
-##  5 Sly …    178  48   none       pale       white             NA female
-##  6 Lumi…    170  56.2 black      yellow     blue              58 female
-##  7 Zam …    168  55   blonde     fair, gre… yellow            NA female
-##  8 Joca…    167  NA   white      fair       blue              NA female
-##  9 Barr…    166  50   black      yellow     blue              40 female
-## 10 Beru…    165  75   brown      light      blue              47 female
-## 11 Dormé    165  NA   brown      light      brown             NA female
-## 12 Padm…    165  45   brown      light      brown             46 female
-## 13 Shmi…    163  NA   black      fair       brown             72 female
-## 14 Cordé    157  NA   brown      light      brown             NA female
-## 15 Leia…    150  49   brown      light      brown             19 female
-## 16 Mon …    150  NA   auburn     fair       blue              48 female
-## 17 R4-P…     96  NA   none       silver, r… red, blue         NA female
-## 18 Rey       NA  NA   brown      light      hazel             NA female
-## 19 Capt…     NA  NA   unknown    unknown    unknown           NA female
-## # … with 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;, films &lt;list&gt;,
+<pre><code>## # A tibble: 0 x 14
+## # … with 14 variables: name &lt;chr&gt;, height &lt;int&gt;, mass &lt;dbl&gt;, hair_color &lt;chr&gt;,
+## #   skin_color &lt;chr&gt;, eye_color &lt;chr&gt;, birth_year &lt;dbl&gt;, sex &lt;chr&gt;,
+## #   gender &lt;chr&gt;, homeworld &lt;chr&gt;, species &lt;chr&gt;, films &lt;list&gt;,
 ## #   vehicles &lt;list&gt;, starships &lt;list&gt;</code></pre>
 <p>The following filtering example was inspired by <a href="https://suzan.rbind.io/2018/02/dplyr-tutorial-3/">the suzanbert’s dplyr blog post</a>.</p>
 <ul>
@@ -481,49 +467,49 @@ starwars %&gt;%
 <ul>
 <li>Multiple conditions (character)</li>
 </ul>
-<pre class="r"><code># Filter names incldue ars; `grepl` is a base R function  
+<pre class="r"><code># Filter names include ars; `grepl` is a base R function  
 
 starwars %&gt;%
   filter(grepl(&quot;ars&quot;, tolower(name)))</code></pre>
-<pre><code>## # A tibble: 4 x 13
-##   name  height  mass hair_color skin_color eye_color birth_year gender homeworld
-##   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt;    
-## 1 Owen…    178   120 brown, gr… light      blue              52 male   Tatooine 
-## 2 Beru…    165    75 brown      light      blue              47 female Tatooine 
-## 3 Quar…    183    NA black      dark       brown             62 male   Naboo    
-## 4 Clie…    183    NA brown      fair       blue              82 male   Tatooine 
-## # … with 4 more variables: species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;,
-## #   starships &lt;list&gt;</code></pre>
+<pre><code>## # A tibble: 4 x 14
+##   name  height  mass hair_color skin_color eye_color birth_year sex   gender
+##   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; 
+## 1 Owen…    178   120 brown, gr… light      blue              52 male  mascu…
+## 2 Beru…    165    75 brown      light      blue              47 fema… femin…
+## 3 Quar…    183    NA black      dark       brown             62 &lt;NA&gt;  &lt;NA&gt;  
+## 4 Clie…    183    NA brown      fair       blue              82 male  mascu…
+## # … with 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;, films &lt;list&gt;,
+## #   vehicles &lt;list&gt;, starships &lt;list&gt;</code></pre>
 <pre class="r"><code># Or, if you prefer dplyr way 
 
 starwars %&gt;%
   filter(str_detect(tolower(name), &quot;ars&quot;))</code></pre>
-<pre><code>## # A tibble: 4 x 13
-##   name  height  mass hair_color skin_color eye_color birth_year gender homeworld
-##   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt;    
-## 1 Owen…    178   120 brown, gr… light      blue              52 male   Tatooine 
-## 2 Beru…    165    75 brown      light      blue              47 female Tatooine 
-## 3 Quar…    183    NA black      dark       brown             62 male   Naboo    
-## 4 Clie…    183    NA brown      fair       blue              82 male   Tatooine 
-## # … with 4 more variables: species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;,
-## #   starships &lt;list&gt;</code></pre>
+<pre><code>## # A tibble: 4 x 14
+##   name  height  mass hair_color skin_color eye_color birth_year sex   gender
+##   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; 
+## 1 Owen…    178   120 brown, gr… light      blue              52 male  mascu…
+## 2 Beru…    165    75 brown      light      blue              47 fema… femin…
+## 3 Quar…    183    NA black      dark       brown             62 &lt;NA&gt;  &lt;NA&gt;  
+## 4 Clie…    183    NA brown      fair       blue              82 male  mascu…
+## # … with 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;, films &lt;list&gt;,
+## #   vehicles &lt;list&gt;, starships &lt;list&gt;</code></pre>
 <pre class="r"><code># Filter brown and black hair_color
 
 starwars %&gt;%
   filter(hair_color %in% c(&quot;black&quot;, &quot;brown&quot;))</code></pre>
-<pre><code>## # A tibble: 31 x 13
-##    name  height  mass hair_color skin_color eye_color birth_year gender
-##    &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; 
-##  1 Leia…    150  49   brown      light      brown           19   female
-##  2 Beru…    165  75   brown      light      blue            47   female
-##  3 Bigg…    183  84   black      light      brown           24   male  
-##  4 Chew…    228 112   brown      unknown    blue           200   male  
-##  5 Han …    180  80   brown      fair       brown           29   male  
-##  6 Wedg…    170  77   brown      fair       hazel           21   male  
-##  7 Jek …    180 110   brown      fair       blue            NA   male  
-##  8 Boba…    183  78.2 black      fair       brown           31.5 male  
-##  9 Land…    177  79   black      dark       brown           31   male  
-## 10 Arve…     NA  NA   brown      fair       brown           NA   male  
+<pre><code>## # A tibble: 31 x 14
+##    name  height  mass hair_color skin_color eye_color birth_year sex   gender
+##    &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; 
+##  1 Leia…    150  49   brown      light      brown           19   fema… femin…
+##  2 Beru…    165  75   brown      light      blue            47   fema… femin…
+##  3 Bigg…    183  84   black      light      brown           24   male  mascu…
+##  4 Chew…    228 112   brown      unknown    blue           200   male  mascu…
+##  5 Han …    180  80   brown      fair       brown           29   male  mascu…
+##  6 Wedg…    170  77   brown      fair       hazel           21   male  mascu…
+##  7 Jek …    180 110   brown      fair       blue            NA   male  mascu…
+##  8 Boba…    183  78.2 black      fair       brown           31.5 male  mascu…
+##  9 Land…    177  79   black      dark       brown           31   male  mascu…
+## 10 Arve…     NA  NA   brown      fair       brown           NA   male  mascu…
 ## # … with 21 more rows, and 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;,
 ## #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</code></pre>
 </div>
@@ -532,92 +518,162 @@ starwars %&gt;%
 <pre class="r"><code>starwars %&gt;%
   arrange(desc(height)) %&gt;%
   slice(1:6)</code></pre>
-<pre><code>## # A tibble: 6 x 13
-##   name  height  mass hair_color skin_color eye_color birth_year gender homeworld
-##   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt;    
-## 1 Yara…    264    NA none       white      yellow            NA male   Quermia  
-## 2 Tarf…    234   136 brown      brown      blue              NA male   Kashyyyk 
-## 3 Lama…    229    88 none       grey       black             NA male   Kamino   
-## 4 Chew…    228   112 brown      unknown    blue             200 male   Kashyyyk 
-## 5 Roos…    224    82 none       grey       orange            NA male   Naboo    
-## 6 Grie…    216   159 none       brown, wh… green, y…         NA male   Kalee    
-## # … with 4 more variables: species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;,
-## #   starships &lt;list&gt;</code></pre>
+<pre><code>## # A tibble: 6 x 14
+##   name  height  mass hair_color skin_color eye_color birth_year sex   gender
+##   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; 
+## 1 Yara…    264    NA none       white      yellow            NA male  mascu…
+## 2 Tarf…    234   136 brown      brown      blue              NA male  mascu…
+## 3 Lama…    229    88 none       grey       black             NA male  mascu…
+## 4 Chew…    228   112 brown      unknown    blue             200 male  mascu…
+## 5 Roos…    224    82 none       grey       orange            NA male  mascu…
+## 6 Grie…    216   159 none       brown, wh… green, y…         NA male  mascu…
+## # … with 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;, films &lt;list&gt;,
+## #   vehicles &lt;list&gt;, starships &lt;list&gt;</code></pre>
 </div>
 <div id="sample-by-fraction" class="section level2" number="2.3">
 <h2 number="2.3"><span class="header-section-number">2.3</span> Sample by fraction</h2>
 <pre class="r"><code># For reproducibility 
 set.seed(1234)
 
-# Extract 10% of rows 
+# Old way 
+
 starwars %&gt;%
   sample_frac(0.10, 
               replace = FALSE) # Without replacement </code></pre>
-<pre><code>## # A tibble: 9 x 13
-##   name  height  mass hair_color skin_color eye_color birth_year gender homeworld
-##   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt;    
-## 1 Arve…     NA    NA brown      fair       brown           NA   male   &lt;NA&gt;     
-## 2 Sly …    178    48 none       pale       white           NA   female Umbara   
-## 3 IG-88    200   140 none       metal      red             15   none   &lt;NA&gt;     
-## 4 Bigg…    183    84 black      light      brown           24   male   Tatooine 
-## 5 Leia…    150    49 brown      light      brown           19   female Alderaan 
-## 6 Watto    137    NA black      blue, grey yellow          NA   male   Toydaria 
-## 7 Jabb…    175  1358 &lt;NA&gt;       green-tan… orange         600   herma… Nal Hutta
-## 8 Dart…    202   136 none       white      yellow          41.9 male   Tatooine 
-## 9 Taun…    213    NA none       grey       black           NA   female Kamino   
-## # … with 4 more variables: species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;,
-## #   starships &lt;list&gt;</code></pre>
+<pre><code>## # A tibble: 9 x 14
+##   name  height  mass hair_color skin_color eye_color birth_year sex   gender
+##   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; 
+## 1 Arve…     NA    NA brown      fair       brown           NA   male  mascu…
+## 2 Sly …    178    48 none       pale       white           NA   &lt;NA&gt;  &lt;NA&gt;  
+## 3 IG-88    200   140 none       metal      red             15   none  mascu…
+## 4 Bigg…    183    84 black      light      brown           24   male  mascu…
+## 5 Leia…    150    49 brown      light      brown           19   fema… femin…
+## 6 Watto    137    NA black      blue, grey yellow          NA   male  mascu…
+## 7 Jabb…    175  1358 &lt;NA&gt;       green-tan… orange         600   herm… mascu…
+## 8 Dart…    202   136 none       white      yellow          41.9 male  mascu…
+## 9 Taun…    213    NA none       grey       black           NA   fema… femin…
+## # … with 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;, films &lt;list&gt;,
+## #   vehicles &lt;list&gt;, starships &lt;list&gt;</code></pre>
+<pre class="r"><code># New way
+
+starwars %&gt;%
+  slice_sample(prop = 0.10, 
+             replace = FALSE)</code></pre>
+<pre><code>## # A tibble: 8 x 14
+##   name  height  mass hair_color skin_color eye_color birth_year sex   gender
+##   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; 
+## 1 Raym…    188  79   brown      light      brown           NA   male  mascu…
+## 2 Tarf…    234 136   brown      brown      blue            NA   male  mascu…
+## 3 Han …    180  80   brown      fair       brown           29   male  mascu…
+## 4 Mas …    196  NA   none       blue       blue            NA   male  mascu…
+## 5 Barr…    166  50   black      yellow     blue            40   fema… femin…
+## 6 Dart…    202 136   none       white      yellow          41.9 male  mascu…
+## 7 Finn      NA  NA   black      dark       dark            NA   male  mascu…
+## 8 Boba…    183  78.2 black      fair       brown           31.5 male  mascu…
+## # … with 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;, films &lt;list&gt;,
+## #   vehicles &lt;list&gt;, starships &lt;list&gt;</code></pre>
 </div>
 <div id="sample-by-number" class="section level2" number="2.4">
 <h2 number="2.4"><span class="header-section-number">2.4</span> Sample by number</h2>
-<pre class="r"><code># Extract 20 rows
+<pre class="r"><code># Old way 
 
 starwars %&gt;%
   sample_n(20, 
            replace = FALSE) # Without replacement </code></pre>
-<pre><code>## # A tibble: 20 x 13
-##    name  height  mass hair_color skin_color eye_color birth_year gender
-##    &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; 
-##  1 Raym…    188  79   brown      light      brown           NA   male  
-##  2 Tarf…    234 136   brown      brown      blue            NA   male  
-##  3 Han …    180  80   brown      fair       brown           29   male  
-##  4 Mas …    196  NA   none       blue       blue            NA   male  
-##  5 Barr…    166  50   black      yellow     blue            40   female
-##  6 Dart…    202 136   none       white      yellow          41.9 male  
-##  7 Finn      NA  NA   black      dark       dark            NA   male  
-##  8 Boba…    183  78.2 black      fair       brown           31.5 male  
-##  9 Quar…    183  NA   black      dark       brown           62   male  
-## 10 Poe …     NA  NA   brown      light      brown           NA   male  
-## 11 Zam …    168  55   blonde     fair, gre… yellow          NA   female
-## 12 Leia…    150  49   brown      light      brown           19   female
-## 13 Jang…    183  79   black      tan        brown           66   male  
-## 14 Ben …    163  65   none       grey, gre… orange          NA   male  
-## 15 Padm…    165  45   brown      light      brown           46   female
-## 16 Mace…    188  84   none       dark       brown           72   male  
-## 17 R2-D2     96  32   &lt;NA&gt;       white, bl… red             33   &lt;NA&gt;  
-## 18 Shmi…    163  NA   black      fair       brown           72   female
-## 19 Nute…    191  90   none       mottled g… red             NA   male  
-## 20 Dart…    175  80   none       red        yellow          54   male  
+<pre><code>## # A tibble: 20 x 14
+##    name  height  mass hair_color skin_color eye_color birth_year sex   gender
+##    &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; 
+##  1 Quar…    183    NA black      dark       brown             62 &lt;NA&gt;  &lt;NA&gt;  
+##  2 Poe …     NA    NA brown      light      brown             NA male  mascu…
+##  3 Mas …    196    NA none       blue       blue              NA male  mascu…
+##  4 Zam …    168    55 blonde     fair, gre… yellow            NA fema… femin…
+##  5 Leia…    150    49 brown      light      brown             19 fema… femin…
+##  6 Jang…    183    79 black      tan        brown             66 male  mascu…
+##  7 Ben …    163    65 none       grey, gre… orange            NA male  mascu…
+##  8 Padm…    165    45 brown      light      brown             46 fema… femin…
+##  9 Mace…    188    84 none       dark       brown             72 male  mascu…
+## 10 R2-D2     96    32 &lt;NA&gt;       white, bl… red               33 none  mascu…
+## 11 Shmi…    163    NA black      fair       brown             72 fema… femin…
+## 12 Ratt…     79    15 none       grey, blue unknown           NA male  mascu…
+## 13 Nute…    191    90 none       mottled g… red               NA male  mascu…
+## 14 Dart…    175    80 none       red        yellow            54 male  mascu…
+## 15 Bib …    180    NA none       pale       pink              NA male  mascu…
+## 16 C-3PO    167    75 &lt;NA&gt;       gold       yellow           112 none  mascu…
+## 17 Yara…    264    NA none       white      yellow            NA male  mascu…
+## 18 Ki-A…    198    82 white      pale       yellow            92 male  mascu…
+## 19 BB8       NA    NA none       none       black             NA none  mascu…
+## 20 Eeth…    171    NA black      brown      brown             NA male  mascu…
+## # … with 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;, films &lt;list&gt;,
+## #   vehicles &lt;list&gt;, starships &lt;list&gt;</code></pre>
+<pre class="r"><code># New way 
+
+# New way
+
+starwars %&gt;%
+  slice_sample(n = 20, 
+             replace = FALSE) # Without replacement </code></pre>
+<pre><code>## # A tibble: 20 x 14
+##    name  height  mass hair_color skin_color eye_color birth_year sex   gender
+##    &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; 
+##  1 Owen…    178   120 brown, gr… light      blue              52 male  mascu…
+##  2 Ki-A…    198    82 white      pale       yellow            92 male  mascu…
+##  3 Capt…     NA    NA unknown    unknown    unknown           NA &lt;NA&gt;  &lt;NA&gt;  
+##  4 Greg…    185    85 black      dark       brown             NA male  mascu…
+##  5 R5-D4     97    32 &lt;NA&gt;       white, red red               NA none  mascu…
+##  6 Ackb…    180    83 none       brown mot… orange            41 male  mascu…
+##  7 Wedg…    170    77 brown      fair       hazel             21 male  mascu…
+##  8 Dormé    165    NA brown      light      brown             NA fema… femin…
+##  9 Rey       NA    NA brown      light      hazel             NA fema… femin…
+## 10 IG-88    200   140 none       metal      red               15 none  mascu…
+## 11 Roos…    224    82 none       grey       orange            NA male  mascu…
+## 12 Shmi…    163    NA black      fair       brown             72 fema… femin…
+## 13 R2-D2     96    32 &lt;NA&gt;       white, bl… red               33 none  mascu…
+## 14 Poe …     NA    NA brown      light      brown             NA male  mascu…
+## 15 Obi-…    182    77 auburn, w… fair       blue-gray         57 male  mascu…
+## 16 Plo …    188    80 none       orange     black             22 male  mascu…
+## 17 Tarf…    234   136 brown      brown      blue              NA male  mascu…
+## 18 Lobot    175    79 none       light      blue              37 male  mascu…
+## 19 San …    191    NA none       grey       gold              NA male  mascu…
+## 20 Kit …    196    87 none       green      black             NA male  mascu…
 ## # … with 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;, films &lt;list&gt;,
 ## #   vehicles &lt;list&gt;, starships &lt;list&gt;</code></pre>
 </div>
 <div id="top-10-rows-orderd-by-height" class="section level2" number="2.5">
 <h2 number="2.5"><span class="header-section-number">2.5</span> Top 10 rows orderd by height</h2>
-<pre class="r"><code>starwars %&gt;% 
+<pre class="r"><code># Old way 
+starwars %&gt;% 
   top_n(10, height) </code></pre>
-<pre><code>## # A tibble: 10 x 13
-##    name  height  mass hair_color skin_color eye_color birth_year gender
-##    &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; 
-##  1 Dart…    202   136 none       white      yellow          41.9 male  
-##  2 Chew…    228   112 brown      unknown    blue           200   male  
-##  3 Roos…    224    82 none       grey       orange          NA   male  
-##  4 Rugo…    206    NA none       green      orange          NA   male  
-##  5 Yara…    264    NA none       white      yellow          NA   male  
-##  6 Lama…    229    88 none       grey       black           NA   male  
-##  7 Taun…    213    NA none       grey       black           NA   female
-##  8 Grie…    216   159 none       brown, wh… green, y…       NA   male  
-##  9 Tarf…    234   136 brown      brown      blue            NA   male  
-## 10 Tion…    206    80 none       grey       black           NA   male  
+<pre><code>## # A tibble: 10 x 14
+##    name  height  mass hair_color skin_color eye_color birth_year sex   gender
+##    &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; 
+##  1 Dart…    202   136 none       white      yellow          41.9 male  mascu…
+##  2 Chew…    228   112 brown      unknown    blue           200   male  mascu…
+##  3 Roos…    224    82 none       grey       orange          NA   male  mascu…
+##  4 Rugo…    206    NA none       green      orange          NA   male  mascu…
+##  5 Yara…    264    NA none       white      yellow          NA   male  mascu…
+##  6 Lama…    229    88 none       grey       black           NA   male  mascu…
+##  7 Taun…    213    NA none       grey       black           NA   fema… femin…
+##  8 Grie…    216   159 none       brown, wh… green, y…       NA   male  mascu…
+##  9 Tarf…    234   136 brown      brown      blue            NA   male  mascu…
+## 10 Tion…    206    80 none       grey       black           NA   male  mascu…
+## # … with 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;, films &lt;list&gt;,
+## #   vehicles &lt;list&gt;, starships &lt;list&gt;</code></pre>
+<pre class="r"><code># New way
+starwars %&gt;%
+  slice_max(height, n = 10)</code></pre>
+<pre><code>## # A tibble: 10 x 14
+##    name  height  mass hair_color skin_color eye_color birth_year sex   gender
+##    &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; 
+##  1 Yara…    264    NA none       white      yellow          NA   male  mascu…
+##  2 Tarf…    234   136 brown      brown      blue            NA   male  mascu…
+##  3 Lama…    229    88 none       grey       black           NA   male  mascu…
+##  4 Chew…    228   112 brown      unknown    blue           200   male  mascu…
+##  5 Roos…    224    82 none       grey       orange          NA   male  mascu…
+##  6 Grie…    216   159 none       brown, wh… green, y…       NA   male  mascu…
+##  7 Taun…    213    NA none       grey       black           NA   fema… femin…
+##  8 Rugo…    206    NA none       green      orange          NA   male  mascu…
+##  9 Tion…    206    80 none       grey       black           NA   male  mascu…
+## 10 Dart…    202   136 none       white      yellow          41.9 male  mascu…
 ## # … with 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;, films &lt;list&gt;,
 ## #   vehicles &lt;list&gt;, starships &lt;list&gt;</code></pre>
 </div>
@@ -628,6 +684,26 @@ starwars %&gt;%
 <pre><code>##  [1] &quot;name&quot;         &quot;genus&quot;        &quot;vore&quot;         &quot;order&quot;        &quot;conservation&quot;
 ##  [6] &quot;sleep_total&quot;  &quot;sleep_rem&quot;    &quot;sleep_cycle&quot;  &quot;awake&quot;        &quot;brainwt&quot;     
 ## [11] &quot;bodywt&quot;</code></pre>
+<div id="select-only-numeric-columns" class="section level3" number="3.0.1">
+<h3 number="3.0.1"><span class="header-section-number">3.0.1</span> Select only numeric columns</h3>
+<pre class="r"><code># Only numeric 
+msleep %&gt;%
+  select(where(is.numeric))</code></pre>
+<pre><code>## # A tibble: 83 x 6
+##    sleep_total sleep_rem sleep_cycle awake  brainwt  bodywt
+##          &lt;dbl&gt;     &lt;dbl&gt;       &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;   &lt;dbl&gt;
+##  1        12.1      NA        NA      11.9 NA        50    
+##  2        17         1.8      NA       7    0.0155    0.48 
+##  3        14.4       2.4      NA       9.6 NA         1.35 
+##  4        14.9       2.3       0.133   9.1  0.00029   0.019
+##  5         4         0.7       0.667  20    0.423   600    
+##  6        14.4       2.2       0.767   9.6 NA         3.85 
+##  7         8.7       1.4       0.383  15.3 NA        20.5  
+##  8         7        NA        NA      17   NA         0.045
+##  9        10.1       2.9       0.333  13.9  0.07     14    
+## 10         3        NA        NA      21    0.0982   14.8  
+## # … with 73 more rows</code></pre>
+</div>
 <div id="select-the-columns-that-include-sleep-in-their-names" class="section level2" number="3.1">
 <h2 number="3.1"><span class="header-section-number">3.1</span> Select the columns that include “sleep” in their names</h2>
 <pre class="r"><code>msleep %&gt;%
@@ -714,9 +790,30 @@ starwars %&gt;%
 ## 10  0.0982   14.8  
 ## # … with 73 more rows</code></pre>
 </div>
-<div id="select-order-and-move-it-before-everything" class="section level2" number="3.5">
-<h2 number="3.5"><span class="header-section-number">3.5</span> Select order and move it before everything</h2>
+<div id="select-the-columns-using-both-beginning-and-end-string-patterns" class="section level2" number="3.5">
+<h2 number="3.5"><span class="header-section-number">3.5</span> Select the columns using both beginning and end string patterns</h2>
+<p>The key idea is you can use Boolean operators (<code>!</code>, <code>&amp;</code>, <code>|</code>)to combine different string pattern matching statements.</p>
 <pre class="r"><code>msleep %&gt;%
+  select(starts_with(&quot;b&quot;) &amp; ends_with(&quot;wt&quot;))</code></pre>
+<pre><code>## # A tibble: 83 x 2
+##     brainwt  bodywt
+##       &lt;dbl&gt;   &lt;dbl&gt;
+##  1 NA        50    
+##  2  0.0155    0.48 
+##  3 NA         1.35 
+##  4  0.00029   0.019
+##  5  0.423   600    
+##  6 NA         3.85 
+##  7 NA        20.5  
+##  8 NA         0.045
+##  9  0.07     14    
+## 10  0.0982   14.8  
+## # … with 73 more rows</code></pre>
+</div>
+<div id="select-order-and-move-it-before-everything" class="section level2" number="3.6">
+<h2 number="3.6"><span class="header-section-number">3.6</span> Select order and move it before everything</h2>
+<pre class="r"><code># By specifying a column 
+msleep %&gt;%
   select(order, everything())</code></pre>
 <pre><code>## # A tibble: 83 x 11
 ##    order name  genus vore  conservation sleep_total sleep_rem sleep_cycle awake
@@ -733,15 +830,15 @@ starwars %&gt;%
 ## 10 Arti… Roe … Capr… herbi lc                   3        NA        NA      21  
 ## # … with 73 more rows, and 2 more variables: brainwt &lt;dbl&gt;, bodywt &lt;dbl&gt;</code></pre>
 </div>
-<div id="select-the-variables-named-as-character" class="section level2" number="3.6">
-<h2 number="3.6"><span class="header-section-number">3.6</span> Select the variables named as character</h2>
+<div id="select-the-variables-named-as-character" class="section level2" number="3.7">
+<h2 number="3.7"><span class="header-section-number">3.7</span> Select the variables named as character</h2>
 <pre class="r"><code>msleep %&gt;%
-  select(one_of(c(&quot;name&quot;, &quot;order&quot;))) %&gt;%
+  select(any_of(c(&quot;name&quot;, &quot;order&quot;))) %&gt;%
   colnames()</code></pre>
 <pre><code>## [1] &quot;name&quot;  &quot;order&quot;</code></pre>
 </div>
-<div id="select-the-variables-named-in-the-character-number-pattern" class="section level2" number="3.7">
-<h2 number="3.7"><span class="header-section-number">3.7</span> Select the variables named in the character + number pattern</h2>
+<div id="select-the-variables-named-in-the-character-number-pattern" class="section level2" number="3.8">
+<h2 number="3.8"><span class="header-section-number">3.8</span> Select the variables named in the character + number pattern</h2>
 <pre class="r"><code>msleep$week8 &lt;- NA
 
 msleep$week12 &lt;- NA
