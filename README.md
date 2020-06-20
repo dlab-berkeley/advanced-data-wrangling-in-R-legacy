@@ -1,4 +1,4 @@
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/jaeyk/advanced-data-wrangling/master)
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/jaeyk/advanced-data-wrangling/master?urlpath=rstudio)
 
 # Advanced Data Wrangling Workshop in R
 

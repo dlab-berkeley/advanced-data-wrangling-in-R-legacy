@@ -1,3 +1,4 @@
 install.packages(c("tidyverse",
   "here",
-  "pacman")) 
+  "pacman",
+  "tidycensus")) 
