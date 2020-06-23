@@ -4,8 +4,10 @@ author: "Jae Yeon Kim"
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 output:
   html_document:
-    number_sections: true
+    df_print: paged
+    number_sections: yes
     toc: yes
+    toc_float: yes
   pdf_document:
     toc: yes
 ---
@@ -166,7 +168,7 @@ lm_model <- function(df) {
 # Apply m_model to the nested data 
 
 nested <- nested %>%
-  mutate(models = purrr::map(data, lm_model)) # Add the list object as a new column
+  mutate(models = map(data, lm_model)) # Add the list object as a new column
 
 # Display the result by filtering rows 
 

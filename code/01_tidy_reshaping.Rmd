@@ -4,8 +4,10 @@ author: "Jae Yeon Kim"
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 output:
   html_document:
-    number_sections: true
+    df_print: paged
+    number_sections: yes
     toc: yes
+    toc_float: yes
   pdf_document:
     toc: yes
 ---
@@ -449,8 +451,6 @@ table3 %>%
            convert = TRUE) # cases and population become integers
 ```
 
-# Split Cells
-
 ## Unite
 
 `pivot_longer()` <-> `pivot_wider()`
@@ -563,6 +563,8 @@ cor_matrix %>%
                values_to = "corr")
 
 ```
+
+# Represent Data 
 
 ## Arrange
 
