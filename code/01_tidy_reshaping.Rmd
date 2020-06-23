@@ -538,9 +538,6 @@ The following code is adapted from [this stackoverflow post](https://stackoverfl
 
 ```{r}
 
-# Prefer the `select()` function from `dplyr` package (select function can exist in many packages)
-conflicted::conflict_prefer("select", "dplyr")
-
 cor_matrix <-
   patients %>%
     group_by(virus) %>%
