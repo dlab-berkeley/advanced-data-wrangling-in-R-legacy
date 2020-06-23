@@ -45,11 +45,15 @@ Read [Software Carpentry](https://software-carpentry.org/lessons/index.html)'s g
 
 *Tips for file organization*
 
-- For more information, see ["Googe Enough Practices in Scientific Computing"](https://github.com/swcarpentry/good-enough-practices-in-scientific-computing/blob/gh-pages/good-enough-practices-for-scientific-computing.pdf) by [PLOS](https://plos.org/)
+- For more information, see ["Good Enough Practices in Scientific Computing"](https://github.com/swcarpentry/good-enough-practices-in-scientific-computing/blob/gh-pages/good-enough-practices-for-scientific-computing.pdf) by [PLOS](https://plos.org/)
 
 - You can create directories on your computer from R using `dir.create` function.
 
-1. Treat data as read only (raw data should be RAW!)
+1. Treat raw data as read only (raw data should be RAW!)
+
+```{r}
+getwd()
+```
 
 ```{r}
 dir.create(here::here("data"))
@@ -373,13 +377,7 @@ Like `pivot_longer()`, `pivot_wider()` is also versatile.
 
 - What's the problem with this data?
 
-The data comes from [`tidycensus`](https://github.com/walkerke/tidycensus) package.
-
 ```{r}
-
-# Data
-# install.packages("tidycensus")
-library("tidycensus")
 
 us_rent_income
 

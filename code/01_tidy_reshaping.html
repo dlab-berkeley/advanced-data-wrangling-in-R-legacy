@@ -377,7 +377,7 @@ summary {
 
 <h1 class="title toc-ignore">Tidy Data and Reshaping</h1>
 <h4 class="author">Jae Yeon Kim</h4>
-<h4 class="date">19 June, 2020</h4>
+<h4 class="date">23 June, 2020</h4>
 
 </div>
 
@@ -423,12 +423,14 @@ summary {
 <p>Read <a href="https://software-carpentry.org/lessons/index.html">Software Carpentry</a>’s great article on <a href="https://swcarpentry.github.io/r-novice-gapminder/02-project-intro/">project management in RStudio</a>.</p>
 <p><em>Tips for file organization</em></p>
 <ul>
-<li><p>For more information, see <a href="https://github.com/swcarpentry/good-enough-practices-in-scientific-computing/blob/gh-pages/good-enough-practices-for-scientific-computing.pdf">“Googe Enough Practices in Scientific Computing”</a> by <a href="https://plos.org/">PLOS</a></p></li>
+<li><p>For more information, see <a href="https://github.com/swcarpentry/good-enough-practices-in-scientific-computing/blob/gh-pages/good-enough-practices-for-scientific-computing.pdf">“Good Enough Practices in Scientific Computing”</a> by <a href="https://plos.org/">PLOS</a></p></li>
 <li><p>You can create directories on your computer from R using <code>dir.create</code> function.</p></li>
 </ul>
 <ol style="list-style-type: decimal">
-<li>Treat data as read only (raw data should be RAW!)</li>
+<li>Treat raw data as read only (raw data should be RAW!)</li>
 </ol>
+<pre class="r"><code>getwd()</code></pre>
+<pre><code>## [1] &quot;/home/jae/advanced-data-wrangling-in-R/code&quot;</code></pre>
 <pre class="r"><code>dir.create(here::here(&quot;data&quot;))</code></pre>
 <pre><code>## Warning in dir.create(here::here(&quot;data&quot;)): &#39;/home/jae/advanced-data-wrangling-
 ## in-R/data&#39; already exists</code></pre>
@@ -921,12 +923,7 @@ df</code></pre>
 <ul>
 <li>What’s the problem with this data?</li>
 </ul>
-<p>The data comes from <a href="https://github.com/walkerke/tidycensus"><code>tidycensus</code></a> package.</p>
-<pre class="r"><code># Data
-# install.packages(&quot;tidycensus&quot;)
-library(&quot;tidycensus&quot;)
-
-us_rent_income</code></pre>
+<pre class="r"><code>us_rent_income</code></pre>
 <pre><code>## # A tibble: 104 x 5
 ##    GEOID NAME       variable estimate   moe
 ##    &lt;chr&gt; &lt;chr&gt;      &lt;chr&gt;       &lt;dbl&gt; &lt;dbl&gt;
