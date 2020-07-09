@@ -23,7 +23,7 @@ The Advanced Data Wrangling Workshop aims to help students to learn powerful dat
 
 ## Setup
 
-Recommended: Launch the binder above. 
+Recommended: Launch the binder above. Please do it before attending the worskshop as it takes a while (especially, if you do it for the first time). 
 
 Or you can setup manually: 
 
