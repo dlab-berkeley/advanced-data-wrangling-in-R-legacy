@@ -12,13 +12,20 @@ output:
     toc: yes
 ---
 
-This workshop is for students who already have some experience with `dplyr` and `tidyr` and hope to upgrade their data wrangling skills in R.
+This workshop is for students who already have some experience with `tidyr` and `dplyr` and `tidyr` and hope to upgrade their data wrangling skills in R.
 
 # Setup
 
-- `pacman` is a great package management tool in R. (For more information, see [the package vignette](http://trinker.github.io/pacman/vignettes/Introduction_to_pacman.html).)
+- `pacman` is a great package management tool in R (for more information, see [the package vignette](http://trinker.github.io/pacman/vignettes/Introduction_to_pacman.html)).
 
 - Check your `dplyr` package is up-to-date by typing `packageVersion("dplyr")`. If the current installed version is less than 1.0, then update by typing `update.packages("dplyr")`. You may need to restart R to make it work.
+
+```{r}
+
+ifelse(packageVersion("dplyr") > 1, "The installed version of dplyr package is greater than or equal to 1.0.0", update.packages("dplyr"))
+
+```
+
 
 ```{r include = FALSE}
 
@@ -38,50 +45,56 @@ pacman::p_load(
 
 Read Jenny Bryan's great article on [project-oriented workflow](https://www.tidyverse.org/blog/2017/12/workflow-vs-script/). The key idea is [computatinoal reproduciblity](http://web.stanford.edu/~vcs/talks/Utah2018-STODDEN.pdf). To ensure that, we need to make a project self-contained.
 
-- Almost in all cases, `setwd()` is not reproducible outside the author's local machine. Instead, learn to use `here()`'.
+- Note that `setwd()` is not reproducible outside the author's local machine. Instead, learn to use `here()`'.
+
 - Do not save .RData when you quit R and don't load. Using [Bash](https://www.gnu.org/software/bash/), add the following line in `.bash_profile`: `alias R='R --no-save --no-restore-data'` (More information on [invoking R](https://colinfay.me/intro-to-r/appendix-b-invoking-r.html) by W. N. Venables and D. M. Smith (R Core Team))
 
 # (Required) Project organization
 
-Read [Software Carpentry](https://software-carpentry.org/lessons/index.html)'s great article on [project management in RStudio](https://swcarpentry.github.io/r-novice-gapminder/02-project-intro/).
+Read [Software Carpentry](https://software-carpentry.org/lessons/index.html)'s article on [project management in RStudio](https://swcarpentry.github.io/r-novice-gapminder/02-project-intro/).
 
 *Tips for file organization*
 
-- For more information, see ["Good Enough Practices in Scientific Computing"](https://github.com/swcarpentry/good-enough-practices-in-scientific-computing/blob/gh-pages/good-enough-practices-for-scientific-computing.pdf) by [PLOS](https://plos.org/)
+- See ["Good Enough Practices in Scientific Computing"](https://github.com/swcarpentry/good-enough-practices-in-scientific-computing/blob/gh-pages/good-enough-practices-for-scientific-computing.pdf) by [PLOS](https://plos.org/)
 
 - You can create directories on your computer from R using `dir.create` function.
+
+0. Create a project directory 
+
+```{r}
+# Create a project directory 
+# .. subdirectory 
+# I assume that your current working directory is advanced-data-wrangling-in-R. Check this by running `getwd()`
+
+dir.create("../project")
+
+```
 
 1. Treat raw data as read only (raw data should be RAW!)
 
 ```{r}
-getwd()
-```
-
-```{r}
-dir.create(here::here("data"))
+dir.create(here::here("project", "data"))
 ```
 
 2. Separate read-only data from processed data
 
 ```{r}
-dir.create(here::here("processed_data"))
+dir.create(here::here("project", "processed_data"))
 ```
 
 3. Treat generated outputs as disposable
 
 ```{r}
-dir.create(here::here("outputs"))
+dir.create(here::here("project", "outputs"))
 ```
 
 4. Separate function definition and application
 
 ```{r}
-dir.create(here::here("functions"))
+dir.create(here::here("project", "functions"))
 ```
 
-5. Save the data in the data directory
-
-6. Version control [Using Git from RStudio](https://swcarpentry.github.io/git-novice/14-supplemental-rstudio/)
+5. Version control [using Git from RStudio](https://swcarpentry.github.io/git-novice/14-supplemental-rstudio/)
 
 The rest of the workshop follows the basic structure in [the Data Wrangling Cheat Sheet](https://rstudio.com/wp-content/uploads/2015/02/data-wrangling-cheatsheet.pdf) created by RStudio.
 
@@ -95,28 +108,26 @@ Many of the following examples draw on [R for Data Science](https://r4ds.had.co.
 2. Observations -> **Rows**
 3. Values -> **Cells**
 
-A tidy data can be stored in a `data.frame` or [`tibble`](https://tibble.tidyverse.org/) object.
-
 ![Tidy Data Example (Source: R for Data Science)](https://garrettgman.github.io/images/tidy-1.png)
 
-> "If your data is tidy, element-wise execution will ensure that observations are preserved across functions and operations. Each value will only be paired with other values that appear in the same row of the data frame." - Garrett Grolemund and Hadley Wickham
+A tidy data can be stored in a `data.frame` or [`tibble`](https://tibble.tidyverse.org/) object.
+
+**Benefits**
+
+> "If your data is tidy, element-wise execution will ensure that observations are preserved across functions and operations. Each value will only be paired with other values that appear in the same row of the data frame." 
+- Garrett Grolemund and Hadley Wickham
 
 - Nevertheless, don't be religious.
 
 > In summary, tidy data is a useful conceptual idea and is often the right way to go for general, small data sets, but may not be appropriate for all problems. - Jeff Leek
 
-For instance, in many data science applications, linear algebra-based computations are essential (e.g., [Principal Component Analysis](https://www.math.upenn.edu/~kazdan/312S13/JJ/PCA-JJ.pdf)). These computations are optimized to work on matrices, not tidy data frames. (For more information, read [Jeff Leek's blog post](https://simplystatistics.org/2016/02/17/non-tidy-data/).)
-
-
-```{r}
-
-library(tidyverse)
-
-```
+For instance, in many data science applications, linear algebra-based computations are essential (e.g., [Principal Component Analysis](https://www.math.upenn.edu/~kazdan/312S13/JJ/PCA-JJ.pdf)). These computations are optimized to work on matrices, not tidy data frames (for more information, read [Jeff Leek's blog post](https://simplystatistics.org/2016/02/17/non-tidy-data/)).
 
 This is what a tidy data looks like.
 
 ```{r}
+
+library(tidyverse)
 
 table1
 
@@ -141,16 +152,17 @@ Let's take a look at the cases of untidy data.
 
 ## Make It Longer
 
-- What's the problem with the data?
+- Challenge 1: What's the problem with the data?
 
 ```{r}
 
 table4a
 
 ```
-- "1999" and "2000" should not be columns because they are values of a higher-level variable (let's call it "year").
 
-- Let's pivot (rotate by 90 degree). [`pivot_longer()`](https://tidyr.tidyverse.org/reference/pivot_longer.html) increases the number of rows (longer) and decreases the number of columns. The inverse function is `pivot_wider()`. These functions improve the usability of `gather()` and `spread()`.
+- Let's pivot (rotate by 90 degree).
+
+- [`pivot_longer()`](https://tidyr.tidyverse.org/reference/pivot_longer.html) increases the number of rows (longer) and decreases the number of columns. The inverse function is `pivot_wider()`. These functions improve the usability of `gather()` and `spread()`.
 
 ![What pivot_longer() does (Source: https://www.storybench.org)](https://www.storybench.org/wp-content/uploads/2019/08/pivot-longer-image.png)
 
@@ -161,6 +173,10 @@ table4a %>%
   gather(key = "cases", # Current column names
          value = "year", # The values matched to cases
          c("1999", "2000")) # Selected columns
+
+```
+
+```{r}
 
 # New way, more intuitive
 table4a %>%
@@ -185,17 +201,27 @@ table4a %>%
     names_to = "year", # Shorter columns (the columns going to be in one column called year)
     values_to = "cases", # Longer rows (the values are going to be in a separate column called named cases)
     names_transform = list(year = readr::parse_number)
-    ) # Transform the column
+    ) # Transform the variable  
 
 ```
 
 **Additional tips**
 
-A flat file (e.g., CSV) is a rectangular shaped combination of strings. [Parsing](https://cran.r-project.org/web/packages/readr/vignettes/readr.html) determines the type of each column and turns into a vector of a more specific type. Tidyverse has `parse_` functions (from `readr` package) that are flexible and fast (e.g., `parse_integer()`, `parse_double()`, `parse_logical()`, `parse_datetime()`, `pase_date()`, `parse_time()`, `parse_factor()`, etc).
+`parse_number()` also keeps only numeric information in a variable.
 
-**Practice**
+```{r}
 
-- Let's do another practice. What's the main problem with this data? (This exercise comes from [`pivot` function vigenette](https://tidyr.tidyverse.org/articles/pivot.html).)
+parse_number("reply1994")
+
+```
+
+A flat file (e.g., CSV) is a rectangular shaped combination of strings. [Parsing](https://cran.r-project.org/web/packages/readr/vignettes/readr.html) determines the type of each column and turns into a vector of a more specific type. Tidyverse has `parse_` functions (from `readr` package) that are flexible and fast (e.g., `parse_integer()`, `parse_double()`, `parse_logical()`, `parse_datetime()`, `parse_date()`, `parse_time()`, `parse_factor()`, etc).
+
+**Practice 1**
+
+- Let's do another practice. 
+
+1. What's the main problem with this data? (This exercise comes from [`pivot` function vigenette](https://tidyr.tidyverse.org/articles/pivot.html).) Too long or too wide?
 
 ```{r}
 
@@ -203,7 +229,7 @@ billboard
 
 ```
 
-- Too wide. How can you fix it? Which pivot?
+2. How can you fix it? Which pivot?
 
 ```{r}
 
@@ -212,7 +238,13 @@ billboard %>%
   gather(key = "week",
          value = "rank",
          starts_with("wk")) %>% # Use regular expressions
-  drop_na() # Drop NA values
+  drop_na() # Drop NAs
+
+```
+
+- Note that `pivot_longer()` is more versatile than `gather()`.
+
+```{r}
 
 # New way
 billboard %>%
@@ -225,59 +257,6 @@ billboard %>%
 
 ```
 
-- Note that `pivot_longer()` is more versatile than `gather()`.
-
-**Additional tips**
-
-R defines missing values in two ways.
-
-- *Implicit missing values*: simply not present in the data.
-
-- *Explicit missing values*: flagged with NA. This can be dropped (implicit) by adding `values_drop_na = TRUE` in `pivot_longer()`.
-
-```{r}
-
-# pivot_longer can manipulate values when pivoting
-billboard %>%
-  pivot_longer(
-    cols = starts_with("wk"), # Using regular expressions
-    names_to = "week",
-    names_prefix = "wk", # Stripping off 'wk'
-    values_to = "rank",
-    values_drop_na = TRUE # Dropping NAs
-  )
-
-```
-
-**Practice**
-
-Another technique to turn implicit missing values into explicit ones is using `complete()` function.
-
-The following example was inspired by [this stackoverflow post](https://stackoverflow.com/questions/51019672/complete-dataframe-with-missing-combinations-of-values).
-
-```{r}
-
-# Toy example
-
-df <- tibble(distance = c(rep("NPR",3), rep(100, 3)),
-             years = c(3,4,7,1,5,6),
-             area = seq(10, 60, by = 10))
-
-df
-
-```
-
-The data contains some implicit missing values. Can you make them explicit using `complete()` function? (Take a look at the documentation of the function by typing ?complete in the console.)
-
-```{r}
-
-df %>%
-  complete(distance,
-           years = 1:7) # This is the full list
-         #  fill = list(area = 0)) # Fill NAs with 0s
-
-```
-
 ## Make It Wider
 
 - What's the problem with the data?
@@ -287,13 +266,18 @@ table2
 ```
 
 - Each observation is spread across two rows.
+
 - How can you fix it?: `pivot_wider()`.
 
 **Two differences between `pivot_longer()` and `pivot_wider()`**
 
-- In `pivot_longer()`, the arguments are named `names_to` and `values_to` (*to*). In `pivot_wider()`, this pattern is opposite. The arguments are named `names_from` and `values_from` (*from*).
+- In `pivot_longer()`, the arguments are named `names_to` and `values_to` (*to*). 
 
-- The number of required arguments for `pivot_longer()` is three (col, names_to, values_to). The number of required arguments for `pivot_wider()` is two (names_from, values_from).
+- In `pivot_wider()`, this pattern is opposite. The arguments are named `names_from` and `values_from` (*from*).
+
+- The number of required arguments for `pivot_longer()` is 3 (col, names_to, values_to). 
+
+- The number of required arguments for `pivot_wider()` is 2 (names_from, values_from).
 
 ![What pivot_wider() does (Source: https://www.storybench.org)](https://www.storybench.org/wp-content/uploads/2019/08/pivot-wider-image.png)
 
@@ -304,6 +288,9 @@ table2 %>%
   spread(key = type,
          value = count)
 
+```
+
+```{r}
 # New way
 table2 %>%
   pivot_wider(
@@ -313,93 +300,60 @@ table2 %>%
 
 ```
 
-**Practice 1**
+**Practice 2**
 
-Learn to use `pivot_wider()` to make implicit missing values explicit. (We solved the same problem earlier.)
+Sometimes, a consultee came to me and asked: "I don't have missing values in my original dataframe. Then R said that I have missing values after I've done some data transformations. What happened?" 
+
+Here's an answer. 
+
+R defines missing values in two ways.
+
+- *Implicit missing values*: simply not present in the data.
+
+- *Explicit missing values*: flagged with NA
+
+**Practice 2**
+
+The example comes from [*R for Data Science*](https://r4ds.had.co.nz/tidy-data.html).
 
 ```{r}
 
-df <- tibble(distance = c(rep("NPR",3), rep(100, 3)),
-             years = c(3,4,7,1,5,6),
-             area = seq(10, 60, by = 10))
+stocks <- tibble(
+  year = c(2019, 2019, 2019, 2020, 2020, 2020),
+  qtr = c(1, 2, 3, 2, 3, 4), 
+  return = c(1, 2, 3, NA, 2, 3)
+)
 
-df
+stocks
 
 ```
 
-- There are several basic ways to treat missing values in R.
+- Where is explicit missing value?
 
-1. Drop NAs: `drop_na(data, ...)`
-2. Fill NAs in ... columns with most recent non-NA values: `fill(data, ..., direction = c("down", "up"))`
-
-3. Replace NAs by column: `replace_na(data, replace = list(), ...)`
+- Does `stocks` have implicit missing values?
 
 ```{r}
-
-df %>%
-  pivot_wider(names_from = years,
-              values_from = area) %>%
-  pivot_longer(2:7, names_to = "years",
-               values_to = "area") %>%
-  mutate(area = replace_na(area, 0))
-# If you want to drop NAs, use `drop_na()`
-
+# implicit missing values become explicit 
+stocks %>%
+  pivot_wider(names_from = year, 
+              values_from = return)
 ```
 
 **Practice 2**
 
 - This exercise comes from [`pivot` function vigenette](https://tidyr.tidyverse.org/articles/pivot.html).
 
-- Could you make `station` a dummy variable (1s = "yes", 0s = "No")?
+- Could you make `station` a series of dummy variables using `pivot_wider()`?
 
 ```{r}
 fish_encounters
 ```
 
-```{r}
+1. Which pivot you should use?
 
-fish_encounters %>% pivot_wider(
-  names_from = station,
-  values_from = seen
-)
+2. Are there explicit missing values? 
 
-```
-
-- Let's turn NAs into 0s
-
-```{r}
-fish_encounters %>% pivot_wider(
-  names_from = station,
-  values_from = seen,
-  values_fill = list(seen = 0)
-)
-```
-
-Like `pivot_longer()`, `pivot_wider()` is also versatile.
-
-- What's the problem with this data?
-
-```{r}
-
-us_rent_income
-
-```
-
-- Generate column name from multiple variables
-
-```{r}
-# Old way returns an error
-#us_rent_income %>%
- # spread(variable,
-  #       c(estimate, moe))
-
-# New way is flexible
-us_rent_income %>%
-  pivot_wider(
-    names_from = variable,
-    values_from = c(estimate, moe))
-
-```
+3. How could you make turn these NAs into 0s? Check `values_fill` argument in the `pivot_wider()` function. 
 
 ## Separate
 
@@ -564,7 +518,7 @@ cor_matrix %>%
 
 ```
 
-# Represent Data 
+# Represent Data
 
 ## Arrange
 
