@@ -6,7 +6,7 @@ by [Jae Yeon Kim](https://jaeyk.github.io/)
 
 ## Overview
 
-The Advanced Data Wrangling Workshop aims to help students to learn powerful data wrangling tools and techniques in R to wrangle data with less pain and more fun. The workshop will show how R can make your data wrangling process faster, more reliable, and interpretable. The workshop focuses on introducing new package developments in the tidyverse, particularly dplyr 1.0.0, and it has something new and exciting even for experienced R users.
+The Advanced Data Wrangling Workshop aims to help students to learn powerful tools and techniques in R to wrangle data with less pain and more fun. The workshop will show how R can make your data wrangling process easier, faster, and more readable. The workshop focuses on introducing new developments in the tidyverse, particularly dplyr 1.0.0, and it has something new and exciting even for experienced R users.
 
 ## Learning objectives
 
@@ -23,13 +23,13 @@ The Advanced Data Wrangling Workshop aims to help students to learn powerful dat
 
 ## Setup
 
-Recommended: Launch the binder above. Please do it before attending the worskshop as it takes a while (especially, if you do it for the first time). 
+I strongly recommend to launch the binder above. Please do so before attending the worskshop as it takes a while (especially, if you do it for the first time).
 
-Or you can setup manually: 
+Or you can setup manually:
 
-- `pacman` is a great package management tool in R. (For more information, see [the package vignette](http://trinker.github.io/pacman/vignettes/Introduction_to_pacman.html).)
+- `pacman` is a great package management tool in R (for more information, see [the package vignette](http://trinker.github.io/pacman/vignettes/Introduction_to_pacman.html)).
 
-- Check your `dplyr` package is up-to-date by typing `packageVersion("dplyr")`. If the current installed version is less than 1.0.0, then update it by typing `update.packages("dplyr")`. You may need to restart R to make it work.
+- Check your `dplyr` package is up-to-date by `packageVersion("dplyr")`. If the current installed version is less than 1.0.0, then update it by `update.packages("dplyr")`. You may need to restart R to make it work.
 
 ``` r
 
