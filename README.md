@@ -4,6 +4,8 @@
 
 by [Jae Yeon Kim](https://jaeyk.github.io/)
 
+File an [issue](https://github.com/dlab-berkeley/advanced-data-wrangling-in-R/issues) if you have problems, questions or suggestions.
+
 ## Overview
 
 The Advanced Data Wrangling Workshop aims to help students to learn powerful tools and techniques in R to wrangle data with less pain and more fun. The workshop will show how R can make your data wrangling process easier, faster, and more readable. The workshop focuses on introducing new developments in the tidyverse, particularly dplyr 1.0.0, and it has something new and exciting even for experienced R users.
