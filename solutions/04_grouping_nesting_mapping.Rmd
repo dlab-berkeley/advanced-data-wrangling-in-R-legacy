@@ -1,0 +1,21 @@
+---
+title: 'Grouping and nesting'
+author: "Jae Yeon Kim"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output:
+  html_document:
+    df_print: paged
+    number_sections: yes
+    toc: yes
+    toc_float: yes
+  pdf_document:
+    toc: yes
+---
+
+**Challenge 1**
+
+Because they are group variables. 
+
+**Challenge 2**
+
+Created a dataframe.

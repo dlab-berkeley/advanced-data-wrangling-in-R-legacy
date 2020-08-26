@@ -18,7 +18,7 @@ The Advanced Data Wrangling Workshop aims to help students to learn powerful too
 - Part 2: Learn how to summarize data using the tidyverse packages
 
   - [Summarising](https://github.com/jaeyk/advanced-data-wrangling/blob/master/code/03_summarizing.Rmd)
-  - [Grouping and Nesting](https://github.com/jaeyk/advanced-data-wrangling/blob/master/code/04_grouping_nesting.Rmd)
+  - [Grouping, Nesting, and Mapping](https://github.com/jaeyk/advanced-data-wrangling/blob/master/code/04_grouping_nesting.Rmd)
   - [Joining](https://github.com/jaeyk/advanced-data-wrangling/blob/master/code/05_joining.Rmd)
 
 ## Setup

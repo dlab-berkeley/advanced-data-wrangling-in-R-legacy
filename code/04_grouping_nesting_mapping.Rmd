@@ -66,6 +66,8 @@ gapminder %>%
 
 ```
 
+**Optional**
+
 - Other summary statistics
 
 1. Measures of spread: `median(x)`, `sd(x)`, `IQR(x)`, `mad(x)` (the median absolute deviation)
@@ -128,7 +130,6 @@ gapminder %>%
 
 ```
 
-
 # Nesting
 
 ## Nest
@@ -137,9 +138,13 @@ The following example comes from [R for Data Science](https://r4ds.had.co.nz/man
 
 - How can you run multiple models simultaneously? Using a nested data frame. 
 
-- Grouped data: each row = an observation
+- **Grouped data: each row = an observation**
 
-- Nested data: each row = a group
+- **Nested data: each row = a group**
+
+**Challenge 1**
+
+In the following example, why did we use `country` and `continent` for nesting variables? 
 
 ```{r}
 
@@ -147,10 +152,7 @@ nested <- gapminder %>%
   group_by(country, continent) %>%
   nest() 
 
-# country & continent (two grouping variables) + data
-names(nested)
-
-# Data = listed columns 
+head(nested)
 
 nested$data[[1]]
 
@@ -176,12 +178,10 @@ lm_model <- function(df) {
 nested <- nested %>%
   mutate(models = map(data, lm_model)) # Add the list object as a new column
 
-# Display the result by filtering rows 
-
-nested %>%
-  filter(continent == "Asia")
+head(nested)
 
 ```
+S3 is part of R's object oriented systems. If you need more information, check [this section](http://adv-r.had.co.nz/S3.html) in Hadley's Advanced R out.
 
 ## Unnest 
 
@@ -198,6 +198,8 @@ nested %>%
 
 glanced <- nested %>%
   mutate(glance = map(models, broom::glance))
+
+glanced$glance[[1]]
 
 ```
 
@@ -216,35 +218,23 @@ glanced %>%
 
 ```
 
-- Another use case of `unnest()` is for simplifying list columns. 
+# Mapping 
 
-- The following example does not work because `quantitle(mpg)` has many objects. 
-
-```{r eval=FALSE, include=FALSE}
-
-mtcars %>%
-  group_by(cyl) %>%
-  summarise(q = quantile(mpg))
-
-```
-
-- Let's put these many objects in a list. Now, it works but it's difficult to know what's inside the listed-column `q`.
+We tasted a little bit about how `map()` function works. Let's dig into it deeper as this family of functions is really useful. For more information, see Rebecca Barter's wonderful tutorial on the `purrr` package. In her words, this is "the tidyverse's answer to apply functions for iteration". `map()` function can take a vector (of any type), a list, and a dataframe for input. 
 
 ```{r}
 
-mtcars %>%
-  group_by(cyl) %>%
-  summarise(q = list(quantile(mpg)))
+multiply <- function(x){
+  x*x 
+}
 
+df <- list(first_obs = rnorm(7, 1, sd =1),
+           second_obs = rnorm(7, 2, sd = 2)) # normal distribution 
+
+map(.x = df, 
+    .f = multiply)
 ```
+**Challenge 2**
 
-- We can unpack the listed column using `unnest()`.
+Try `map_df(.x = df, .f = multiply)` and tell me what's the difference between the output you got and what you saw earlier. 
 
-```{r}
-
-mtcars %>%
-  group_by(cyl) %>%
-  summarise(q = list(quantile(mpg))) %>%
-  unnest()
-
-```
