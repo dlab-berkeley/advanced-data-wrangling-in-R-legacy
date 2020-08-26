@@ -358,7 +358,7 @@ fish_encounters
 
 2. Are there explicit missing values? 
 
-3. How could you make turn these NAs into 0s? Check `values_fill` argument in the `pivot_wider()` function. 
+3. How could you turn these NAs into 0s? Check `values_fill` argument in the `pivot_wider()` function. 
 
 ## Separate
 
