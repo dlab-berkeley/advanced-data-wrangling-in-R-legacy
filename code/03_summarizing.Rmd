@@ -35,7 +35,9 @@ ifelse(packageVersion("dplyr") > 1, "The installed version of dplyr package is g
 if (!require("pacman")) install.packages("pacman")
 pacman::p_load(
   tidyverse, # for the tidyverse framework
-  gapminder # toy example 
+  gapminder, # toy example 
+  kableExtra, 
+  flextable 
   )
 
 ```
@@ -68,14 +70,10 @@ gapminder %>%
 
 ```
 
-- Count by multiple variables; It's clear that gapminder is a panel data 
+**Challenge 1**
+Count the number of observations per `continent` as well as `year` and arrange them with descending order. 
 
-```{r}
-
-gapminder %>%
-  count(continent, year, sort = TRUE) 
-
-```
+Let's take a deeper look at how things work under the hood.
 
 - `tally()` works similar to `nrow()`: Calculate the total number of cases in a dataframe 
 - `count` = `group_by()` + `tally()`
@@ -88,6 +86,10 @@ gapminder %>%
 ```
 
 - `add_tally()` = `mutate(n = n())`
+
+**Challenge 2** 
+
+What does n in the below example represent? 
 
 ```{r}
 
@@ -108,7 +110,20 @@ gapminder %>%
   group_by(continent) %>%
   add_count(year)
 
-# Provide summary statistics 
+```
+
+**Challenge 3**
+
+Do the cases 1 and 2 in the below code chunk produce same outputs? If so, why?
+
+```{r}
+
+# Case 1
+gapminder %>%
+  group_by(continent, year) %>%
+  count()
+
+# Case 2
 gapminder %>%
   group_by(continent) %>%
   count(year)
@@ -119,6 +134,8 @@ gapminder %>%
 
 ## Basic 
 
+- Create a summary 
+
 ```{r}
 
 gapminder %>%
@@ -127,7 +144,25 @@ gapminder %>%
             mean_gdp = mean(gdpPercap),
             sd_gdp = sd(gdpPercap))
 
+tablea <- gapminder %>%
+  group_by(continent) %>%
+  summarise(n = n(), 
+            mean_gdp = mean(gdpPercap),
+            sd_gdp = sd(gdpPercap))
+
 ```
+- Produce publishable tables 
+
+```{r}
+
+# For HTML and LaTeX
+tablea %>% kableExtra::kable()
+
+# For HTML and MS Office suite 
+tablea %>% flextable::flextable()
+
+```
+
 ## Conditional
 
 ### Old way 
@@ -208,4 +243,10 @@ wide_gapminder %>%
                mean, na.rm = TRUE))
 
 ```
-Note that this workshop does not cover creating and manipulating variables using `mutate()` because many techniques you learned from playing with `summarise()` can be directly applied to `mutate()`. For instance, you can also combine `mutate()` and `across()` to create new variables based on specified conditions. 
+Note that this workshop does not cover creating and manipulating variables using `mutate()` because many techniques you learned from playing with `summarise()` can be directly applied to `mutate()`. 
+
+**Challenge 4**
+
+1. Summarise average GDP of countries whose names starting with alphabet "A".
+
+2. Turn the summary dataframe into a publishable table using either `kableExtra` or `flextable` package. 

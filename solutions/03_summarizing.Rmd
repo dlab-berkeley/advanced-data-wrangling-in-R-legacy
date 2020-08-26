@@ -12,57 +12,7 @@ output:
     toc: yes
 ---
 
-This workshop is for students who already have some experience with `dplyr` and `tidyr` and hope to upgrade their data wrangling skills in R.
-
-# Setup 
-
-- `pacman` is a great package management tool in R. (For more information, see [the package vignette](http://trinker.github.io/pacman/vignettes/Introduction_to_pacman.html).)
-
-- Check your `dplyr` package is up-to-date by typing `packageVersion("dplyr")`. If the current installed version is less than 1.0, then update by typing `update.packages("dplyr")`. You may need to restart R to make it work.
-
-```{r}
-
-# p_load loads and, if necessary, install missing packages. 
-# install.packages() + library() = p_load()
-# If you just want to install, then use p_install()
-
-if (!require("pacman")) install.packages("pacman")
-pacman::p_load(
-  tidyverse, # for the tidyverse framework
-  gapminder # toy example 
-  )
-
-```
-
-This part of the workshop heavily draws on [the suzanbert's dplyr blog post](https://suzan.rbind.io/2018/04/dplyr-tutorial-4/).
-
-# Counting 
-
-- How may countries in each continent?
-
-```{r}
-
-gapminder %>%
-  count(continent)
-
-```
-
-- Let's arrange the result. 
-
-```{r}
-
-# Just add a new argument `sort = TRUE`
-gapminder %>%
-  count(continent, sort = TRUE)
-
-# Same as above; How nice!
-gapminder %>%
-  count(continent) %>%
-  arrange(desc(n))
-
-```
-
-- Count by multiple variables; It's clear that gapminder is a panel data 
+**Challenge 1**
 
 ```{r}
 
@@ -71,135 +21,20 @@ gapminder %>%
 
 ```
 
-- `tally()` works similar to `nrow()`: Calculate the total number of cases in a dataframe 
-- `count` = `group_by()` + `tally()`
+**Challenge 2**
 
-```{r}
+same as `nrow()`; the total number of observations 
 
-gapminder %>%
-  tally()
+**Challenge 3**
 
-```
+`count` includes `group_by()`
 
-- `add_tally()` = `mutate(n = n())`
-
-```{r}
-
-gapminder %>%
-  select(continent, country) %>%
-  add_tally()
-
-```
-
-- `add_count`
-
-Add count as a column 
-
-```{r}
-
-# Add count as a column
-gapminder %>%
-  group_by(continent) %>%
-  add_count(year)
-
-# Provide summary statistics 
-gapminder %>%
-  group_by(continent) %>%
-  count(year)
-
-```
-
-# Summarizing 
-
-## Basic 
-
-```{r}
-
-gapminder %>%
-  group_by(continent) %>%
-  summarise(n = n(), 
-            mean_gdp = mean(gdpPercap),
-            sd_gdp = sd(gdpPercap))
-
-```
-## Conditional
-
-### Old way 
-
-- `summarise_all()`
-
-```{r}
-
-# Create a wide-shaped data example 
-wide_gapminder <- gapminder %>%
-  filter(continent == "Europe") %>%
-  pivot_wider(names_from = country, 
-              values_from = gdpPercap)
-
-# Apply summarise_all 
-wide_gapminder %>%
-  select(-c(1:4)) %>%
-  summarise_all(mean, na.rm = TRUE)
-
-```
-
-- `summarise_if()`: using a logical condition 
+**Challenge 4**
 
 ```{r}
 
 wide_gapminder %>%
-  summarise_if(is.double, mean, na.rm = TRUE)
+  summarise(across(starts_with("A"), mean, na.rm = TRUE)) %>%
+  kableExtra::kable()
 
 ```
-- `summarise_at()`
-
-- `vars() = select()`
-
-```{r}
-
-wide_gapminder %>%
-  summarise_at(vars(-c(1:4)), 
-               mean, na.rm = TRUE)
-
-wide_gapminder %>%
-  summarise_at(vars(contains("life")), 
-               mean, na.rm = TRUE)
-
-```
-### New way 
-
-- `summarise()` + `across()`
-
-- If you find using `summarise_all()`, `summarise_if()` and `summarise_at()` confusing, here's a solution: use `summarise()` with `across()`.   
-
-- `summarise_all()`
-
-```{r}
-
-wide_gapminder %>%
-  summarise(across(Albania:`United Kingdom`, mean, na.rm = TRUE))
-
-```
-- `summarise_if()`
-
-```{r}
-
-wide_gapminder %>%
-  summarise(across(is.double, mean, na.rm = TRUE))
-
-```
-
-- `summarise_at()`
-
-```{r}
-
-wide_gapminder %>%
-  summarise(across(-c(1:4), 
-               mean, na.rm = TRUE))
-
-wide_gapminder %>%
-  summarise(across(contains("life"), 
-               mean, na.rm = TRUE))
-
-```
-Note that this workshop does not cover creating and manipulating variables using `mutate()` because many techniques you learned from playing with `summarise()` can be directly applied to `mutate()`. For instance, you can also combine `mutate()` and `across()` to create new variables based on specified conditions. 

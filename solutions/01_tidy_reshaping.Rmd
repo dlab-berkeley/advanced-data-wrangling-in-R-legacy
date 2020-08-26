@@ -16,19 +16,19 @@ output:
 
 - "1999" and "2000" should not be columns because they are values of a higher-level variable (let's call it "year").
 
-**Practice 1**
+**Challenge 2**
 
 1. Too wide 
 
 2. `pivot_longer()`
 
-**Practice 2**
+**Challenge 3**
 
 1. stocks["year" = "2020", "return"]
 
 2. 3 implicit missing values 
 
-**Practice 3**
+**Challenge 4**
 
 1. pivot_wider()
 

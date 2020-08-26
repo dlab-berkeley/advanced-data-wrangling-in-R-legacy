@@ -152,7 +152,7 @@ Let's take a look at the cases of untidy data.
 
 ## Make It Longer
 
-**Challenge 1**: What's the problem with the data?
+**Challenge 1**: Why this data is not tidy?
 
 ```{r}
 
@@ -223,11 +223,9 @@ parse_number("reply1994")
 
 A flat file (e.g., CSV) is a rectangular shaped combination of strings. [Parsing](https://cran.r-project.org/web/packages/readr/vignettes/readr.html) determines the type of each column and turns into a vector of a more specific type. Tidyverse has `parse_` functions (from `readr` package) that are flexible and fast (e.g., `parse_integer()`, `parse_double()`, `parse_logical()`, `parse_datetime()`, `parse_date()`, `parse_time()`, `parse_factor()`, etc).
 
-**Practice 1**
-
 - Let's do another practice. 
 
-1. What's the main problem with this data? (This exercise comes from [`pivot` function vigenette](https://tidyr.tidyverse.org/articles/pivot.html).) Too long or too wide?
+1. Why this data is not tidy? (This exercise comes from [`pivot` function vigenette](https://tidyr.tidyverse.org/articles/pivot.html).) Too long or too wide?
 
 ```{r}
 
@@ -265,7 +263,7 @@ billboard %>%
 
 ## Make It Wider
 
-- What's the problem with the data?
+- Why this data is not tidy? 
 
 ```{r}
 table2
@@ -306,7 +304,7 @@ table2 %>%
 
 ```
 
-**Practice 2**
+**Challenge 2**
 
 Sometimes, a consultee came to me and asked: "I don't have missing values in my original dataframe. Then R said that I have missing values after I've done some data transformations. What happened?" 
 
@@ -318,7 +316,7 @@ R defines missing values in two ways.
 
 - *Explicit missing values*: flagged with NA
 
-**Practice 2**
+**Challenge 3**
 
 The example comes from [*R for Data Science*](https://r4ds.had.co.nz/tidy-data.html).
 
@@ -346,7 +344,7 @@ stocks %>%
               values_from = return)
 ```
 
-**Practice 2**
+**Challenge 4**
 
 - This exercise comes from [`pivot` function vigenette](https://tidyr.tidyverse.org/articles/pivot.html).
 
