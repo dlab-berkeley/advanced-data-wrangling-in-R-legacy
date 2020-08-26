@@ -23,6 +23,10 @@ The Advanced Data Wrangling Workshop aims to help students to learn powerful too
   - [Grouping, Nesting, and Mapping](https://github.com/dlab-berkeley/advanced-data-wrangling-in-R/blob/master/code/04_grouping_nesting_mapping.Rmd)
   - [Joining](https://github.com/dlab-berkeley/advanced-data-wrangling-in-R/blob/master/code/05_joining.Rmd)
 
+## Prerequisites 
+
+I assume students have familiarity with the [`tidyverse`](https://www.tidyverse.org/) packages. 
+
 ## Setup
 
 I strongly recommend to launch the binder above. Please do so before attending the worskshop as it takes a while (especially, if you do it for the first time).
