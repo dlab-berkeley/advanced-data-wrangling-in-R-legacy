@@ -1,0 +1,55 @@
+---
+title: 'Tidy Data and Reshaping'
+author: "Jae Yeon Kim"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output:
+  html_document:
+    df_print: paged
+    number_sections: yes
+    toc: yes
+    toc_float: yes
+  pdf_document:
+    toc: yes
+---
+
+**Challenge 1**
+
+- "1999" and "2000" should not be columns because they are values of a higher-level variable (let's call it "year").
+
+**Practice 1**
+
+1. Too wide 
+
+2. `pivot_longer()`
+
+**Practice 2**
+
+1. stocks["year" = "2020", "return"]
+
+2. 3 implicit missing values 
+
+**Practice 3**
+
+1. pivot_wider()
+
+```{r}
+
+fish_encounters %>% pivot_wider(
+  names_from = station,
+  values_from = seen
+)
+
+```
+
+2. Yes 
+
+3. 
+
+```{r}
+fish_encounters %>% pivot_wider(
+  names_from = station,
+  values_from = seen,
+  values_fill = list(seen = 0)
+)
+```
+

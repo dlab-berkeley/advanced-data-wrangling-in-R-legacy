@@ -12,19 +12,13 @@ output:
     toc: yes
 ---
 
-This workshop is for students who already have some experience with `tidyr` and `dplyr` and `tidyr` and hope to upgrade their data wrangling skills in R.
+This workshop is for students who already have some experience with `dplyr` and `tidyr` and hope to upgrade their data wrangling skills in R.
 
-# Setup
+# Setup 
 
-- `pacman` is a great package management tool in R (for more information, see [the package vignette](http://trinker.github.io/pacman/vignettes/Introduction_to_pacman.html)).
+- `pacman` is a great package management tool in R. (For more information, see [the package vignette](http://trinker.github.io/pacman/vignettes/Introduction_to_pacman.html).)
 
 - Check your `dplyr` package is up-to-date by typing `packageVersion("dplyr")`. If the current installed version is less than 1.0, then update by typing `update.packages("dplyr")`. You may need to restart R to make it work.
-
-```{r}
-
-ifelse(packageVersion("dplyr") > 1, "The installed version of dplyr package is greater than or equal to 1.0.0", update.packages("dplyr"))
-
-```
 
 ```{r include = FALSE}
 

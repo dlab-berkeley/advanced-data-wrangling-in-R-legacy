@@ -27,22 +27,12 @@ I strongly recommend to launch the binder above. Please do so before attending t
 
 Or you can setup manually:
 
-- `pacman` is a great package management tool in R (for more information, see [the package vignette](http://trinker.github.io/pacman/vignettes/Introduction_to_pacman.html)).
-
 - Check your `dplyr` package is up-to-date by typing `packageVersion("dplyr")`.
 - If the current installed version is less than 1.0.0, then update it by typing `update.packages("dplyr")`. You may need to restart R to make it work.
 
-``` r
+```{r}
 
-# p_load loads and, if necessary, install missing packages.
-# install.packages() + library() = p_load()
-# If you just want to install, then use p_install()
-
-if (!require("pacman")) install.packages("pacman")
-pacman::p_load(
-  tidyverse, # for the tidyverse framework
-  here # for computational reproducibility
-  )
+ifelse(packageVersion("dplyr") > 1, "The installed version of dplyr package is greater than or equal to 1.0.0", update.packages("dplyr"))
 
 ```
 
