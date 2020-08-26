@@ -12,263 +12,39 @@ output:
     toc: yes
 ---
 
-This workshop is for students who already have some experience with `dplyr` and `tidyr` and hope to upgrade their data wrangling skills in R.
-
-# Setup 
-
-- `pacman` is a great package management tool in R. (For more information, see [the package vignette](http://trinker.github.io/pacman/vignettes/Introduction_to_pacman.html).)
-
-- Check your `dplyr` package is up-to-date by typing `packageVersion("dplyr")`. If the current installed version is less than 1.0, then update by typing `update.packages("dplyr")`. You may need to restart R to make it work.
-
-```{r}
-
-# p_load loads and, if necessary, install missing packages. 
-# install.packages() + library() = p_load()
-# If you just want to install, then use p_install()
-
-if (!require("pacman")) install.packages("pacman")
-pacman::p_load(
-  tidyverse, # for the tidyverse framework
-  gapminder # toy data
-  )
-
-```
-
-
-# Subset Observations (Rows)
-
-## Choose row by logical condition 
-
-- Single condition 
+**Challenge 1**
 
 ```{r}
 
 starwars %>%
-  filter(gender == "female") %>%
-  arrange(desc(height))
+  filter(between(height, 161, 179)) 
 
 ```
 
-The following filtering example was inspired by [the suzanbert's dplyr blog post](https://suzan.rbind.io/2018/02/dplyr-tutorial-3/).
-
-- Multiple conditions (numeric)
-
-```{r}
-
-# First example
-starwars %>%
-  filter(height < 180, height > 160) %>%
-  nrow()
-
-# Same as above
-starwars %>%
-  filter(height < 180 & height > 160) %>%
-  nrow()
-
-# Not same as above
-starwars %>%
-  filter(height < 180 | height > 160) %>%
-  nrow()
-
-# Same outcome as above but note the difference in boundary values
-starwars %>%
-  filter(between(height, 161, 179)) %>%
-  nrow()
-
-```
-
-- Multiple conditions (character)
-
-```{r}
-
-# Filter names include ars; `grepl` is a base R function  
-
-starwars %>%
-  filter(grepl("ars", tolower(name)))
-
-# Or, if you prefer dplyr way 
-
-starwars %>%
-  filter(str_detect(tolower(name), "ars"))
-
-# Filter brown and black hair_color
-
-starwars %>%
-  filter(hair_color %in% c("black", "brown"))
-
-```
-
-## Choose row by position (row index)
+**Challenge 2**
 
 ```{r}
 
 starwars %>%
-  arrange(desc(height)) %>%
-  slice(1:6)
+  filter(str_detect(name, "Han"))
 
 ```
 
-## Sample by fraction
-
-```{r}
-
-# For reproducibility 
-set.seed(1234)
-
-# Old way 
-
-starwars %>%
-  sample_frac(0.10, 
-              replace = FALSE) # Without replacement 
-
-# New way
-
-starwars %>%
-  slice_sample(prop = 0.10, 
-             replace = FALSE)
-```
-
-## Sample by number 
-
-```{r}
-
-# Old way 
-
-starwars %>%
-  sample_n(20, 
-           replace = FALSE) # Without replacement 
-
-# New way 
-
-# New way
-
-starwars %>%
-  slice_sample(n = 20, 
-             replace = FALSE) # Without replacement 
-```
-
-## Top 10 rows orderd by height
-
-```{r}
-
-# Old way 
-starwars %>% 
-  top_n(10, height) 
-
-# New way
-starwars %>%
-  slice_max(height, n = 10)
-
-```
-
-# Subset Variables (Columns)
-
-```{r}
-
-names(msleep)
-
-```
-
-### Select only numeric columns 
+**Challenge 3**
 
 ```{r}
 
 # Only numeric 
 msleep %>%
-  select(where(is.numeric))
+  select(!where(is.numeric))
 
 ```
 
-## Select the columns that include "sleep" in their names 
- 
-```{r}
-
-msleep %>%
-  select(contains("sleep"))
-
-```
-
-## Select the columns that include either "sleep" or "wt" in thier names 
-
-- Basic R way 
-
-`grepl` is one of the R base pattern matching functions. 
-
-```{r}
-
-msleep[grepl('sleep|wt', names(msleep))]
-
-```
-
-- dplyr 
-
-`matches` does the same job in the `dplyr` universe. 
+**Challenge 4**
 
 ```{r}
 
 msleep %>%
-  select(matches("sleep_wt"))
-
-```
-
-## Select the columns that starts with "b"
-
-```{r}
-
-msleep %>%
-  select(starts_with("b"))
-
-```
-
-## Select the columns that ends with "wt"
-
-```{r}
-
-msleep %>%
-  select(ends_with("wt"))
-
-```
-
-## Select the columns using both beginning and end string patterns 
-
-The key idea is you can use Boolean operators (`!`, `&`, `|`)to combine different string pattern matching statements. 
-
-```{r}
-
-msleep %>%
-  select(starts_with("b") & ends_with("wt"))
-
-```
-
-## Select order and move it before everything 
-
-```{r}
-
-# By specifying a column 
-msleep %>%
-  select(order, everything())
-  
-```
-
-## Select the variables named as character 
-
-```{r}
-
-msleep %>%
-  select(any_of(c("name", "order"))) %>%
-  colnames()
-
-```
-
-## Select the variables named in the character + number pattern
-
-```{r}
-
-msleep$week8 <- NA
-
-msleep$week12 <- NA
-
-msleep %>%
-  select(num_range("week", c(1:12)))
+  select(matches("sleep|wt"))
 
 ```

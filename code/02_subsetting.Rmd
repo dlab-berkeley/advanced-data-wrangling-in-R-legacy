@@ -76,10 +76,23 @@ starwars %>%
   filter(height < 180 | height > 160) %>%
   nrow()
 
-# Same outcome as above but note the difference in boundary values
-starwars %>%
-  filter(between(height, 161, 179)) %>%
-  nrow()
+```
+
+**Challenge 1**
+
+1. (1) Use `filter(between())` to find characters whose heights are between 180 and 160 and (2) count the number of these observations.  
+
+- Minimum reproducible example 
+
+```{r}
+
+df <- tibble(
+  heights = c(160:180),
+  char = rep("none", length(c(160:180)))
+)
+
+df %>%
+  filter(between(heights, 161, 179))
 
 ```
 
@@ -103,6 +116,10 @@ starwars %>%
   filter(hair_color %in% c("black", "brown"))
 
 ```
+
+**Challenge 2**
+
+Use `str_detect()` to find characters whose names include "Han".
 
 ## Choose row by position (row index)
 
@@ -132,6 +149,7 @@ starwars %>%
 starwars %>%
   slice_sample(prop = 0.10, 
              replace = FALSE)
+
 ```
 
 ## Sample by number 
@@ -144,13 +162,12 @@ starwars %>%
   sample_n(20, 
            replace = FALSE) # Without replacement 
 
-# New way 
-
 # New way
 
 starwars %>%
   slice_sample(n = 20, 
              replace = FALSE) # Without replacement 
+
 ```
 
 ## Top 10 rows orderd by height
@@ -163,7 +180,7 @@ starwars %>%
 
 # New way
 starwars %>%
-  slice_max(height, n = 10)
+  slice_max(height, n = 10) # Variable first, Argument second 
 
 ```
 
@@ -184,6 +201,10 @@ msleep %>%
   select(where(is.numeric))
 
 ```
+
+**Challenge 3** 
+
+Use `select(where())` to find only non-numeric columns 
 
 ## Select the columns that include "sleep" in their names 
  
@@ -206,16 +227,9 @@ msleep[grepl('sleep|wt', names(msleep))]
 
 ```
 
-- dplyr 
+**Challenge 4**
 
-`matches` does the same job in the `dplyr` universe. 
-
-```{r}
-
-msleep %>%
-  select(matches("sleep_wt"))
-
-```
+Use `select(match())` to find columns whose names include either "sleep" or "wt". 
 
 ## Select the columns that starts with "b"
 
@@ -256,7 +270,7 @@ msleep %>%
   
 ```
 
-## Select the variables named as character 
+## Select variables from a character vector.
 
 ```{r}
 
@@ -273,6 +287,8 @@ msleep %>%
 msleep$week8 <- NA
 
 msleep$week12 <- NA
+
+msleep$week_extra <- 0 
 
 msleep %>%
   select(num_range("week", c(1:12)))
