@@ -32,7 +32,10 @@ Or you can setup manually:
 
 ```{r}
 
-ifelse(packageVersion("dplyr") > 1, "The installed version of dplyr package is greater than or equal to 1.0.0", update.packages("dplyr"))
+ifelse(packageVersion("dplyr") > 1, 
+  print("The installed version of dplyr package is greater than or equal to 1.0.0"), 
+  update.packages("dplyr")
+  )
 
 ```
 
