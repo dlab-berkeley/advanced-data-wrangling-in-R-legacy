@@ -41,61 +41,6 @@ pacman::p_load(
 
 ```
 
-# (Optional) Project-oriented workflow
-
-Read Jenny Bryan's great article on [project-oriented workflow](https://www.tidyverse.org/blog/2017/12/workflow-vs-script/). The key idea is [computatinoal reproduciblity](http://web.stanford.edu/~vcs/talks/Utah2018-STODDEN.pdf). To ensure that, we need to make a project self-contained.
-
-- Note that `setwd()` is not reproducible outside the author's local machine. Instead, learn to use `here()`'.
-
-- Do not save .RData when you quit R and don't load. Using [Bash](https://www.gnu.org/software/bash/), add the following line in `.bash_profile`: `alias R='R --no-save --no-restore-data'` (More information on [invoking R](https://colinfay.me/intro-to-r/appendix-b-invoking-r.html) by W. N. Venables and D. M. Smith (R Core Team))
-
-# (Required) Project organization
-
-Read [Software Carpentry](https://software-carpentry.org/lessons/index.html)'s article on [project management in RStudio](https://swcarpentry.github.io/r-novice-gapminder/02-project-intro/).
-
-*Tips for file organization*
-
-- See ["Good Enough Practices in Scientific Computing"](https://github.com/swcarpentry/good-enough-practices-in-scientific-computing/blob/gh-pages/good-enough-practices-for-scientific-computing.pdf) by [PLOS](https://plos.org/)
-
-- You can create directories on your computer from R using `dir.create` function.
-
-0. Create a project directory 
-
-```{r}
-# Create a project directory 
-# .. subdirectory 
-# I assume that your current working directory is advanced-data-wrangling-in-R. Check this by running `getwd()`
-
-dir.create("../project")
-
-```
-
-1. Treat raw data as read only (raw data should be RAW!)
-
-```{r}
-dir.create(here::here("project", "data"))
-```
-
-2. Separate read-only data from processed data
-
-```{r}
-dir.create(here::here("project", "processed_data"))
-```
-
-3. Treat generated outputs as disposable
-
-```{r}
-dir.create(here::here("project", "outputs"))
-```
-
-4. Separate function definition and application
-
-```{r}
-dir.create(here::here("project", "functions"))
-```
-
-5. Version control [using Git from RStudio](https://swcarpentry.github.io/git-novice/14-supplemental-rstudio/)
-
 The rest of the workshop follows the basic structure in [the Data Wrangling Cheat Sheet](https://rstudio.com/wp-content/uploads/2015/02/data-wrangling-cheatsheet.pdf) created by RStudio.
 
 # Tidy Data
