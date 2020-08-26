@@ -12,14 +12,14 @@ The Advanced Data Wrangling Workshop aims to help students to learn powerful too
 
 - Part 1: Learn how to reshape and manipulate data
 
-  - [Tidying and Reshaping](https://github.com/jaeyk/advanced-data-wrangling/blob/master/code/01_tidy_reshaping.Rmd)
-  - [Subsetting](https://github.com/jaeyk/advanced-data-wrangling/blob/master/code/02_subsetting.Rmd)
+  - [Tidying and Reshaping](https://github.com/dlab-berkeley/advanced-data-wrangling/blob/master/code/01_tidy_reshaping.Rmd)
+  - [Subsetting](https://github.com/dlab-berkeley/advanced-data-wrangling/blob/master/code/02_subsetting.Rmd)
 
 - Part 2: Learn how to summarize data using the tidyverse packages
 
-  - [Summarising](https://github.com/jaeyk/advanced-data-wrangling/blob/master/code/03_summarizing.Rmd)
-  - [Grouping, Nesting, and Mapping](https://github.com/jaeyk/advanced-data-wrangling/blob/master/code/04_grouping_nesting.Rmd)
-  - [Joining](https://github.com/jaeyk/advanced-data-wrangling/blob/master/code/05_joining.Rmd)
+  - [Summarising](https://github.com/dlab-berkeley/advanced-data-wrangling/blob/master/code/03_summarizing.Rmd)
+  - [Grouping, Nesting, and Mapping](https://github.com/dlab-berkeley/advanced-data-wrangling/blob/master/code/04_grouping_nesting_mapping.Rmd)
+  - [Joining](https://github.com/dlab-berkeley/advanced-data-wrangling/blob/master/code/05_joining.Rmd)
 
 ## Setup
 
