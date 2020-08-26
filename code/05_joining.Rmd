@@ -57,14 +57,17 @@ planes$tailnum %>% head()
 
 Verify primary key
 
-`tailnum` should be unique. Thus, the result should be 0. 
+`tailnum` should be unique. 
+
+**Challenge 1**
+What do you expect the outcome?
 
 ```{r}
 planes %>%
   count(tailnum) %>%
   filter(n > 1)
 ```
-
+**Optional**
 If a dataframe doesn't have primary key, you can add one called a **surrogate** key.
 
 ```{r}
@@ -77,10 +80,13 @@ df <- tibble(x = c(1:3),
 df <- df %>% rowid_to_column("ID")
 
 ```
+
 - A **foreign** key "uniquely identifies an observation in another table."
 
 ```{r}
+
 flights$tailnum %>% head()
+
 ```
 
 # Mutating joins
@@ -106,6 +112,10 @@ y <- tibble(key = c(1:5),
 ## Inner Join
 
 `inner_join()` keeps the matched values in both tables. If the left table is a subset of the right table, then the result of `left_join()` is same as `inner_join()`.
+
+**Challenge 2**
+
+What are going to be the shared keys?
 
 ```{r}
 
@@ -153,6 +163,8 @@ full_join(x, y)
 
 ## Semi Join
 
+In SQL, this type of query is also called subqueries. 
+
 - Filtering without joining 
 
 ```{r}
@@ -175,11 +187,13 @@ filtered <- flights %>%
 joined <- flights %>%
   semi_join(top_dest)
 
+head(filtered == joined)
+
 ```
 
 ## Anti Join
 
-`anti_join()` dose the opposite. Exclude the rows that were matched between the two tables. 
+`anti_join()` dose the opposite. Exclude the rows that were matched between the two tables. Great technique to filter stopwords when you do a computational text analysis.
 
 ```{r}
 
@@ -188,72 +202,3 @@ flights %>%
   count(tailnum, sort = TRUE)
 
 ```
-
-# Set operations 
-
-> Treat observations as if they were set elements. 
-
-Another toy example. 
-
-```{r}
-
-df1 <- tibble(x = c(1, 2),
-              y = c(1, 1))
-  
-df2 <- tibble(x = c(1, 1),
-              y = c(1, 2))
-
-df1
-
-df2
-
-```
-
-## Intersect 
-
-Return matched observations in the two tables
-
-```{r}
-
-intersect(df1, df2)
-
-```
-
-## Union
-
-Return unique observations in the two tables 
-
-```{r}
-
-union(df1, df2)
-
-```
-
-## Set Diff 
-
-Return observations in the left but not in the right table 
-
-```{r}
-
-setdiff(df1, df2)
-
-```
-
-# Binding 
-
-## Bind Rows 
-
-```{r}
-
-bind_rows(df1, df2)
-
-```
-
-## Bind Columns 
-
-```{r}
-
-bind_cols(df1, df2)
-
-```
-

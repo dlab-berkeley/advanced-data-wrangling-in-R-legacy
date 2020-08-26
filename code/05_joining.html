@@ -2795,18 +2795,20 @@ div.tocify {
 
 <h1 class="title toc-ignore">Joining</h1>
 <h4 class="author">Jae Yeon Kim</h4>
-<h4 class="date">23 June, 2020</h4>
+<h4 class="date">26 August, 2020</h4>
 
 </div>
 
 
-<p>This workshop is for students who already have some experience with <code>dplyr</code> and <code>tidyr</code> and hope to upgrade their data wrangling skills in R.</p>
+<p>This workshop is for students who already have some experience with <code>tidyr</code> and <code>dplyr</code> and <code>tidyr</code> and hope to upgrade their data wrangling skills in R.</p>
 <div id="setup" class="section level1" number="1">
 <h1 number="1"><span class="header-section-number">1</span> Setup</h1>
 <ul>
-<li><p><code>pacman</code> is a great package management tool in R. (For more information, see <a href="http://trinker.github.io/pacman/vignettes/Introduction_to_pacman.html">the package vignette</a>.)</p></li>
+<li><p><code>pacman</code> is a great package management tool in R (for more information, see <a href="http://trinker.github.io/pacman/vignettes/Introduction_to_pacman.html">the package vignette</a>).</p></li>
 <li><p>Check your <code>dplyr</code> package is up-to-date by typing <code>packageVersion(&quot;dplyr&quot;)</code>. If the current installed version is less than 1.0, then update by typing <code>update.packages(&quot;dplyr&quot;)</code>. You may need to restart R to make it work.</p></li>
 </ul>
+<pre class="r"><code>ifelse(packageVersion(&quot;dplyr&quot;) &gt; 1, &quot;The installed version of dplyr package is greater than or equal to 1.0.0&quot;, update.packages(&quot;dplyr&quot;))</code></pre>
+<pre><code>## [1] &quot;The installed version of dplyr package is greater than or equal to 1.0.0&quot;</code></pre>
 <pre class="r"><code># p_load loads and, if necessary, install missing packages. 
 # install.packages() + library() = p_load()
 # If you just want to install, then use p_install()
@@ -2830,7 +2832,8 @@ if (!require(&quot;pacman&quot;)) install.packages(&quot;pacman&quot;)</code></p
 planes$tailnum %&gt;% head()</code></pre>
 <pre><code>## [1] &quot;N10156&quot; &quot;N102UW&quot; &quot;N103US&quot; &quot;N104UW&quot; &quot;N10575&quot; &quot;N105UW&quot;</code></pre>
 <p>Verify primary key</p>
-<p><code>tailnum</code> should be unique. Thus, the result should be 0.</p>
+<p><code>tailnum</code> should be unique.</p>
+<p><strong>Challenge 1</strong> What do you expect the outcome?</p>
 <pre class="r"><code>planes %&gt;%
   count(tailnum) %&gt;%
   filter(n &gt; 1)</code></pre>
@@ -2839,7 +2842,7 @@ planes$tailnum %&gt;% head()</code></pre>
 {"columns":[{"label":["tailnum"],"name":[1],"type":["chr"],"align":["left"]},{"label":["n"],"name":[2],"type":["int"],"align":["right"]}],"data":[],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
-<p>If a dataframe doesn’t have primary key, you can add one called a <strong>surrogate</strong> key.</p>
+<p><strong>Optional</strong> If a dataframe doesn’t have primary key, you can add one called a <strong>surrogate</strong> key.</p>
 <pre class="r"><code># Toy example
 df &lt;- tibble(x = c(1:3),
              y = c(4:6))
@@ -2871,6 +2874,8 @@ y &lt;- tibble(key = c(1:5),
 <div id="inner-join" class="section level2" number="2.1">
 <h2 number="2.1"><span class="header-section-number">2.1</span> Inner Join</h2>
 <p><code>inner_join()</code> keeps the matched values in both tables. If the left table is a subset of the right table, then the result of <code>left_join()</code> is same as <code>inner_join()</code>.</p>
+<p><strong>Challenge 2</strong></p>
+<p>What are going to be the shared keys?</p>
 <pre class="r"><code>inner_join(x, y)</code></pre>
 <pre><code>## Joining, by = &quot;key&quot;</code></pre>
 <div data-pagedtable="false">
@@ -2925,6 +2930,7 @@ y &lt;- tibble(key = c(1:5),
 </blockquote>
 <div id="semi-join" class="section level2" number="3.1">
 <h2 number="3.1"><span class="header-section-number">3.1</span> Semi Join</h2>
+<p>In SQL, this type of query is also called subqueries.</p>
 <ul>
 <li>Filtering without joining</li>
 </ul>
@@ -2942,97 +2948,38 @@ filtered &lt;- flights %&gt;%
 <pre class="r"><code>joined &lt;- flights %&gt;%
   semi_join(top_dest)</code></pre>
 <pre><code>## Joining, by = &quot;dest&quot;</code></pre>
+<pre class="r"><code>head(filtered == joined)</code></pre>
+<pre><code>##      year month  day dep_time sched_dep_time dep_delay arr_time sched_arr_time
+## [1,] TRUE  TRUE TRUE     TRUE           TRUE      TRUE     TRUE           TRUE
+## [2,] TRUE  TRUE TRUE     TRUE           TRUE      TRUE     TRUE           TRUE
+## [3,] TRUE  TRUE TRUE     TRUE           TRUE      TRUE     TRUE           TRUE
+## [4,] TRUE  TRUE TRUE     TRUE           TRUE      TRUE     TRUE           TRUE
+## [5,] TRUE  TRUE TRUE     TRUE           TRUE      TRUE     TRUE           TRUE
+## [6,] TRUE  TRUE TRUE     TRUE           TRUE      TRUE     TRUE           TRUE
+##      arr_delay carrier flight tailnum origin dest air_time distance hour minute
+## [1,]      TRUE    TRUE   TRUE    TRUE   TRUE TRUE     TRUE     TRUE TRUE   TRUE
+## [2,]      TRUE    TRUE   TRUE    TRUE   TRUE TRUE     TRUE     TRUE TRUE   TRUE
+## [3,]      TRUE    TRUE   TRUE    TRUE   TRUE TRUE     TRUE     TRUE TRUE   TRUE
+## [4,]      TRUE    TRUE   TRUE    TRUE   TRUE TRUE     TRUE     TRUE TRUE   TRUE
+## [5,]      TRUE    TRUE   TRUE    TRUE   TRUE TRUE     TRUE     TRUE TRUE   TRUE
+## [6,]      TRUE    TRUE   TRUE    TRUE   TRUE TRUE     TRUE     TRUE TRUE   TRUE
+##      time_hour
+## [1,]      TRUE
+## [2,]      TRUE
+## [3,]      TRUE
+## [4,]      TRUE
+## [5,]      TRUE
+## [6,]      TRUE</code></pre>
 </div>
 <div id="anti-join" class="section level2" number="3.2">
 <h2 number="3.2"><span class="header-section-number">3.2</span> Anti Join</h2>
-<p><code>anti_join()</code> dose the opposite. Exclude the rows that were matched between the two tables.</p>
+<p><code>anti_join()</code> dose the opposite. Exclude the rows that were matched between the two tables. Great technique to filter stopwords when you do a computational text analysis.</p>
 <pre class="r"><code>flights %&gt;%
   anti_join(planes, by = &quot;tailnum&quot;) %&gt;%
   count(tailnum, sort = TRUE)</code></pre>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
 {"columns":[{"label":["tailnum"],"name":[1],"type":["chr"],"align":["left"]},{"label":["n"],"name":[2],"type":["int"],"align":["right"]}],"data":[{"1":"NA","2":"2512"},{"1":"N725MQ","2":"575"},{"1":"N722MQ","2":"513"},{"1":"N723MQ","2":"507"},{"1":"N713MQ","2":"483"},{"1":"N735MQ","2":"396"},{"1":"N0EGMQ","2":"371"},{"1":"N534MQ","2":"364"},{"1":"N542MQ","2":"363"},{"1":"N531MQ","2":"349"},{"1":"N6EAMQ","2":"348"},{"1":"N528MQ","2":"346"},{"1":"N532MQ","2":"340"},{"1":"N523MQ","2":"334"},{"1":"N738MQ","2":"333"},{"1":"N720MQ","2":"331"},{"1":"N721MQ","2":"328"},{"1":"N518MQ","2":"319"},{"1":"N527MQ","2":"317"},{"1":"N525MQ","2":"314"},{"1":"N520MQ","2":"306"},{"1":"N530MQ","2":"302"},{"1":"N522MQ","2":"300"},{"1":"N510MQ","2":"299"},{"1":"N8EGMQ","2":"299"},{"1":"N508MQ","2":"298"},{"1":"N526MQ","2":"297"},{"1":"N521MQ","2":"296"},{"1":"N537MQ","2":"289"},{"1":"N539MQ","2":"288"},{"1":"N511MQ","2":"287"},{"1":"N513MQ","2":"287"},{"1":"N506MQ","2":"284"},{"1":"N507JB","2":"284"},{"1":"N5PBMQ","2":"283"},{"1":"N502MQ","2":"282"},{"1":"N3AEMQ","2":"276"},{"1":"N526JB","2":"276"},{"1":"N504MQ","2":"271"},{"1":"N527JB","2":"270"},{"1":"N516MQ","2":"269"},{"1":"N507MQ","2":"264"},{"1":"N535MQ","2":"264"},{"1":"N517MQ","2":"259"},{"1":"N544MQ","2":"254"},{"1":"N514MQ","2":"253"},{"1":"N501MQ","2":"250"},{"1":"N546MQ","2":"248"},{"1":"N9EAMQ","2":"248"},{"1":"N524MQ","2":"244"},{"1":"N505MQ","2":"242"},{"1":"N509MQ","2":"241"},{"1":"N515MQ","2":"241"},{"1":"N717MQ","2":"241"},{"1":"N500MQ","2":"237"},{"1":"N525UA","2":"227"},{"1":"N512MQ","2":"226"},{"1":"N1EAMQ","2":"210"},{"1":"N724MQ","2":"210"},{"1":"N804MQ","2":"205"},{"1":"N543MQ","2":"202"},{"1":"N857MQ","2":"196"},{"1":"N503MQ","2":"191"},{"1":"N719MQ","2":"182"},{"1":"N730MQ","2":"178"},{"1":"N813MQ","2":"177"},{"1":"N848MQ","2":"175"},{"1":"N736MQ","2":"169"},{"1":"N817MQ","2":"166"},{"1":"N807MQ","2":"164"},{"1":"N839MQ","2":"157"},{"1":"N739MQ","2":"149"},{"1":"N806MQ","2":"148"},{"1":"N856MQ","2":"137"},{"1":"N849MQ","2":"135"},{"1":"N832MQ","2":"133"},{"1":"N816MQ","2":"130"},{"1":"N734MQ","2":"128"},{"1":"N5ETAA","2":"125"},{"1":"N812MQ","2":"121"},{"1":"N827MQ","2":"121"},{"1":"N852MQ","2":"118"},{"1":"N5FAAA","2":"117"},{"1":"N815MQ","2":"117"},{"1":"N5EYAA","2":"114"},{"1":"N5EXAA","2":"109"},{"1":"N5FMAA","2":"109"},{"1":"N3EYAA","2":"105"},{"1":"N5EWAA","2":"105"},{"1":"N5FKAA","2":"105"},{"1":"N5FPAA","2":"104"},{"1":"N3CFAA","2":"103"},{"1":"N3JPAA","2":"102"},{"1":"N5EUAA","2":"102"},{"1":"N5FTAA","2":"102"},{"1":"N805MQ","2":"102"},{"1":"N3GCAA","2":"101"},{"1":"N5FNAA","2":"101"},{"1":"N3BVAA","2":"100"},{"1":"N5FSAA","2":"100"},{"1":"N3DRAA","2":"99"},{"1":"N821MQ","2":"99"},{"1":"N3FJAA","2":"98"},{"1":"N3FUAA","2":"97"},{"1":"N5FEAA","2":"97"},{"1":"N3GFAA","2":"96"},{"1":"N5FHAA","2":"94"},{"1":"N828MQ","2":"94"},{"1":"N844MQ","2":"94"},{"1":"N3GLAA","2":"93"},{"1":"N3DSAA","2":"91"},{"1":"N5EVAA","2":"89"},{"1":"N3BHAA","2":"88"},{"1":"N3EEAA","2":"88"},{"1":"N3EVAA","2":"88"},{"1":"N3ACAA","2":"87"},{"1":"N3FTAA","2":"87"},{"1":"N3JJAA","2":"87"},{"1":"N540UA","2":"87"},{"1":"N3FXAA","2":"86"},{"1":"N3FYAA","2":"86"},{"1":"N593UA","2":"86"},{"1":"N846MQ","2":"86"},{"1":"N3BDAA","2":"85"},{"1":"N3GSAA","2":"85"},{"1":"N836MQ","2":"85"},{"1":"N3BRAA","2":"84"},{"1":"N3FWAA","2":"84"},{"1":"N507UA","2":"84"},{"1":"N5FJAA","2":"84"},{"1":"N822MQ","2":"84"},{"1":"N3BCAA","2":"83"},{"1":"N3GAAA","2":"83"},{"1":"N3CCAA","2":"82"},{"1":"N3FHAA","2":"82"},{"1":"N3HWAA","2":"82"},{"1":"N3BYAA","2":"81"},{"1":"N3GXAA","2":"81"},{"1":"N3HCAA","2":"81"},{"1":"N3HGAA","2":"81"},{"1":"N3HRAA","2":"81"},{"1":"N811MQ","2":"81"},{"1":"N3BWAA","2":"80"},{"1":"N3FKAA","2":"80"},{"1":"N3GEAA","2":"80"},{"1":"N3HEAA","2":"80"},{"1":"N3JDAA","2":"80"},{"1":"N5FFAA","2":"80"},{"1":"N3CGAA","2":"79"},{"1":"N3EBAA","2":"79"},{"1":"N3FAAA","2":"79"},{"1":"N3GRAA","2":"79"},{"1":"N3HBAA","2":"79"},{"1":"N3HMAA","2":"79"},{"1":"N847MQ","2":"79"},{"1":"N3BPAA","2":"78"},{"1":"N3CHAA","2":"78"},{"1":"N3HJAA","2":"78"},{"1":"N3JLAA","2":"78"},{"1":"N3JTAA","2":"78"},{"1":"N3BAAA","2":"77"},{"1":"N3FDAA","2":"77"},{"1":"N3FSAA","2":"77"},{"1":"N3GKAA","2":"77"},{"1":"N3GUAA","2":"77"},{"1":"N572UA","2":"77"},{"1":"N3ANAA","2":"76"},{"1":"N3BKAA","2":"76"},{"1":"N3DMAA","2":"76"},{"1":"N818MQ","2":"76"},{"1":"N824MQ","2":"76"},{"1":"N3FMAA","2":"75"},{"1":"N532UA","2":"75"},{"1":"N3AAAA","2":"74"},{"1":"N3CEAA","2":"74"},{"1":"N3EHAA","2":"74"},{"1":"N3FBAA","2":"74"},{"1":"N3GDAA","2":"74"},{"1":"N3GHAA","2":"74"},{"1":"N3HNAA","2":"74"},{"1":"N3JHAA","2":"74"},{"1":"N802MQ","2":"74"},{"1":"N3AKAA","2":"73"},{"1":"N3CRAA","2":"73"},{"1":"N3GVAA","2":"73"},{"1":"N3JWAA","2":"73"},{"1":"N834MQ","2":"73"},{"1":"N838MQ","2":"73"},{"1":"N3AMAA","2":"72"},{"1":"N3BUAA","2":"72"},{"1":"N3EJAA","2":"72"},{"1":"N3EWAA","2":"72"},{"1":"N3GGAA","2":"72"},{"1":"N3JSAA","2":"72"},{"1":"N3JUAA","2":"72"},{"1":"N3JVAA","2":"72"},{"1":"N539AA","2":"72"},{"1":"N5FLAA","2":"72"},{"1":"N5FRAA","2":"72"},{"1":"N3ARAA","2":"71"},{"1":"N3CYAA","2":"71"},{"1":"N3DVAA","2":"71"},{"1":"N3DWAA","2":"71"},{"1":"N3JRAA","2":"71"},{"1":"N3KJAA","2":"71"},{"1":"N3CAAA","2":"70"},{"1":"N3CPAA","2":"70"},{"1":"N3DBAA","2":"70"},{"1":"N3DUAA","2":"70"},{"1":"N3DXAA","2":"70"},{"1":"N3GWAA","2":"70"},{"1":"N3HXAA","2":"70"},{"1":"N4YNAA","2":"70"},{"1":"N542AA","2":"70"},{"1":"N5FGAA","2":"70"},{"1":"N3CDAA","2":"69"},{"1":"N3EMAA","2":"69"},{"1":"N3ESAA","2":"69"},{"1":"N3GMAA","2":"69"},{"1":"N3HAAA","2":"69"},{"1":"N3HSAA","2":"69"},{"1":"N3JCAA","2":"69"},{"1":"N4XMAA","2":"69"},{"1":"N3AYAA","2":"68"},{"1":"N3BGAA","2":"68"},{"1":"N3BXAA","2":"68"},{"1":"N3CLAA","2":"68"},{"1":"N3CNAA","2":"68"},{"1":"N3CSAA","2":"68"},{"1":"N3CWAA","2":"68"},{"1":"N3FFAA","2":"68"},{"1":"N3HDAA","2":"68"},{"1":"N3HYAA","2":"68"},{"1":"N3JFAA","2":"68"},{"1":"N830MQ","2":"68"},{"1":"N853MQ","2":"68"},{"1":"N3AUAA","2":"67"},{"1":"N3DTAA","2":"67"},{"1":"N3FLAA","2":"67"},{"1":"N3KCAA","2":"67"},{"1":"N3KEAA","2":"67"},{"1":"N586UA","2":"67"},{"1":"N835MQ","2":"67"},{"1":"N3BLAA","2":"66"},{"1":"N3CKAA","2":"66"},{"1":"N3DDAA","2":"66"},{"1":"N3ERAA","2":"66"},{"1":"N3FEAA","2":"66"},{"1":"N845MQ","2":"66"},{"1":"N3DEAA","2":"65"},{"1":"N3ENAA","2":"65"},{"1":"N3EXAA","2":"65"},{"1":"N3FRAA","2":"65"},{"1":"N3GJAA","2":"65"},{"1":"N4XTAA","2":"65"},{"1":"N842MQ","2":"65"},{"1":"N3ABAA","2":"64"},{"1":"N3BFAA","2":"64"},{"1":"N3JNAA","2":"64"},{"1":"N3KDAA","2":"64"},{"1":"N4YDAA","2":"64"},{"1":"N810MQ","2":"64"},{"1":"N3AFAA","2":"63"},{"1":"N3ALAA","2":"63"},{"1":"N3APAA","2":"63"},{"1":"N3AXAA","2":"63"},{"1":"N3DPAA","2":"63"},{"1":"N3ELAA","2":"63"},{"1":"N3FNAA","2":"63"},{"1":"N3GPAA","2":"63"},{"1":"N3KAAA","2":"63"},{"1":"N4XGAA","2":"63"},{"1":"N547AA","2":"63"},{"1":"N800MQ","2":"63"},{"1":"N814MQ","2":"63"},{"1":"N851MQ","2":"63"},{"1":"N3ADAA","2":"62"},{"1":"N3AJAA","2":"62"},{"1":"N3ASAA","2":"62"},{"1":"N3ATAA","2":"62"},{"1":"N3AVAA","2":"62"},{"1":"N3CBAA","2":"62"},{"1":"N3CMAA","2":"62"},{"1":"N3DYAA","2":"62"},{"1":"N3HFAA","2":"62"},{"1":"N4XLAA","2":"62"},{"1":"N4YJAA","2":"62"},{"1":"N584UA","2":"62"},{"1":"N3AWAA","2":"61"},{"1":"N3BBAA","2":"61"},{"1":"N4YFAA","2":"61"},{"1":"N3CTAA","2":"60"},{"1":"N3DGAA","2":"60"},{"1":"N3DLAA","2":"60"},{"1":"N3ETAA","2":"60"},{"1":"N3GBAA","2":"60"},{"1":"N3GTAA","2":"60"},{"1":"N3GYAA","2":"60"},{"1":"N3HLAA","2":"60"},{"1":"N3JAAA","2":"60"},{"1":"N3KMAA","2":"60"},{"1":"N4WLAA","2":"60"},{"1":"N4YCAA","2":"60"},{"1":"N808MQ","2":"60"},{"1":"N3AHAA","2":"59"},{"1":"N3FPAA","2":"59"},{"1":"N3GNAA","2":"59"},{"1":"N3KBAA","2":"59"},{"1":"N4UCAA","2":"59"},{"1":"N3AEAA","2":"58"},{"1":"N3EFAA","2":"58"},{"1":"N3EPAA","2":"58"},{"1":"N3HTAA","2":"58"},{"1":"N3JXAA","2":"58"},{"1":"N3KHAA","2":"58"},{"1":"N3KKAA","2":"58"},{"1":"N4XVAA","2":"58"},{"1":"N803MQ","2":"58"},{"1":"N3EAAA","2":"57"},{"1":"N3ECAA","2":"57"},{"1":"N3JGAA","2":"57"},{"1":"N3JMAA","2":"57"},{"1":"N3KFAA","2":"57"},{"1":"N4XXAA","2":"57"},{"1":"N4YPAA","2":"57"},{"1":"N503AA","2":"57"},{"1":"N581UA","2":"57"},{"1":"N3CJAA","2":"56"},{"1":"N3EGAA","2":"56"},{"1":"N3EUAA","2":"56"},{"1":"N3HKAA","2":"56"},{"1":"N3JBAA","2":"56"},{"1":"N3JYAA","2":"56"},{"1":"N4WKAA","2":"56"},{"1":"N4XDAA","2":"56"},{"1":"N4YEAA","2":"56"},{"1":"N3BJAA","2":"55"},{"1":"N3EDAA","2":"55"},{"1":"N3HVAA","2":"55"},{"1":"N4XBAA","2":"55"},{"1":"N829MQ","2":"55"},{"1":"N3BSAA","2":"54"},{"1":"N3FCAA","2":"54"},{"1":"N474AA","2":"54"},{"1":"N4WNAA","2":"54"},{"1":"N4YBAA","2":"54"},{"1":"N698MQ","2":"54"},{"1":"N923MQ","2":"54"},{"1":"N3FGAA","2":"53"},{"1":"N3JKAA","2":"53"},{"1":"N4XEAA","2":"53"},{"1":"N4XHAA","2":"53"},{"1":"N4YMAA","2":"53"},{"1":"N4YTAA","2":"53"},{"1":"N3CXAA","2":"52"},{"1":"N3HHAA","2":"52"},{"1":"N3KGAA","2":"52"},{"1":"N4WAAA","2":"52"},{"1":"N4WMAA","2":"52"},{"1":"N4XYAA","2":"52"},{"1":"N526AA","2":"52"},{"1":"N850MQ","2":"52"},{"1":"N3AGAA","2":"51"},{"1":"N3DCAA","2":"51"},{"1":"N3HUAA","2":"51"},{"1":"N4XFAA","2":"51"},{"1":"N4XNAA","2":"51"},{"1":"N4YAAA","2":"51"},{"1":"N546AA","2":"51"},{"1":"N579AA","2":"51"},{"1":"N3FVAA","2":"50"},{"1":"N4YGAA","2":"50"},{"1":"N4YRAA","2":"50"},{"1":"N4WPAA","2":"49"},{"1":"N4XPAA","2":"49"},{"1":"N4XRAA","2":"49"},{"1":"N548AA","2":"49"},{"1":"N644MQ","2":"49"},{"1":"N3BEAA","2":"48"},{"1":"N3CUAA","2":"48"},{"1":"N3HPAA","2":"48"},{"1":"N3JEAA","2":"48"},{"1":"N3KPAA","2":"48"},{"1":"N4WTAA","2":"48"},{"1":"N4YSAA","2":"48"},{"1":"N592UA","2":"48"},{"1":"N833MQ","2":"48"},{"1":"N3DNAA","2":"47"},{"1":"N502AA","2":"47"},{"1":"N543AA","2":"47"},{"1":"N636MQ","2":"47"},{"1":"N918MQ","2":"47"},{"1":"N3BTAA","2":"46"},{"1":"N4WJAA","2":"46"},{"1":"N541AA","2":"46"},{"1":"N627MQ","2":"46"},{"1":"N638MQ","2":"46"},{"1":"N3DFAA","2":"45"},{"1":"N3EKAA","2":"45"},{"1":"N3KLAA","2":"45"},{"1":"N483AA","2":"45"},{"1":"N4UBAA","2":"45"},{"1":"N4XCAA","2":"45"},{"1":"N618MQ","2":"45"},{"1":"N650MQ","2":"45"},{"1":"N820MQ","2":"45"},{"1":"N902MQ","2":"45"},{"1":"N931MQ","2":"45"},{"1":"N3DJAA","2":"44"},{"1":"N4XJAA","2":"44"},{"1":"N4XUAA","2":"44"},{"1":"N514AA","2":"44"},{"1":"N942MQ","2":"44"},{"1":"N3BNAA","2":"43"},{"1":"N3DAAA","2":"43"},{"1":"N4WSAA","2":"43"},{"1":"N4WVAA","2":"43"},{"1":"N4YHAA","2":"43"},{"1":"N504AA","2":"43"},{"1":"N555AA","2":"43"},{"1":"N5CGAA","2":"43"},{"1":"N4YUAA","2":"42"},{"1":"N5BTAA","2":"42"},{"1":"N5CDAA","2":"42"},{"1":"N263AV","2":"41"},{"1":"N3KTAA","2":"41"},{"1":"N4XSAA","2":"41"},{"1":"N4YKAA","2":"41"},{"1":"N580AA","2":"41"},{"1":"N5DTAA","2":"41"},{"1":"N5EGAA","2":"41"},{"1":"N660MQ","2":"41"},{"1":"N3KNAA","2":"40"},{"1":"N3KRAA","2":"40"},{"1":"N4YLAA","2":"40"},{"1":"N522AA","2":"40"},{"1":"N5BRAA","2":"40"},{"1":"N5EAAA","2":"40"},{"1":"N5EEAA","2":"40"},{"1":"N620MQ","2":"40"},{"1":"N854MQ","2":"40"},{"1":"N403AA","2":"39"},{"1":"N4XKAA","2":"39"},{"1":"N5BYAA","2":"39"},{"1":"N5CRAA","2":"39"},{"1":"N5DUAA","2":"39"},{"1":"N657MQ","2":"39"},{"1":"N694MQ","2":"39"},{"1":"N825MQ","2":"39"},{"1":"N3CVAA","2":"38"},{"1":"N506UA","2":"38"},{"1":"N530AA","2":"38"},{"1":"N5EMAA","2":"38"},{"1":"N601MQ","2":"38"},{"1":"N641MQ","2":"38"},{"1":"N823MQ","2":"38"},{"1":"N831MQ","2":"37"},{"1":"N537AA","2":"36"},{"1":"N538AA","2":"36"},{"1":"N5CHAA","2":"36"},{"1":"N679MQ","2":"36"},{"1":"N3DHAA","2":"35"},{"1":"N3KSAA","2":"35"},{"1":"N5CBAA","2":"35"},{"1":"N648MQ","2":"35"},{"1":"N656MQ","2":"35"},{"1":"N659MQ","2":"35"},{"1":"N200AA","2":"34"},{"1":"N5BSAA","2":"34"},{"1":"N5DWAA","2":"34"},{"1":"N5DYAA","2":"34"},{"1":"N5EHAA","2":"34"},{"1":"N615MQ","2":"34"},{"1":"N617MQ","2":"34"},{"1":"N655MQ","2":"34"},{"1":"N900MQ","2":"34"},{"1":"N922MQ","2":"34"},{"1":"N928MQ","2":"34"},{"1":"N5CFAA","2":"33"},{"1":"N5DMAA","2":"33"},{"1":"N5EFAA","2":"33"},{"1":"N5ELAA","2":"33"},{"1":"N635MQ","2":"33"},{"1":"N344AT","2":"32"},{"1":"N512AA","2":"32"},{"1":"N527AA","2":"32"},{"1":"N5BVAA","2":"32"},{"1":"N5CPAA","2":"32"},{"1":"N687MQ","2":"32"},{"1":"N3KYAA","2":"31"},{"1":"N5CAAA","2":"31"},{"1":"N5CKAA","2":"31"},{"1":"N631MQ","2":"31"},{"1":"N651MQ","2":"31"},{"1":"N671MQ","2":"31"},{"1":"N680MQ","2":"31"},{"1":"N682MQ","2":"31"},{"1":"N688MQ","2":"31"},{"1":"N695MQ","2":"31"},{"1":"N906MQ","2":"31"},{"1":"N3KVAA","2":"30"},{"1":"N550AA","2":"30"},{"1":"N5CCAA","2":"30"},{"1":"N617AA","2":"30"},{"1":"N637MQ","2":"30"},{"1":"N639MQ","2":"30"},{"1":"N683MQ","2":"30"},{"1":"N925MQ","2":"30"},{"1":"N515AA","2":"29"},{"1":"N5DSAA","2":"29"},{"1":"N5EBAA","2":"29"},{"1":"N604MQ","2":"29"},{"1":"N612MQ","2":"29"},{"1":"N677MQ","2":"29"},{"1":"N549AA","2":"28"},{"1":"N577AA","2":"28"},{"1":"N5CSAA","2":"28"},{"1":"N5DNAA","2":"28"},{"1":"N610MQ","2":"28"},{"1":"N640AA","2":"28"},{"1":"N516AA","2":"27"},{"1":"N5DVAA","2":"27"},{"1":"N5ENAA","2":"27"},{"1":"N628MQ","2":"27"},{"1":"N643MQ","2":"27"},{"1":"N681MQ","2":"27"},{"1":"N348AA","2":"26"},{"1":"N3KXAA","2":"26"},{"1":"N4XWAA","2":"26"},{"1":"N529AA","2":"26"},{"1":"N5DDAA","2":"26"},{"1":"N5DXAA","2":"26"},{"1":"N619MQ","2":"26"},{"1":"N663MQ","2":"26"},{"1":"N399AA","2":"25"},{"1":"N3KWAA","2":"25"},{"1":"N527UA","2":"25"},{"1":"N603MQ","2":"25"},{"1":"N621MQ","2":"25"},{"1":"N623MQ","2":"25"},{"1":"N645MQ","2":"25"},{"1":"N690MQ","2":"25"},{"1":"N3LBAA","2":"24"},{"1":"N668MQ","2":"24"},{"1":"N685MQ","2":"24"},{"1":"N932MQ","2":"24"},{"1":"N933MQ","2":"24"},{"1":"N3BMAA","2":"23"},{"1":"N5EKAA","2":"23"},{"1":"N630MQ","2":"23"},{"1":"N675MQ","2":"23"},{"1":"N826MQ","2":"23"},{"1":"N149AT","2":"22"},{"1":"N611MQ","2":"22"},{"1":"N613MQ","2":"22"},{"1":"N629MQ","2":"22"},{"1":"N658MQ","2":"22"},{"1":"N672MQ","2":"22"},{"1":"N689MQ","2":"22"},{"1":"N699MQ","2":"22"},{"1":"N908MQ","2":"22"},{"1":"N941MQ","2":"22"},{"1":"N267AT","2":"21"},{"1":"N329AT","2":"21"},{"1":"N345AA","2":"21"},{"1":"N356AA","2":"21"},{"1":"N396AA","2":"21"},{"1":"N4WRAA","2":"21"},{"1":"N5EJAA","2":"21"},{"1":"N616MQ","2":"21"},{"1":"N624MQ","2":"21"},{"1":"N640MQ","2":"21"},{"1":"N667MQ","2":"21"},{"1":"N692MQ","2":"21"},{"1":"N385AA","2":"20"},{"1":"N5CEAA","2":"20"},{"1":"N5CNAA","2":"20"},{"1":"N606MQ","2":"20"},{"1":"N625MQ","2":"20"},{"1":"N642MQ","2":"20"},{"1":"N649MQ","2":"20"},{"1":"N673MQ","2":"20"},{"1":"N684MQ","2":"20"},{"1":"N784NC","2":"20"},{"1":"N837MQ","2":"20"},{"1":"N342AA","2":"19"},{"1":"N349AA","2":"19"},{"1":"N380AA","2":"19"},{"1":"N5EPAA","2":"19"},{"1":"N607MQ","2":"19"},{"1":"N632MQ","2":"19"},{"1":"N661MQ","2":"19"},{"1":"N693MQ","2":"18"},{"1":"N346AA","2":"17"},{"1":"N382AA","2":"17"},{"1":"N4WWAA","2":"17"},{"1":"N5CLAA","2":"17"},{"1":"N5DLAA","2":"17"},{"1":"N600MQ","2":"17"},{"1":"N290AT","2":"16"},{"1":"N387AA","2":"16"},{"1":"N5DAAA","2":"16"},{"1":"N5DCAA","2":"16"},{"1":"N622MQ","2":"16"},{"1":"N634MQ","2":"16"},{"1":"N638AA","2":"16"},{"1":"N669MQ","2":"16"},{"1":"N686MQ","2":"16"},{"1":"N308AT","2":"15"},{"1":"N322AA","2":"15"},{"1":"N3KUAA","2":"15"},{"1":"N626MQ","2":"15"},{"1":"N633MQ","2":"15"},{"1":"N691MQ","2":"15"},{"1":"N283AT","2":"14"},{"1":"N316AT","2":"14"},{"1":"N392AA","2":"14"},{"1":"N511AA","2":"14"},{"1":"N518AA","2":"14"},{"1":"N678MQ","2":"14"},{"1":"N696MQ","2":"14"},{"1":"N766NC","2":"14"},{"1":"N780NC","2":"14"},{"1":"N337AT","2":"13"},{"1":"N343AA","2":"13"},{"1":"N375AA","2":"13"},{"1":"N3LAAA","2":"13"},{"1":"N602MQ","2":"13"},{"1":"N858MQ","2":"13"},{"1":"N367AA","2":"12"},{"1":"N5DPAA","2":"12"},{"1":"N5DRAA","2":"12"},{"1":"N614MQ","2":"12"},{"1":"N652MQ","2":"12"},{"1":"N653MQ","2":"12"},{"1":"N676MQ","2":"12"},{"1":"N69154","2":"12"},{"1":"N73152","2":"12"},{"1":"N76153","2":"12"},{"1":"N786NC","2":"12"},{"1":"N787NC","2":"12"},{"1":"N855MQ","2":"12"},{"1":"N16632","2":"11"},{"1":"N5CYAA","2":"11"},{"1":"N5DBAA","2":"11"},{"1":"N62631","2":"11"},{"1":"N764NC","2":"11"},{"1":"N773NC","2":"11"},{"1":"N354AT","2":"10"},{"1":"N506AA","2":"10"},{"1":"N605MQ","2":"10"},{"1":"N909MQ","2":"10"},{"1":"N457UW","2":"9"},{"1":"N670MQ","2":"9"},{"1":"N24633","2":"8"},{"1":"N395AA","2":"8"},{"1":"N609MQ","2":"8"},{"1":"N664MQ","2":"8"},{"1":"N819MQ","2":"8"},{"1":"N905MQ","2":"8"},{"1":"N506SW","2":"7"},{"1":"N5DFAA","2":"7"},{"1":"N662MQ","2":"7"},{"1":"N939MQ","2":"7"},{"1":"N261AV","2":"6"},{"1":"N318AT","2":"6"},{"1":"N426US","2":"6"},{"1":"N445US","2":"6"},{"1":"N459UW","2":"6"},{"1":"N5DHAA","2":"6"},{"1":"N608MQ","2":"6"},{"1":"N665MQ","2":"6"},{"1":"N770NC","2":"6"},{"1":"N775NC","2":"6"},{"1":"N442US","2":"5"},{"1":"N5DEAA","2":"5"},{"1":"N5EDAA","2":"5"},{"1":"N697MQ","2":"5"},{"1":"N935MQ","2":"5"},{"1":"D942DN","2":"4"},{"1":"N3LEAA","2":"4"},{"1":"N59630","2":"4"},{"1":"N5FBAA","2":"4"},{"1":"N328AT","2":"3"},{"1":"N4WYAA","2":"3"},{"1":"N654MQ","2":"3"},{"1":"N674MQ","2":"3"},{"1":"N7BAAA","2":"3"},{"1":"N907MQ","2":"3"},{"1":"N17627","2":"2"},{"1":"N3LGAA","2":"2"},{"1":"N5DKAA","2":"2"},{"1":"N5ESAA","2":"2"},{"1":"N628AW","2":"2"},{"1":"N646MQ","2":"2"},{"1":"N7BGAA","2":"2"},{"1":"N14628","2":"1"},{"1":"N32626","2":"1"},{"1":"N3LDAA","2":"1"},{"1":"N3LFAA","2":"1"},{"1":"N451UW","2":"1"},{"1":"N456UW","2":"1"},{"1":"N502SW","2":"1"},{"1":"N509AA","2":"1"},{"1":"N5DJAA","2":"1"},{"1":"N5ECAA","2":"1"},{"1":"N5ERAA","2":"1"},{"1":"N5FCAA","2":"1"},{"1":"N5FDAA","2":"1"},{"1":"N647MQ","2":"1"},{"1":"N7AAAA","2":"1"},{"1":"N7ACAA","2":"1"},{"1":"N7AEAA","2":"1"},{"1":"N7ALAA","2":"1"},{"1":"N7ASAA","2":"1"},{"1":"N7AXAA","2":"1"},{"1":"N7AYAA","2":"1"},{"1":"N7BFAA","2":"1"},{"1":"N7BKAA","2":"1"},{"1":"N7BMAA","2":"1"},{"1":"N7BVAA","2":"1"},{"1":"N7CAAA","2":"1"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
-  </script>
-</div>
-</div>
-</div>
-<div id="set-operations" class="section level1" number="4">
-<h1 number="4"><span class="header-section-number">4</span> Set operations</h1>
-<blockquote>
-<p>Treat observations as if they were set elements.</p>
-</blockquote>
-<p>Another toy example.</p>
-<pre class="r"><code>df1 &lt;- tibble(x = c(1, 2),
-              y = c(1, 1))
-  
-df2 &lt;- tibble(x = c(1, 1),
-              y = c(1, 2))
-
-df1</code></pre>
-<div data-pagedtable="false">
-<script data-pagedtable-source type="application/json">
-{"columns":[{"label":["x"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["y"],"name":[2],"type":["dbl"],"align":["right"]}],"data":[{"1":"1","2":"1"},{"1":"2","2":"1"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
-  </script>
-</div>
-<pre class="r"><code>df2</code></pre>
-<div data-pagedtable="false">
-<script data-pagedtable-source type="application/json">
-{"columns":[{"label":["x"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["y"],"name":[2],"type":["dbl"],"align":["right"]}],"data":[{"1":"1","2":"1"},{"1":"1","2":"2"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
-  </script>
-</div>
-<div id="intersect" class="section level2" number="4.1">
-<h2 number="4.1"><span class="header-section-number">4.1</span> Intersect</h2>
-<p>Return matched observations in the two tables</p>
-<pre class="r"><code>intersect(df1, df2)</code></pre>
-<div data-pagedtable="false">
-<script data-pagedtable-source type="application/json">
-{"columns":[{"label":["x"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["y"],"name":[2],"type":["dbl"],"align":["right"]}],"data":[{"1":"1","2":"1"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
-  </script>
-</div>
-</div>
-<div id="union" class="section level2" number="4.2">
-<h2 number="4.2"><span class="header-section-number">4.2</span> Union</h2>
-<p>Return unique observations in the two tables</p>
-<pre class="r"><code>union(df1, df2)</code></pre>
-<div data-pagedtable="false">
-<script data-pagedtable-source type="application/json">
-{"columns":[{"label":["x"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["y"],"name":[2],"type":["dbl"],"align":["right"]}],"data":[{"1":"1","2":"1"},{"1":"2","2":"1"},{"1":"1","2":"2"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
-  </script>
-</div>
-</div>
-<div id="set-diff" class="section level2" number="4.3">
-<h2 number="4.3"><span class="header-section-number">4.3</span> Set Diff</h2>
-<p>Return observations in the left but not in the right table</p>
-<pre class="r"><code>setdiff(df1, df2)</code></pre>
-<div data-pagedtable="false">
-<script data-pagedtable-source type="application/json">
-{"columns":[{"label":["x"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["y"],"name":[2],"type":["dbl"],"align":["right"]}],"data":[{"1":"2","2":"1"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
-  </script>
-</div>
-</div>
-</div>
-<div id="binding" class="section level1" number="5">
-<h1 number="5"><span class="header-section-number">5</span> Binding</h1>
-<div id="bind-rows" class="section level2" number="5.1">
-<h2 number="5.1"><span class="header-section-number">5.1</span> Bind Rows</h2>
-<pre class="r"><code>bind_rows(df1, df2)</code></pre>
-<div data-pagedtable="false">
-<script data-pagedtable-source type="application/json">
-{"columns":[{"label":["x"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["y"],"name":[2],"type":["dbl"],"align":["right"]}],"data":[{"1":"1","2":"1"},{"1":"2","2":"1"},{"1":"1","2":"1"},{"1":"1","2":"2"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
-  </script>
-</div>
-</div>
-<div id="bind-columns" class="section level2" number="5.2">
-<h2 number="5.2"><span class="header-section-number">5.2</span> Bind Columns</h2>
-<pre class="r"><code>bind_cols(df1, df2)</code></pre>
-<pre><code>## New names:
-## * x -&gt; x...1
-## * y -&gt; y...2
-## * x -&gt; x...3
-## * y -&gt; y...4</code></pre>
-<div data-pagedtable="false">
-<script data-pagedtable-source type="application/json">
-{"columns":[{"label":["x...1"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["y...2"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["x...3"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["y...4"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"1","2":"1","3":"1","4":"1"},{"1":"2","2":"1","3":"1","4":"2"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
 </div>
