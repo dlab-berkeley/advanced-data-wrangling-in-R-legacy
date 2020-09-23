@@ -12,39 +12,313 @@ output:
     toc: yes
 ---
 
-**Challenge 1**
+This workshop is for students who already have some experience with `tidyr` and `dplyr` and `tidyr` and hope to upgrade their data wrangling skills in R.
+
+# Setup
+
+- `pacman` is a great package management tool in R (for more information, see [the package vignette](http://trinker.github.io/pacman/vignettes/Introduction_to_pacman.html)).
+
+- Check your `dplyr` package is up-to-date by typing `packageVersion("dplyr")`. If the current installed version is less than 1.0, then update by typing `update.packages("dplyr")`. You may need to restart R to make it work.
+
+```{r}
+
+ifelse(packageVersion("dplyr") > 1, "The installed version of dplyr package is greater than or equal to 1.0.0", update.packages("dplyr"))
+
+```
+
+```{r}
+
+# p_load loads and, if necessary, install missing packages. 
+# install.packages() + library() = p_load()
+# If you just want to install, then use p_install()
+
+if (!require("pacman")) install.packages("pacman")
+pacman::p_load(
+  tidyverse, # for the tidyverse framework
+  gapminder # toy data
+  )
+
+```
+
+
+# Subset Observations (Rows)
+
+## Choose row by logical condition 
+
+- Single condition 
 
 ```{r}
 
 starwars %>%
-  filter(between(height, 161, 179)) 
+  filter(gender == "feminine") %>%
+  arrange(desc(height))
+
+```
+
+The following filtering example was inspired by [the suzanbert's dplyr blog post](https://suzan.rbind.io/2018/02/dplyr-tutorial-3/).
+
+- Multiple conditions (numeric)
+
+```{r}
+
+# First example
+starwars %>%
+  filter(height < 180, height > 160) %>%
+  nrow() 
+
+```
+
+```{r}
+# Same as above
+starwars %>%
+  filter(height < 180 & height > 160) %>%
+  nrow()
+
+```
+
+```{r}
+# Not same as above
+starwars %>%
+  filter(height < 180 | height > 160) %>%
+  nrow()
+
+```
+
+**Challenge 1**
+
+1. (1) Use `filter(between())` to find characters whose heights are between 160 and 180 and (2) count the number of these observations.  
+
+- Minimum reproducible example 
+
+```{r}
+
+df <- tibble(
+  heights = c(160:180),
+  char = rep("none", length(c(160:180)))
+)
+
+df %>%
+  filter(heights >= 160 , heights <= 180) %>%
+  nrow() # 21 
+
+df %>%
+  filter(between(heights, 160, 180)) %>%
+  nrow() # 21
+
+```
+
+- Multiple conditions (character)
+
+```{r}
+
+# Filter names include ars; `grepl` is a base R function  
+
+starwars %>%
+  filter(grepl("ars", tolower(starwars$name)))
+
+# Or, if you prefer dplyr way 
+
+starwars %>%
+  filter(str_detect(tolower(name), "ars"))
+
+# Filter brown and black hair_color
+
+starwars %>%
+  filter(hair_color %in% c("black", "brown"))
 
 ```
 
 **Challenge 2**
 
+Use `str_detect()` to find characters whose names include "Han".
+
 ```{r}
 
 starwars %>%
   filter(str_detect(name, "Han"))
+  
+```
+
+## Choose row by position (row index)
+
+```{r}
+
+starwars %>%
+  arrange(desc(height)) %>%
+  slice(1:6)
 
 ```
 
-**Challenge 3**
+## Sample by fraction
+
+```{r}
+
+# For reproducibility 
+set.seed(1234)
+
+# Old way 
+
+starwars %>%
+  sample_frac(0.10, 
+              replace = FALSE) # Without replacement 
+
+```
+
+```{r}
+# New way
+
+starwars %>%
+  slice_sample(prop = 0.10, 
+             replace = FALSE)
+
+```
+
+## Sample by number 
+
+```{r}
+
+# Old way 
+
+starwars %>%
+  sample_n(20, 
+           replace = FALSE) # Without replacement 
+
+# New way
+
+starwars %>%
+  slice_sample(n = 20, 
+             replace = FALSE) # Without replacement 
+
+```
+
+## Top 10 rows orderd by height
+
+```{r}
+
+# Old way 
+starwars %>% 
+  top_n(10, height) 
+
+# New way
+starwars %>%
+  slice_max(height, n = 10) # Variable first, Argument second 
+
+```
+
+# Subset Variables (Columns)
+
+```{r}
+
+names(msleep)
+
+glimpse(msleep)
+
+```
+
+### Select only numeric columns 
 
 ```{r}
 
 # Only numeric 
 msleep %>%
-  select(!where(is.numeric))
+  select(where(is.numeric))
+
+```
+
+**Challenge 3** 
+
+Use `select(where())` to find only non-numeric columns 
+
+## Select the columns that include "sleep" in their names 
+ 
+```{r}
+
+msleep %>%
+  select(contains("sleep"))
+
+```
+
+## Select the columns that include either "sleep" or "wt" in thier names 
+
+- Basic R way 
+
+`grepl` is one of the R base pattern matching functions. 
+
+```{r}
+
+msleep[grepl('sleep|wt', names(msleep))]
+
+msleep %>%
+  select(matches("sleep|wt"))
 
 ```
 
 **Challenge 4**
 
+Use `select(match())` to find columns whose names include either "sleep" or "wt". 
+
+## Select the columns that starts with "b"
+
 ```{r}
 
 msleep %>%
-  select(matches("sleep|wt"))
+  select(starts_with("b"))
+
+```
+
+## Select the columns that ends with "wt"
+
+```{r}
+
+msleep %>%
+  select(ends_with("wt"))
+
+```
+
+## Select the columns using both beginning and end string patterns 
+
+The key idea is you can use Boolean operators (`!`, `&`, `|`)to combine different string pattern matching statements. 
+
+```{r}
+
+msleep %>%
+  select(starts_with("b") & ends_with("wt"))
+
+```
+
+## Select order and move it before everything 
+
+```{r}
+
+# By specifying a column 
+msleep %>%
+  select(order, everything())
+  
+```
+
+## Select variables from a character vector.
+
+```{r}
+
+msleep %>%
+  select(any_of(c("name", "order"))) %>%
+  colnames()
+
+```
+
+## Select the variables named in the character + number pattern
+
+```{r}
+
+msleep$week15 <- NA
+
+msleep$week8 <- NA
+
+msleep$week12 <- NA
+
+msleep$week_extra <- 0 
+
+msleep %>%
+  select(num_range("week", c(1:15)))
 
 ```
