@@ -170,6 +170,8 @@ A flat file (e.g., CSV) is a rectangular shaped combination of strings. [Parsing
 
 - Let's do another practice. 
 
+**Challenge 2**
+
 1. Why this data is not tidy? (This exercise comes from [`pivot` function vigenette](https://tidyr.tidyverse.org/articles/pivot.html).) Too long or too wide?
 
 ```{r}
@@ -248,8 +250,6 @@ table2 %>%
   )
 
 ```
-
-**Challenge 2**
 
 Sometimes, a consultee came to me and asked: "I don't have missing values in my original dataframe. Then R said that I have missing values after I've done some data transformations. What happened?" 
 
