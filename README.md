@@ -1,4 +1,3 @@
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/dlab-berkeley/advanced-data-wrangling-in-R/master?urlpath=rstudio)
 
 # Advanced Data Wrangling Workshop in R
 
@@ -29,7 +28,7 @@ I assume students have familiarity with the [`tidyverse`](https://www.tidyverse.
 
 ## Setup
 
-I strongly recommend to launch the binder above. Please do so before attending the worskshop as it takes a while (especially, if you do it for the first time).
+I strongly recommend to launch [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/dlab-berkeley/advanced-data-wrangling-in-R/master?urlpath=rstudio). Please do so before attending the worskshop as it takes a while (especially, if you do it for the first time).
 
 Or you can setup manually:
 
