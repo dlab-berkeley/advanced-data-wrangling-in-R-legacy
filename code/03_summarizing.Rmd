@@ -163,7 +163,7 @@ tablea %>% flextable::flextable()
 
 ```
 
-## Conditional
+## Scoped summaries
 
 ### Old way 
 

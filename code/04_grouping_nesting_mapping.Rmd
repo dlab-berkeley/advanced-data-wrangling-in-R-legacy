@@ -238,3 +238,4 @@ map(.x = df,
 
 Try `map_df(.x = df, .f = multiply)` and tell me what's the difference between the output you got and what you saw earlier. 
 
+If you want to know more about the power and joy of functional programming in R (e.g., `purrr::map()`), then please take ["How to Automate Repeated Things in R"](https://github.com/dlab-berkeley/R-functional-programming) workshop.
