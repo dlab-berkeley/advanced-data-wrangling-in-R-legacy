@@ -22,7 +22,9 @@ This workshop is for students who already have some experience with `tidyr` and 
 
 ```{r}
 
-ifelse(packageVersion("dplyr") > 1, "The installed version of dplyr package is greater than or equal to 1.0.0", update.packages("dplyr"))
+ifelse(packageVersion("dplyr") > 1, 
+       "The installed version of dplyr package is greater than or equal to 1.0.0",
+       update.packages("dplyr"))
 
 ```
 
@@ -86,7 +88,7 @@ starwars %>%
 
 **Challenge 1**
 
-1. (1) Use `filter(between())` to find characters whose heights are between 160 and 180 and (2) count the number of these observations.  
+1. (1) Use `filter(between())` to find characters whose heights are between 160 and 180 and (2) count the number of these observations. (Don't include 160 and 180)
 
 - Minimum reproducible example 
 
@@ -96,14 +98,6 @@ df <- tibble(
   heights = c(160:180),
   char = rep("none", length(c(160:180)))
 )
-
-df %>%
-  filter(heights >= 160 , heights <= 180) %>%
-  nrow() # 21 
-
-df %>%
-  filter(between(heights, 160, 180)) %>%
-  nrow() # 21
 
 ```
 
@@ -150,6 +144,8 @@ starwars %>%
 ```
 
 ## Sample by fraction
+
+- In dplyr 1.0.0, `sample_frac(),` `sample_n(),` `top_n()` -> `slice_()` 
 
 ```{r}
 
@@ -217,11 +213,20 @@ glimpse(msleep)
 
 ### Select only numeric columns 
 
+In dplyr 1.0.0., `select_all(),` `select_if(),` and `select_at()` -> `select(where())` and 
+
+`mutate_all(),` `mutate_if(),` and `mutate_at()` -> `mutate(across())`
+
 ```{r}
 
 # Only numeric 
 msleep %>%
   select(where(is.numeric))
+
+# Turn numeric into factor then select only factor 
+msleep %>%
+  mutate(across(is.numeric, as.factor)) %>%
+  select(where(is.factor))
 
 ```
 
@@ -319,6 +324,10 @@ msleep$week12 <- NA
 msleep$week_extra <- 0 
 
 msleep %>%
-  select(num_range("week", c(1:15)))
+  select(num_range("week", c(1:10)))
 
 ```
+
+- Change `c(1:10)` to `c(1:15)`. 
+
+- Can you tell the difference?

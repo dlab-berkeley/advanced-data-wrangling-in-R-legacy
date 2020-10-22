@@ -45,12 +45,18 @@ pacman::p_load(
 
 ## Choose row by logical condition 
 
-- Single condition 
+- Single condition
+
+```{r}
+
+starwars
+
+```
 
 ```{r}
 
 starwars %>%
-  filter(gender == "female") %>%
+  filter(gender == "feminine") %>%
   arrange(desc(height))
 
 ```
@@ -63,14 +69,20 @@ The following filtering example was inspired by [the suzanbert's dplyr blog post
 
 # First example
 starwars %>%
-  filter(height < 180, height > 160) %>%
+  filter(height <= 180, height > 160) %>%
   nrow()
+```
 
+
+```{r}
 # Same as above
 starwars %>%
   filter(height < 180 & height > 160) %>%
   nrow()
+```
 
+
+```{r}
 # Not same as above
 starwars %>%
   filter(height < 180 | height > 160) %>%
@@ -91,20 +103,27 @@ df <- tibble(
   char = rep("none", length(c(160:180)))
 )
 
-df %>%
-  filter(between(heights, 161, 179))
-
 ```
 
 - Multiple conditions (character)
 
 ```{r}
 
+starwars$name
+
+```
+
+
+```{r}
 # Filter names include ars; `grepl` is a base R function  
 
 starwars %>%
   filter(grepl("ars", tolower(name)))
 
+```
+
+
+```{r}
 # Or, if you prefer dplyr way 
 
 starwars %>%
@@ -121,6 +140,13 @@ starwars %>%
 
 Use `str_detect()` to find characters whose names include "Han".
 
+```{r}
+
+starwars %>%
+  filter(str_detect(name, "Han"))
+
+```
+
 ## Choose row by position (row index)
 
 ```{r}
@@ -133,16 +159,16 @@ starwars %>%
 
 ## Sample by fraction
 
+
 ```{r}
 
 # For reproducibility 
 set.seed(1234)
 
 # Old way 
-
 starwars %>%
   sample_frac(0.10, 
-              replace = FALSE) # Without replacement 
+              replace = FALSE) # Without replacement
 
 # New way
 
@@ -175,7 +201,7 @@ starwars %>%
 ```{r}
 
 # Old way 
-starwars %>% 
+starwars %>%
   top_n(10, height) 
 
 # New way
@@ -198,7 +224,7 @@ names(msleep)
 
 # Only numeric 
 msleep %>%
-  select(where(is.numeric))
+  select(where(is.numeric)) 
 
 ```
 
@@ -294,3 +320,4 @@ msleep %>%
   select(num_range("week", c(1:12)))
 
 ```
+

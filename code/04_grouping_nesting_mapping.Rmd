@@ -231,9 +231,8 @@ multiply <- function(x){
 df <- list(first_obs = rnorm(7, 1, sd =1),
            second_obs = rnorm(7, 2, sd = 2)) # normal distribution 
 
-map(.x = df, 
-    .f = multiply)
 ```
+
 **Challenge 2**
 
 Try `map_df(.x = df, .f = multiply)` and tell me what's the difference between the output you got and what you saw earlier. 

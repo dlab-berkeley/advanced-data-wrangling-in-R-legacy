@@ -16,16 +16,15 @@ This workshop is for students who already have some experience with `tidyr` and 
 
 # Setup
 
-- `pacman` is a great package management tool in R (for more information, see [the package vignette](http://trinker.github.io/pacman/vignettes/Introduction_to_pacman.html)).
+-   `pacman` is a great package management tool in R (for more information, see [the package vignette](http://trinker.github.io/pacman/vignettes/Introduction_to_pacman.html)).
 
-- Check your `dplyr` package is up-to-date by typing `packageVersion("dplyr")`. If the current installed version is less than 1.0, then update by typing `update.packages("dplyr")`. You may need to restart R to make it work.
+-   Check your `dplyr` package is up-to-date by typing `packageVersion("dplyr")`. If the current installed version is less than 1.0, then update by typing `update.packages("dplyr")`. You may need to restart R to make it work.
 
 ```{r}
 
 ifelse(packageVersion("dplyr") > 1, "The installed version of dplyr package is greater than or equal to 1.0.0", update.packages("dplyr"))
-
+  
 ```
-
 
 ```{r include = FALSE}
 
@@ -49,9 +48,9 @@ Many of the following examples draw on [R for Data Science](https://r4ds.had.co.
 
 > "Tidy data sets are easy to manipulate, model and visualize, and have a specific structure: each variable is a column, each observation is a row, and each type of observational unit is a table." - Hadley Wickham
 
-1. Variables -> **Columns**
-2. Observations -> **Rows**
-3. Values -> **Cells**
+1.  Variables -\> **Columns**
+2.  Observations -\> **Rows**
+3.  Values -\> **Cells**
 
 ![Tidy Data Example (Source: R for Data Science)](https://garrettgman.github.io/images/tidy-1.png)
 
@@ -59,10 +58,9 @@ A tidy data can be stored in a `data.frame` or [`tibble`](https://tibble.tidyver
 
 **Benefits**
 
-> "If your data is tidy, element-wise execution will ensure that observations are preserved across functions and operations. Each value will only be paired with other values that appear in the same row of the data frame." 
-- Garrett Grolemund and Hadley Wickham
+> "If your data is tidy, element-wise execution will ensure that observations are preserved across functions and operations. Each value will only be paired with other values that appear in the same row of the data frame." - Garrett Grolemund and Hadley Wickham
 
-- Nevertheless, don't be religious.
+-   Nevertheless, don't be religious.
 
 > In summary, tidy data is a useful conceptual idea and is often the right way to go for general, small data sets, but may not be appropriate for all problems. - Jeff Leek
 
@@ -82,12 +80,12 @@ table1
 
 Packages for importing data:
 
-1. Basic: `readr`
-2. SPSS, Stata, and SAS files: `haven`
-3. Database: `DBI`
-4. json: `jsonlite`
-5. Web APIs: `httr`
-6. HTML: `rvest`
+1.  Basic: `readr`
+2.  SPSS, Stata, and SAS files: `haven`
+3.  Database: `DBI`
+4.  json: `jsonlite`
+5.  Web APIs: `httr`
+6.  HTML: `rvest`
 
 # Reshape Data
 
@@ -104,25 +102,27 @@ Let's take a look at the cases of untidy data.
 table4a
 
 ```
-- Do you wonder what's `double`? In R, numeric data has three specific types: integer, single precision (only used when R calls C and Fortran routines), and double precision (64-bit floats).
 
-The following image and example show what a double precision floating point looks like. 
+-   Do you wonder what's `double`? In R, numeric data has three specific types: integer, single precision (only used when R calls C and Fortran routines), and double precision (64-bit floats).
 
-![](https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/IEEE_754_Double_Floating_Point_Format.svg/1236px-IEEE_754_Double_Floating_Point_Format.svg.png)
-0 01111111111 00000000000000000000000000000000000000000000000000002 ≙ 3FF0 0000 0000 000016 ≙ +20 × 1 = 1
+The following image and example show what a double precision floating point looks like.
 
-- Let's pivot (rotate by 90 degree).
+![](https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/IEEE_754_Double_Floating_Point_Format.svg/1236px-IEEE_754_Double_Floating_Point_Format.svg.png) 0 01111111111 00000000000000000000000000000000000000000000000000002 ≙ 3FF0 0000 0000 000016 ≙ +20 × 1 = 1
 
-- [`pivot_longer()`](https://tidyr.tidyverse.org/reference/pivot_longer.html) increases the number of rows (longer) and decreases the number of columns. The inverse function is `pivot_wider()`. These functions improve the usability of `gather()` and `spread()`.
+-   Let's pivot (rotate by 90 degree).
 
-![What pivot_longer() does (Source: https://www.storybench.org)](https://www.storybench.org/wp-content/uploads/2019/08/pivot-longer-image.png)
+-   [`pivot_longer()`](https://tidyr.tidyverse.org/reference/pivot_longer.html) increases the number of rows (longer) and decreases the number of columns. The inverse function is `pivot_wider()`. These functions improve the usability of `gather()` and `spread()`.
+
+![What pivot\_longer() does (Source: <https://www.storybench.org>)](https://www.storybench.org/wp-content/uploads/2019/08/pivot-longer-image.png)
 
 ```{r}
 
+table4a
+
 # Old way, less intuitive
 table4a %>%
-  gather(key = "cases", # Current column names
-         value = "year", # The values matched to cases
+  gather(key = "year", # Current column names
+         value = "cases", # The values matched to cases
          c("1999", "2000")) # Selected columns
 
 ```
@@ -130,19 +130,19 @@ table4a %>%
 ```{r}
 
 # New way, more intuitive
-table4a %>%
+reshaped <- table4a %>%
   pivot_longer(
-    cols = c("1999", "2000"), # Selected columns
+    cols = c("1999", "2000"), # Select columns
     names_to = "year", # Shorter columns (the columns going to be in one column called year)
     values_to = "cases") # Longer rows (the values are going to be in a separate column called named cases)
 
 ```
 
-- There's another problem, did you catch it?
+-   There's another problem, did you catch it?
 
-- The data type of `year` variable should be `numeric` not `character`. By default, `pivot_longer()` transforms uninformative columns to character.
+-   The data type of `year` variable should be `numeric` not `character`. By default, `pivot_longer()` transforms uninformative columns to character.
 
-- You can fix this problem by using `names_transform` argument.
+-   You can fix this problem by using `names_transform` argument.
 
 ```{r}
 
@@ -151,7 +151,7 @@ table4a %>%
     cols = c("1999", "2000"), # Put two columns together
     names_to = "year", # Shorter columns (the columns going to be in one column called year)
     values_to = "cases", # Longer rows (the values are going to be in a separate column called named cases)
-    names_transform = list(year = readr::parse_number)
+    names_transform = list(year = readr::parse_integer)
     ) # Transform the variable  
 
 ```
@@ -168,11 +168,11 @@ parse_number("reply1994")
 
 A flat file (e.g., CSV) is a rectangular shaped combination of strings. [Parsing](https://cran.r-project.org/web/packages/readr/vignettes/readr.html) determines the type of each column and turns into a vector of a more specific type. Tidyverse has `parse_` functions (from `readr` package) that are flexible and fast (e.g., `parse_integer()`, `parse_double()`, `parse_logical()`, `parse_datetime()`, `parse_date()`, `parse_time()`, `parse_factor()`, etc).
 
-- Let's do another practice. 
+-   Let's do another practice.
 
 **Challenge 2**
 
-1. Why this data is not tidy? (This exercise comes from [`pivot` function vigenette](https://tidyr.tidyverse.org/articles/pivot.html).) Too long or too wide?
+1.  Why this data is not tidy? (This exercise comes from [`pivot` function vigenette](https://tidyr.tidyverse.org/articles/pivot.html).) Too long or too wide?
 
 ```{r}
 
@@ -180,7 +180,7 @@ billboard
 
 ```
 
-2. How can you fix it? Which pivot?
+2.  How can you fix it? Which pivot?
 
 ```{r}
 
@@ -190,10 +190,10 @@ billboard %>%
          value = "rank",
          starts_with("wk")) %>% # Use regular expressions
   drop_na() # Drop NAs
-
+  
 ```
 
-- Note that `pivot_longer()` is more versatile than `gather()`.
+-   Note that `pivot_longer()` is more versatile than `gather()`.
 
 ```{r}
 
@@ -206,42 +206,47 @@ billboard %>%
     values_drop_na = TRUE # Drop NAs
   )
 
+?pivot_longer
+
 ```
 
 ## Make It Wider
 
-- Why this data is not tidy? 
+-   Why this data is not tidy?
 
 ```{r}
+
 table2
+
 ```
 
-- Each observation is spread across two rows.
+-   Each observation is spread across two rows.
 
-- How can you fix it?: `pivot_wider()`.
+-   How can you fix it?: `pivot_wider()`.
 
 **Two differences between `pivot_longer()` and `pivot_wider()`**
 
-- In `pivot_longer()`, the arguments are named `names_to` and `values_to` (*to*). 
+-   In `pivot_longer()`, the arguments are named `names_to` and `values_to` (*to*).
 
-- In `pivot_wider()`, this pattern is opposite. The arguments are named `names_from` and `values_from` (*from*).
+-   In `pivot_wider()`, this pattern is opposite. The arguments are named `names_from` and `values_from` (*from*).
 
-- The number of required arguments for `pivot_longer()` is 3 (col, names_to, values_to). 
+-   The number of required arguments for `pivot_longer()` is 3 (col, names\_to, values\_to).
 
-- The number of required arguments for `pivot_wider()` is 2 (names_from, values_from).
+-   The number of required arguments for `pivot_wider()` is 2 (names\_from, values\_from).
 
-![What pivot_wider() does (Source: https://www.storybench.org)](https://www.storybench.org/wp-content/uploads/2019/08/pivot-wider-image.png)
+![What pivot\_wider() does (Source: <https://www.storybench.org>)](https://www.storybench.org/wp-content/uploads/2019/08/pivot-wider-image.png)
 
 ```{r}
 
 # Old way
 table2 %>%
-  spread(key = type,
+  spread(key = type, 
          value = count)
 
 ```
 
 ```{r}
+
 # New way
 table2 %>%
   pivot_wider(
@@ -251,22 +256,21 @@ table2 %>%
 
 ```
 
-Sometimes, a consultee came to me and asked: "I don't have missing values in my original dataframe. Then R said that I have missing values after I've done some data transformations. What happened?" 
+Sometimes, a consultee came to me and asked: "I don't have missing values in my original dataframe. Then R said that I have missing values after I've done some data transformations. What happened?"
 
-Here's an answer. 
+Here's an answer.
 
 R defines missing values in two ways.
 
-- *Implicit missing values*: simply not present in the data.
+-   *Implicit missing values*: simply not present in the data.
 
-- *Explicit missing values*: flagged with NA
+-   *Explicit missing values*: flagged with NA
 
 **Challenge 3**
 
 The example comes from [*R for Data Science*](https://r4ds.had.co.nz/tidy-data.html).
 
 ```{r}
-
 
 stocks <- tibble(
   year = c(2019, 2019, 2019, 2020, 2020, 2020),
@@ -278,32 +282,47 @@ stocks
 
 ```
 
-- Where is explicit missing value?
+-   Where is explicit missing value?
 
-- Does `stocks` have implicit missing values?
+-   Does `stocks` have implicit missing values?
 
 ```{r}
+
 # implicit missing values become explicit 
 stocks %>%
   pivot_wider(names_from = year, 
               values_from = return)
+
 ```
 
 **Challenge 4**
 
-- This exercise comes from [`pivot` function vigenette](https://tidyr.tidyverse.org/articles/pivot.html).
+-   This exercise comes from [`pivot` function vigenette](https://tidyr.tidyverse.org/articles/pivot.html).
 
-- Could you make `station` a series of dummy variables using `pivot_wider()`?
+-   Could you make `station` a series of dummy variables using `pivot_wider()`?
 
 ```{r}
+
 fish_encounters
+
 ```
 
-1. Which pivot you should use?
+1.  Which pivot you should use?
 
-2. Are there explicit missing values? 
+```{r}
 
-3. How could you turn these NAs into 0s? Check `values_fill` argument in the `pivot_wider()` function. 
+fish_encounters %>%
+  pivot_wider(
+    names_from = station, 
+    values_from = seen, 
+    values_fill = list(seen = 0)
+  )
+
+```
+
+2.  Are there explicit missing values?
+
+3.  How could you turn these NAs into 0s? Check `values_fill` argument in the `pivot_wider()` function.
 
 ## Separate
 
@@ -312,9 +331,8 @@ fish_encounters
 ```{r}
 
 # Toy example
-df <- data.frame(x = c(NA, "Dad.apple", "Mom.orange", "Daughter.banana"))
-
-df
+df <- data.frame(
+  x = c(NA, "Dad.apple", "Mom.orange", "Daughter.banana"))
 
 ```
 
@@ -322,8 +340,12 @@ df
 
 # Separate
 df %>%
-  separate(x, into = c("Name", "Preferred_fruit"))
+  separate(x, 
+           into = c("Name", "Preferred_fruit"))
 
+```
+
+```{r}
 # Don't need the first variable
 
 df %>%
@@ -333,57 +355,67 @@ df %>%
 **Practice**
 
 ```{r}
+
 table3
+
 ```
 
-- Note `sep` argument. You can specify how to separate joined values.
+-   Note `sep` argument. You can specify how to separate joined values.
 
 ```{r}
 table3 %>%
-  separate(rate,
+  separate(rate, # define the column 
            into = c("cases", "population"),
            sep = "/")
+
 ```
 
-- Note `convert` argument. You can specify whether automatically convert the new values or not.
+-   Note `convert` argument. You can specify whether automatically convert the new values or not.
 
 ```{r}
+
 table3 %>%
   separate(rate,
            into = c("cases", "population"),
            sep = "/",
            convert = TRUE) # cases and population become integers
+
 ```
 
 ## Unite
 
-`pivot_longer()` <-> `pivot_wider()`
+`pivot_longer()` \<-\> `pivot_wider()`
 
-`separate()` <-> `unite()`
+`separate()` \<-\> `unite()`
 
 ```{r}
-
 # Create a toy example
 df <- data.frame(
   name = c("Jae", "Sun", "Jane", NA),
   birthmonth = c("April", "April", "June", NA))
 
+```
+
+
+```{r}
 # Include missing values
 df %>% unite("contact",
-             c("name", "birthmonth"))
+             c("name", "birthmonth")) # unite these two columns 
+```
 
+
+```{r}
 # Do not include missing values
 df %>% unite("contact",
              c("name", "birthmonth"),
              na.rm = TRUE)
-
 ```
 
 # Represent Data
 
 ## Arrange
 
-- Order rows
+-   Order rows
 
 ```{r}
 
@@ -395,7 +427,7 @@ dplyr::arrange(mtcars, desc(mpg)) # High to Row
 
 ## Rename
 
-- Rename columns
+-   Rename columns
 
 ```{r}
 
@@ -403,7 +435,7 @@ df <- tibble(y = c(2011, 2012, 2013))
 
 df
 
-df %>% rename(Year = # OLD name
-                y) # NEW name
+df %>% rename(Year = # NEW name
+                y) # OLD name
 
 ```

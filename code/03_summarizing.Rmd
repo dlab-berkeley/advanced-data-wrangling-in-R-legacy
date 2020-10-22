@@ -71,11 +71,13 @@ gapminder %>%
 ```
 
 **Challenge 1**
+
 Count the number of observations per `continent` as well as `year` and arrange them with descending order. 
 
 Let's take a deeper look at how things work under the hood.
 
 - `tally()` works similar to `nrow()`: Calculate the total number of cases in a dataframe 
+
 - `count` = `group_by()` + `tally()`
 
 ```{r}
@@ -220,6 +222,9 @@ wide_gapminder %>%
 wide_gapminder %>%
   summarise(across(Albania:`United Kingdom`, mean, na.rm = TRUE))
 
+wide_gapminder %>%
+  summarise(across(-c(1:4), mean, na.rm = TRUE))
+
 ```
 - `summarise_if()`
 
@@ -241,6 +246,9 @@ wide_gapminder %>%
 wide_gapminder %>%
   summarise(across(contains("life"), 
                mean, na.rm = TRUE))
+
+wide_gapminder %>%
+  summarise(across(contains("A", ignore.case = FALSE)))
 
 ```
 Note that this workshop does not cover creating and manipulating variables using `mutate()` because many techniques you learned from playing with `summarise()` can be directly applied to `mutate()`. 
