@@ -108,13 +108,6 @@ df <- tibble(
 - Multiple conditions (character)
 
 ```{r}
-
-starwars$name
-
-```
-
-
-```{r}
 # Filter names include ars; `grepl` is a base R function  
 
 starwars %>%
