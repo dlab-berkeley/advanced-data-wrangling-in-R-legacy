@@ -254,15 +254,15 @@ table2 %>%
 
 ```
 
-Sometimes, a consultee came to me and asked: "I don't have missing values in my original dataframe. Then R said that I have missing values after I've done some data transformations. What happened?"
+People often ask: "I don't any missing values in my original dataframe, but R says I have missing values after I've done some data transformations. What's happening?"
 
 Here's an answer.
 
 R defines missing values in two ways.
 
--   *Implicit missing values*: simply not present in the data.
+- Implicit missing values: simply not present in the data.
 
--   *Explicit missing values*: flagged with NA
+- Explicit missing values: flagged with NA
 
 **Challenge 3**
 
