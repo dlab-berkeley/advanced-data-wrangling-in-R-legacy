@@ -12,7 +12,7 @@ output:
     toc: yes
 ---
 
-This workshop is for students who already have some experience with `tidyr` and `dplyr` and `tidyr` and hope to upgrade their data wrangling skills in R.
+This workshop is for students who already have some experience with tidy workflows in R, who are familiar with tidyverse packages like dplyr and tidyr and hope to upgrade their data wrangling skills.
 
 # Setup
 
