@@ -1,8 +1,6 @@
 
 # Advanced Data Wrangling Workshop in R
 
-by [Jae Yeon Kim](https://jaeyk.github.io/)
-
 File an [issue](https://github.com/dlab-berkeley/advanced-data-wrangling-in-R/issues) if you have problems, questions or suggestions.
 
 ## Overview
@@ -24,11 +22,11 @@ The Advanced Data Wrangling Workshop aims to help students to learn powerful too
 
 ## Prerequisites 
 
-I assume students have familiarity with the [`tidyverse`](https://www.tidyverse.org/) packages. 
+We assume students have familiarity with the [`tidyverse`](https://www.tidyverse.org/) packages. 
 
 ## Setup
 
-I strongly recommend to launch [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/dlab-berkeley/advanced-data-wrangling-in-R/master?urlpath=rstudio). Please do so before attending the worskshop as it takes a while (especially, if you do it for the first time).
+We strongly recommend to launch [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/dlab-berkeley/advanced-data-wrangling-in-R/master?urlpath=rstudio). Please do so before attending the worskshop as it takes a while (especially, if you do it for the first time).
 
 Or you can setup manually:
 
@@ -43,5 +41,7 @@ ifelse(packageVersion("dplyr") > 1,
   )
 
 ```
+
+Original work by [Jae Yeon Kim](https://jaeyk.github.io/) and remixed for the D-Lab
 
 ![](https://i.creativecommons.org/l/by/4.0/88x31.png) This work is licensed under a [Creative Commons Attribution 4.0 International License](https://creativecommons.org/licenses/by/4.0/).
