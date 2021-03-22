@@ -1,6 +1,6 @@
 ---
 title: 'Summarizing'
-author: "Jae Yeon Kim"
+author: "D-Lab"
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 output:
   html_document:
