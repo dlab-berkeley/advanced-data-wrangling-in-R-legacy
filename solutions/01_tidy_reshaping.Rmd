@@ -104,7 +104,6 @@ Let's take a look at the cases of untidy data.
 table4a
 
 ```
-- Do you wonder what's `double`? In R, numeric data has three specific types: integer, single precision (only used when R calls C and Fortran routines), and double precision (64-bit floats).
 
 The following image and example show what a double precision floating point looks like. 
 

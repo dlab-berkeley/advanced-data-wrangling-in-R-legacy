@@ -103,12 +103,6 @@ table4a
 
 ```
 
--   Do you wonder what's `double`? In R, numeric data has three specific types: integer, single precision (only used when R calls C and Fortran routines), and double precision (64-bit floats).
-
-The following image and example show what a double precision floating point looks like.
-
-![](https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/IEEE_754_Double_Floating_Point_Format.svg/1236px-IEEE_754_Double_Floating_Point_Format.svg.png) 0 01111111111 00000000000000000000000000000000000000000000000000002 ≙ 3FF0 0000 0000 000016 ≙ +20 × 1 = 1
-
 -   Let's pivot (rotate by 90 degree).
 
 -   [`pivot_longer()`](https://tidyr.tidyverse.org/reference/pivot_longer.html) increases the number of rows (longer) and decreases the number of columns. The inverse function is `pivot_wider()`. These functions improve the usability of `gather()` and `spread()`.
