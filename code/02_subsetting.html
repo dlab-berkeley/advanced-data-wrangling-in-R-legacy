@@ -325,9 +325,9 @@ starwars %&gt;%
 <pre><code>## [1] 29</code></pre>
 <pre class="r"><code># Same as above
 starwars %&gt;%
-  filter(height &lt; 180 &amp; height &gt; 160) %&gt;%
+  filter(height &lt;= 180 &amp; height &gt; 160) %&gt;%
   nrow()</code></pre>
-<pre><code>## [1] 24</code></pre>
+<pre><code>## [1] 29</code></pre>
 <pre class="r"><code># Not same as above
 starwars %&gt;%
   filter(height &lt; 180 | height &gt; 160) %&gt;%
@@ -339,13 +339,6 @@ starwars %&gt;%
 <li>Use <code>filter(between())</code> to find characters whose heights are between 180 and 160 and (2) count the number of these observations.</li>
 </ol></li>
 </ol>
-<ul>
-<li>Minimum reproducible example</li>
-</ul>
-<pre class="r"><code>df &lt;- tibble(
-  heights = c(160:180),
-  char = rep(&quot;none&quot;, length(c(160:180)))
-)</code></pre>
 <ul>
 <li>Multiple conditions (character)</li>
 </ul>

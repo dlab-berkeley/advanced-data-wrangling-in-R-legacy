@@ -77,7 +77,7 @@ starwars %>%
 ```{r}
 # Same as above
 starwars %>%
-  filter(height < 180 & height > 160) %>%
+  filter(height <= 180 & height > 160) %>%
   nrow()
 ```
 
@@ -93,17 +93,6 @@ starwars %>%
 **Challenge 1**
 
 1. (1) Use `filter(between())` to find characters whose heights are between 180 and 160 and (2) count the number of these observations.  
-
-- Minimum reproducible example 
-
-```{r}
-
-df <- tibble(
-  heights = c(160:180),
-  char = rep("none", length(c(160:180)))
-)
-
-```
 
 - Multiple conditions (character)
 
