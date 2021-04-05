@@ -1,0 +1,21 @@
+---
+title: "02_subsetting_notes"
+author: "Alex Stephenson"
+date: "4/5/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# The Palmer Penguins Dataset 
+
+The Palmer Penguins dataset contains size measurements for three penguin species observed on three islands in the Palmer Archipelago in Antarctica. We picked this dataset because penguins are cute, and because it provides a curated subset of raw data, which is also in the `palmerpenguins` package. 
+
+All of the tips and tricks in this workshop are applicable to other datasets. 
+
+# Subset Observations by Row 
+
+## Choose row by Logical condition 
+
