@@ -43,15 +43,15 @@ pacman::p_load(
 
 # Subset Observations (Rows)
 
-## Choose row by logical condition 
-
-- Single condition
-
 ```{r}
 
 penguins <- palmerpenguins::penguins
 penguins
 ```
+
+## Choose row by logical condition 
+
+- Single condition
 
 ```{r}
 
