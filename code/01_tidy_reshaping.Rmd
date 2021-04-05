@@ -68,8 +68,9 @@ For instance, in many data science applications, linear algebra-based computatio
 This is what a tidy data looks like. 
 
 ```{r}
-# This dataset is bundled with the tidyr package. When we load the tidyverse, we load lots of packages including tidyr
-# tidyr::table1
+# This dataset is bundled with the tidyr package. 
+#When we load the tidyverse, we load lots of packages 
+#including tidyr
 tidyr::table1
 
 ```
