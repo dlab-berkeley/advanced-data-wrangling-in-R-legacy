@@ -35,7 +35,6 @@ ifelse(packageVersion("dplyr") > 1, "The installed version of dplyr package is g
 if (!require("pacman")) install.packages("pacman")
 pacman::p_load(
   tidyverse, # for the tidyverse framework
-  here # for computational reproducibility
   )
 
 ```
@@ -117,7 +116,7 @@ table4a
 ```{r}
 
 # New way, more intuitive
-reshaped <- table4a %>%
+table4a %>%
   pivot_longer(
     cols = c("1999", "2000"), # Select columns
     names_to = "year", # Shorter columns (the columns going to be in one column called year)
@@ -207,17 +206,6 @@ table2
 ![What pivot\_wider() does (Source: <https://www.storybench.org>)](https://www.storybench.org/wp-content/uploads/2019/08/pivot-wider-image.png)
 
 ```{r}
-
-# Old way
-table2 %>%
-  spread(key = type, 
-         value = count)
-
-```
-
-```{r}
-
-# New way
 table2 %>%
   pivot_wider(
     names_from = type, # first
@@ -299,7 +287,7 @@ fish_encounters %>%
 ```{r}
 
 # Toy example
-df <- data.frame(
+df <- tibble(
   x = c(NA, "Dad.apple", "Mom.orange", "Daughter.banana"))
 
 ```
@@ -358,24 +346,26 @@ table3 %>%
 
 ```{r}
 # Create a toy example
-df <- data.frame(
-  name = c("Jae", "Sun", "Jane", NA),
-  birthmonth = c("April", "April", "June", NA))
+df <- tibble(
+  first_name = c("Jae", "Sun", "Jane", NA),
+  last_name = c("April", "April", "June", NA))
 
 ```
 
 
 ```{r}
 # Include missing values
-df %>% unite("contact",
-             c("name", "birthmonth")) # unite these two columns 
+df %>% unite(col = "full_name",
+             c("first_name", "last_name"), # unite these two columns 
+             sep = " ") # add a space 
 ```
 
 
 ```{r}
 # Do not include missing values
-df %>% unite("contact",
-             c("name", "birthmonth"),
+df %>% unite(col = "full_name",
+             c("first_name", "last_name"), # unite these two columns 
+             sep = " ",
              na.rm = TRUE)
 ```
 
@@ -386,10 +376,11 @@ df %>% unite("contact",
 -   Order rows
 
 ```{r}
+mtcars %>% 
+  arrange(mpg) # Low to High (default)
 
-dplyr::arrange(mtcars, mpg) # Low to High (default)
-
-dplyr::arrange(mtcars, desc(mpg)) # High to Row
+mtcars %>% 
+  arrange(desc(mpg)) # High to Row
 
 ```
 

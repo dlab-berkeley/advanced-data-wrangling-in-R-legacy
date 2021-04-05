@@ -9,7 +9,7 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-The following are some suggested notes and descriptions to cover while presenting this workshop. 
+The following are some suggested notes and descriptions to cover while presenting this workshop. It is not a full script by choice. 
 
 ## Initial opening 
 
@@ -35,4 +35,40 @@ Here is an example of what tidy data looks like. When I use a dataset in this wo
 
 I'm making explicit in this call with the :: that table1 is a call from the tidyr package. Sometimes when writing code, it is useful to be explict about where methods come from, and this is how we do it in R. 
 
-For the purpose of this workshop, we will draw on data packages, bundled data, or data frames that we manually create. However, it's useful to know 
+For the purpose of this workshop, we will draw on data packages, bundled data, or data frames that we manually create. However, it's useful to know how to read in data on your own. We won't cover these packages in this workshop, but it's worth knowing that the tidyverse installs a number of packages for reading data. 
+
+- readr provides many functions for tabular data such as csv files or tab files. 
+- haven is the goto package for reading SPSS, stata, and SAS files. 
+- DBI is a package that provides function for linking to databases, such as a SQLite database. 
+- jsonlite is the goto package for reading json data, which is often useful when working with data on the internet. 
+- httr provides a common framework for connecting to web apis 
+- rvest is a great package for parsing html files. 
+
+## Reshape Data 
+
+The tidyverse is great because it is mature, which means that it is well-tested and has a consistent way of coding solutions. It's also great because the tidyverse is in active development, so if developers come up with a better way of doing something, then they will change to make it so. When this is done, it can change the best way to do something. Throughout this workshop, we might mention an "old" way so that if you are looking at someone's code or reading an older blogpost/stack overflow post, you can understand the point of that code. Nonetheless, it is our strong recommendation to use the latest functions. 
+
+Here in this example, the old way of doing this action would be by using a function called gather(). The new function has different syntax, but does the same procedure. 
+
+`pivot_longer()` makes datasets longer by increasing the number of rows and decreasing the number of columns. 
+
+
+`pivot_wider()` increases the number of columns and decreases the number of rows, which makes the data wider. It is the inverse of `pivot_longer()`. 
+
+## Separate 
+
+We often have datasets that stuff multiple values into a singular cell. That's a violation of tidy data, and also often makes our analysis harder. Consider this toy example. Note that Dad, Mom, and Daughter are different types of people, not types of fruit. 
+
+`separate()` is the tidyverse function to take a single character column and turn it into multiple columns. 
+
+## Unite 
+
+Like `pivot_longer()` and `pivot_wider()`, `unite()` functions as the inverse of `separate()`. It tends to be useful when data that you want as a singular variable comes in multiple variables. As an example, sometimes a dataset will split a name up into first and last name. We might prefer to just have a single variable for name. This toy dataset provides an example. 
+
+# Represent Data 
+
+The last two major function we are going to cover surround representing our data. 
+
+## Arrange 
+
+Datasets often come in ways that are difficult to extract information at a glance. For example, the built in dataset mtcars has data on a variety of different cars. If we were deciding to buy a car, we might be interested in looking at cars by miles per gallon. `arrange()`, which comes from the dplyr package, provides a way to order rows by a column. 
