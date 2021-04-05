@@ -56,7 +56,7 @@ starwars
 ```{r}
 
 starwars %>%
-  filter(gender == "feminine") %>%
+  filter(eye_color == "yellow") %>%
   arrange(desc(height))
 
 ```

@@ -1,0 +1,38 @@
+---
+title: "01_tidy_reshaping_notes"
+author: "Alex Stephenson"
+date: "4/5/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+The following are some suggested notes and descriptions to cover while presenting this workshop. 
+
+## Initial opening 
+
+This workshop is for students who already have some experience with tidy workflows in R, who are familiar with tidyverse packages like dplyr and tidyr and hope to upgrade their data wrangling skills. 
+
+## Setup 
+
+Please make sure that you have installed all the packages that are listed in the workshop materials. We will make use of all of them. At various times throughout the workshop, I may highlight where some specific functions or datasets come from. 
+
+It is extremely important that your dplyr installation is at least version 1.0. If the current installed version is less than 1.0, make sure to update your package. You may need to restart R to fully install. 
+
+## Tidy Data 
+
+As you may have noticed, the primary package that we loaded is `tidyverse`. The tidyverse is a collection of packages that play nicely with one another. A key component in these packages is that they work best with "tidy" data. 
+
+Tidy data are [refer to definition on main slides] 
+
+Tidy data is composed of three parts. First, each column is a separate variable. Second, each observation is a row. Third, each value is in a separate cell. 
+
+Tidy data is useful for a large class of problems, and is a common default when performing data wrangling and analysis projects. That does not mean that tidy data is the only way to do analysis [refer to Leek quote]. 
+
+Here is an example of what tidy data looks like. When I use a dataset in this workshop that is named table + a number or a number/letter combination, that data comes bundled with the tidyr package. We loaded tidyr when we loaded the tidyverse. 
+
+I'm making explicit in this call with the :: that table1 is a call from the tidyr package. Sometimes when writing code, it is useful to be explict about where methods come from, and this is how we do it in R. 
+
+For the purpose of this workshop, we will draw on data packages, bundled data, or data frames that we manually create. However, it's useful to know 

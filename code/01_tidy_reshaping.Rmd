@@ -66,13 +66,12 @@ A tidy data can be stored in a `data.frame` or [`tibble`](https://tibble.tidyver
 
 For instance, in many data science applications, linear algebra-based computations are essential (e.g., [Principal Component Analysis](https://www.math.upenn.edu/~kazdan/312S13/JJ/PCA-JJ.pdf)). These computations are optimized to work on matrices, not tidy data frames (for more information, read [Jeff Leek's blog post](https://simplystatistics.org/2016/02/17/non-tidy-data/)).
 
-This is what a tidy data looks like.
+This is what a tidy data looks like. 
 
 ```{r}
-
-library(tidyverse)
-
-table1
+# This dataset is bundled with the tidyr package. When we load the tidyverse, we load lots of packages including tidyr
+# tidyr::table1
+tidyr::table1
 
 ```
 
@@ -112,12 +111,6 @@ table4a
 ```{r}
 
 table4a
-
-# Old way, less intuitive
-table4a %>%
-  gather(key = "year", # Current column names
-         value = "cases", # The values matched to cases
-         c("1999", "2000")) # Selected columns
 
 ```
 
@@ -169,7 +162,7 @@ A flat file (e.g., CSV) is a rectangular shaped combination of strings. [Parsing
 1.  Why this data is not tidy? (This exercise comes from [`pivot` function vigenette](https://tidyr.tidyverse.org/articles/pivot.html).) Too long or too wide?
 
 ```{r}
-
+## billboard is a dataset bundled with the tidyr package 
 billboard
 
 ```
@@ -177,21 +170,6 @@ billboard
 2.  How can you fix it? Which pivot?
 
 ```{r}
-
-# Old way
-billboard %>%
-  gather(key = "week",
-         value = "rank",
-         starts_with("wk")) %>% # Use regular expressions
-  drop_na() # Drop NAs
-  
-```
-
--   Note that `pivot_longer()` is more versatile than `gather()`.
-
-```{r}
-
-# New way
 billboard %>%
   pivot_longer(
     cols = starts_with("wk"), # Use regular expressions
