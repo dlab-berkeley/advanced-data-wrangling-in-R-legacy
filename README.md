@@ -42,6 +42,6 @@ ifelse(packageVersion("dplyr") > 1,
 
 ```
 
-Original work by [Jae Yeon Kim](https://jaeyk.github.io/) and remixed for the D-Lab by @asteves.
+Original work by [Jae Yeon Kim](https://jaeyk.github.io/) and remixed for the D-Lab by [Alex Stephenson](https://www.alexstephenson.me/).
 
 ![](https://i.creativecommons.org/l/by/4.0/88x31.png) This work is licensed under a [Creative Commons Attribution 4.0 International License](https://creativecommons.org/licenses/by/4.0/).
