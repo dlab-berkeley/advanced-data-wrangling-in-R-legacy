@@ -26,7 +26,7 @@ ifelse(packageVersion("dplyr") > 1, "The installed version of dplyr package is g
   
 ```
 
-```{r include = FALSE}
+```{r}
 
 # p_load loads and, if necessary, install missing packages.
 # install.packages() + library() = p_load()
@@ -35,6 +35,12 @@ ifelse(packageVersion("dplyr") > 1, "The installed version of dplyr package is g
 if (!require("pacman")) install.packages("pacman")
 pacman::p_load(
   tidyverse, # for the tidyverse framework
+  palmerpenguins,
+  gapminder, 
+  kableExtra, 
+  flextable,
+  modelr,
+  nycflights13 
   )
 
 ```
