@@ -39,6 +39,23 @@ ifelse(packageVersion("dplyr") > 1,
   print("The installed version of dplyr package is greater than or equal to 1.0.0"), 
   update.packages("dplyr")
   )
+ ```
+All packages for this workshop can be installed with the following code.
+
+```{r} 
+# p_load loads and, if necessary, install missing packages.
+# install.packages() + library() = p_load()
+# If you just want to install, then use p_install()
+if (!require("pacman")) install.packages("pacman")
+pacman::p_load(
+  tidyverse, # for the tidyverse framework
+  palmerpenguins,
+  gapminder, 
+  kableExtra, 
+  flextable,
+  modelr,
+  nycflights13 
+  )
 
 ```
 
