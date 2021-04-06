@@ -35,7 +35,7 @@ ifelse(packageVersion("dplyr") > 1, "The installed version of dplyr package is g
 if (!require("pacman")) install.packages("pacman")
 pacman::p_load(
   tidyverse, # for the tidyverse framework
-  gapminder # toy data
+  palmerpenguins# toy data
   )
 
 ```
@@ -43,21 +43,21 @@ pacman::p_load(
 
 # Subset Observations (Rows)
 
+```{r}
+
+penguins <- palmerpenguins::penguins
+penguins
+```
+
 ## Choose row by logical condition 
 
 - Single condition
 
 ```{r}
 
-starwars
-
-```
-
-```{r}
-
-starwars %>%
-  filter(gender == "feminine") %>%
-  arrange(desc(height))
+penguins %>%
+  filter(species == "Adelie") %>%
+  arrange(desc(bill_length_mm))
 
 ```
 
@@ -68,39 +68,39 @@ The following filtering example was inspired by [the suzanbert's dplyr blog post
 ```{r}
 
 # First example
-starwars %>%
-  filter(height <= 180, height > 160) %>%
+penguins %>%
+  filter(bill_length_mm <= 42, bill_length_mm > 35) %>%
   nrow()
 ```
 
 
 ```{r}
 # Same as above
-starwars %>%
-  filter(height <= 180 & height > 160) %>%
+penguins %>%
+  filter(bill_length_mm <= 42 & bill_length_mm > 35) %>%
   nrow()
 ```
 
 
 ```{r}
 # Not same as above
-starwars %>%
-  filter(height < 180 | height > 160) %>%
+penguins %>%
+  filter(bill_length_mm < 42 | bill_length_mm > 35) %>%
   nrow()
 
 ```
 
 **Challenge 1**
 
-1. (1) Use `filter(between())` to find characters whose heights are between 180 and 160 and (2) count the number of these observations.  
+1. (1) Use `filter(between())` to find characters whose heights are between 35.1 and 42.2 and (2) count the number of these observations.
 
 - Multiple conditions (character)
 
 ```{r}
 # Filter names include ars; `grepl` is a base R function  
 
-starwars %>%
-  filter(grepl("ars", tolower(name)))
+penguins %>%
+  filter(grepl("ent", tolower(species)))
 
 ```
 
@@ -108,24 +108,24 @@ starwars %>%
 ```{r}
 # Or, if you prefer dplyr way 
 
-starwars %>%
-  filter(str_detect(tolower(name), "ars"))
+penguins %>%
+  filter(str_detect(tolower(species), "ent"))
 
 # Filter brown and black hair_color
 
-starwars %>%
-  filter(hair_color %in% c("black", "brown"))
+penguins %>%
+  filter(island %in% c("Biscoe", "Dream"))
 
 ```
 
 **Challenge 2**
 
-Use `str_detect()` to find characters whose names include "Han".
+Use `str_detect()` to find all the penguins whose species includes "Chin"
 
 ```{r}
 
-starwars %>%
-  filter(str_detect(name, "Han"))
+penguins %>%
+  filter(str_detect(species, "Chin"))
 
 ```
 
@@ -133,8 +133,8 @@ starwars %>%
 
 ```{r}
 
-starwars %>%
-  arrange(desc(height)) %>%
+penguins %>%
+  arrange(desc(bill_length_mm)) %>%
   slice(1:6)
 
 ```
@@ -148,13 +148,13 @@ starwars %>%
 set.seed(1234)
 
 # Old way 
-starwars %>%
+penguins %>%
   sample_frac(0.10, 
               replace = FALSE) # Without replacement
 
 # New way
-
-starwars %>%
+set.seed(1234)
+penguins %>%
   slice_sample(prop = 0.10, 
              replace = FALSE)
 
@@ -165,14 +165,14 @@ starwars %>%
 ```{r}
 
 # Old way 
-
-starwars %>%
+set.seed(1234)
+penguins %>%
   sample_n(20, 
            replace = FALSE) # Without replacement 
 
 # New way
-
-starwars %>%
+set.seed(1234)
+penguins %>%
   slice_sample(n = 20, 
              replace = FALSE) # Without replacement 
 
@@ -181,14 +181,13 @@ starwars %>%
 ## Top 10 rows orderd by height
 
 ```{r}
-
 # Old way 
-starwars %>%
-  top_n(10, height) 
+penguins %>%
+  top_n(10, bill_length_mm) 
 
 # New way
-starwars %>%
-  slice_max(height, n = 10) # Variable first, Argument second 
+penguins %>%
+  slice_max(bill_length_mm, n = 10) # Variable first, Argument second 
 
 ```
 
@@ -196,7 +195,7 @@ starwars %>%
 
 ```{r}
 
-names(msleep)
+names(penguins)
 
 ```
 
@@ -205,7 +204,7 @@ names(msleep)
 ```{r}
 
 # Only numeric 
-msleep %>%
+penguins %>%
   select(where(is.numeric)) 
 
 ```
@@ -214,16 +213,16 @@ msleep %>%
 
 Use `select(where())` to find only non-numeric columns 
 
-## Select the columns that include "sleep" in their names 
+## Select the columns that include "bill" in their names 
  
 ```{r}
 
-msleep %>%
-  select(contains("sleep"))
+penguins %>%
+  select(contains("bill"))
 
 ```
 
-## Select the columns that include either "sleep" or "wt" in thier names 
+## Select the columns that include either "bill" or "mm" in their names 
 
 - Basic R way 
 
@@ -231,29 +230,29 @@ msleep %>%
 
 ```{r}
 
-msleep[grepl('sleep|wt', names(msleep))]
+penguins[grepl('bill|mm', names(penguins))]
 
 ```
 
 **Challenge 4**
 
-Use `select(match())` to find columns whose names include either "sleep" or "wt". 
+Use `select(match())` to find columns whose names include either "bill" or "mm". 
 
 ## Select the columns that starts with "b"
 
 ```{r}
 
-msleep %>%
+penguins %>%
   select(starts_with("b"))
 
 ```
 
-## Select the columns that ends with "wt"
+## Select the columns that ends with "mm"
 
 ```{r}
 
-msleep %>%
-  select(ends_with("wt"))
+penguins %>%
+  select(ends_with("mm"))
 
 ```
 
@@ -263,18 +262,18 @@ The key idea is you can use Boolean operators (`!`, `&`, `|`)to combine differen
 
 ```{r}
 
-msleep %>%
-  select(starts_with("b") & ends_with("wt"))
+penguins %>%
+  select(starts_with("b") & ends_with("mm"))
 
 ```
 
-## Select order and move it before everything 
+## Select bill_length_mm and move it before everything 
 
 ```{r}
 
 # By specifying a column 
-msleep %>%
-  select(order, everything())
+penguins %>%
+  select(bill_length_mm, everything())
   
 ```
 
@@ -282,8 +281,8 @@ msleep %>%
 
 ```{r}
 
-msleep %>%
-  select(any_of(c("name", "order"))) %>%
+penguins %>%
+  select(any_of(c("species", "bill_length"))) %>%
   colnames()
 
 ```
@@ -291,15 +290,16 @@ msleep %>%
 ## Select the variables named in the character + number pattern
 
 ```{r}
+## This uses common dplyr functions to make a new variable. 
+penguins_example <- penguins %>% 
+  mutate(obs1 = 1,
+         obs2 = 2,
+         obs3 = 3,
+         obs4 = 4,
+         obs5 = 5)
 
-msleep$week8 <- NA
-
-msleep$week12 <- NA
-
-msleep$week_extra <- 0 
-
-msleep %>%
-  select(num_range("week", c(1:12)))
+penguins_example %>%
+  select(num_range("obs", c(1:4)))
 
 ```
 

@@ -15,23 +15,23 @@ output:
 
 **Challenge 1**
 
-1. (1) Use `filter(between())` to find characters whose heights are between 160 and 180 and (2) count the number of these observations. (Don't include 160 and 180)
+1. (1) Use `filter(between())` to find characters whose heights are between 35.1 and 42.2 and (2) count the number of these observations. (Don't include 35.1 and 42.2)
 
 ```{r}
 # Solution 
-starwars %>% 
-  filter(between(height, 161, 179))%>% # between is inclusive to endpoints 
+penguins %>% 
+  filter(between(bill_length_mm, 35.1, 42.2))%>% # between is inclusive to endpoints 
   nrow()
 
 ```
 **Challenge 2**
 
-Use `str_detect()` to find characters whose names include "Han".
+Use `str_detect()` to find all the penguins whose species includes "Chin"
 
 ```{r}
 
-starwars %>%
-  filter(str_detect(name, "Han"))
+penguins %>%
+  filter(str_detect(species, "Chin"))
   
 ```
 
@@ -40,16 +40,16 @@ starwars %>%
 Use `select(where())` to find only non-numeric columns 
 
 ```{r}
-msleep %>% 
+penguins %>% 
   select(-where(is.numeric))
 ```
 
 **Challenge 4**
 
-Use `select(matches())` to find columns whose names include either "sleep" or "wt". 
+Use `select(match())` to find columns whose names include either "bill" or "mm". 
 
 ```{r}
-msleep %>%
-  select(matches("sleep|wt"))
+penguins %>%
+  select(matches("bill|mm"))
 
 ```
