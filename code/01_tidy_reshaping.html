@@ -258,6 +258,21 @@ div.tocify {
 </ul>
 <pre class="r"><code>ifelse(packageVersion(&quot;dplyr&quot;) &gt; 1, &quot;The installed version of dplyr package is greater than or equal to 1.0.0&quot;, update.packages(&quot;dplyr&quot;))</code></pre>
 <pre><code>## [1] &quot;The installed version of dplyr package is greater than or equal to 1.0.0&quot;</code></pre>
+<pre class="r"><code># p_load loads and, if necessary, install missing packages.
+# install.packages() + library() = p_load()
+# If you just want to install, then use p_install()
+
+if (!require(&quot;pacman&quot;)) install.packages(&quot;pacman&quot;)</code></pre>
+<pre><code>## Loading required package: pacman</code></pre>
+<pre class="r"><code>pacman::p_load(
+  tidyverse, # for the tidyverse framework
+  palmerpenguins,
+  gapminder, 
+  kableExtra, 
+  flextable,
+  modelr,
+  nycflights13 
+  )</code></pre>
 <p>The rest of the workshop follows the basic structure in <a href="https://rstudio.com/wp-content/uploads/2015/02/data-wrangling-cheatsheet.pdf">the Data Wrangling Cheat Sheet</a> created by RStudio.</p>
 </div>
 <div id="tidy-data" class="section level1" number="2">
