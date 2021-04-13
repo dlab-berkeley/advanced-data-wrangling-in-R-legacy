@@ -83,7 +83,7 @@ penguins %>%
 
 **Challenge 1**
 
-1. (1) Use `filter(between())` to find characters whose heights are between 35.1 and 42.2 and (2) count the number of these observations.
+1. (1) Use `filter(between())` to find characters whose bill lengths are between 35.1 and 42.2 and (2) count the number of these observations.
 
 - Multiple conditions (character)
 
@@ -102,7 +102,7 @@ penguins %>%
 penguins %>%
   filter(str_detect(tolower(species), "ent"))
 
-# Filter brown and black hair_color
+# Filter to Biscoe and Dream Islands
 
 penguins %>%
   filter(island %in% c("Biscoe", "Dream"))
