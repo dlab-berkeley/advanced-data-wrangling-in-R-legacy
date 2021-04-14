@@ -227,7 +227,7 @@ penguins[grepl('bill|mm', names(penguins))]
 
 **Challenge 4**
 
-Use `select(match())` to find columns whose names include either "bill" or "mm". 
+Use `select(matches())` to find columns whose names include either "bill" or "mm". 
 
 ## Select the columns that starts with "b"
 
