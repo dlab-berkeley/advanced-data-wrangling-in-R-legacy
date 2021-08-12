@@ -18,6 +18,8 @@ output:
 
 table4a
 
+
+##Answer: There is more than one observation per row. 
 ```
 
 **Challenge 2**
@@ -28,6 +30,7 @@ table4a
 
 billboard
 
+## Answer: Multiple time periods per row thus you have multiple observations per row. 
 ```
 
 2. How can you fix it? Which pivot?
@@ -40,6 +43,8 @@ billboard %>%
          value = "rank",
          starts_with("wk")) %>% # Use regular expressions
   drop_na() # Drop NAs
+
+##Answer: People have dropped this way of doing this primarily because the functions of gather() and spread() can be really confusing and thus, have opted for the more-intuitive pivot_longer() and pivot_wider(). These functions are also much more versatile. 
 
 ```
 
@@ -72,7 +77,7 @@ stocks <- tibble(
 
 ```
 
-- Where is explicit missing value?
+- Where are there explicit missing values?
 
 - Does `stocks` have implicit missing values?
 
