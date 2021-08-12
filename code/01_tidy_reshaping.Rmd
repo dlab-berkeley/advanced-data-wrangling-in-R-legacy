@@ -115,13 +115,6 @@ table4a
 ![What pivot\_longer() does (Source: <https://www.storybench.org>)](https://www.storybench.org/wp-content/uploads/2019/08/pivot-longer-image.png)
 
 ```{r}
-
-table4a
-
-```
-
-```{r}
-
 # New way, more intuitive
 table4a %>%
   pivot_longer(
@@ -245,7 +238,7 @@ stocks <- tibble(
 
 ```
 
--   Where is explicit missing value?
+-   Where are the explicit missing values?
 
 -   Does `stocks` have implicit missing values?
 
