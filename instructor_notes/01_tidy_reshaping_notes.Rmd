@@ -55,23 +55,47 @@ Here in this example, the old way of doing this action would be by using a funct
 
 `pivot_longer()` makes datasets longer by increasing the number of rows and decreasing the number of columns. 
 
+`pivot_longer()` also by default transforms non-informative columns into characters, so this is something to look out for when using pivot
+
+`parse_integer()`and `parse_double()`: input string must be a single number with no leading or trailing characters. (`parse_number()` is more flexible: https://cran.r-project.org/web/packages/readr/vignettes/readr.html)
 
 `pivot_wider()` increases the number of columns and decreases the number of rows, which makes the data wider. It is the inverse of `pivot_longer()`. 
+
+##Notes for Challenge 3: 
+
+From R for Data Science(https://r4ds.had.co.nz/tidy-data.html): "An explicit missing value is the presence of an absence; an implicit missing value is the absence of a presence." 
+
+
+#Notes for Challenge 4: 
+
+The values_fill() function takes a (scalar) value that specifies what each value should be filled in with when missing.This can be a named list if you want to apply different aggregations to different value columns.
 
 ## Separate 
 
 We often have datasets that stuff multiple values into a singular cell. That's a violation of tidy data, and also often makes our analysis harder. Consider this toy example. Note that Dad, Mom, and Daughter are different types of people, not types of fruit. 
 
-`separate()` is the tidyverse function to take a single character column and turn it into multiple columns. 
+The `separate()` function pulls apart one column into multiple columns, by splitting wherever a separator character appears. 
+
+##Practice Section 
+
+For example, when you provide a separator character such as "/", the `seperate()` function will split the column into what comes before the forwardslash and what comes after it. 
+
+The `convert=TRUE` subcommand in the `seperate()` function will automatically convert variables and is useful if the values are integer, numeric or logical.
 
 ## Unite 
 
 Like `pivot_longer()` and `pivot_wider()`, `unite()` functions as the inverse of `separate()`. It tends to be useful when data that you want as a singular variable comes in multiple variables. As an example, sometimes a dataset will split a name up into first and last name. We might prefer to just have a single variable for name. This toy dataset provides an example. 
 
+
+
 # Represent Data 
 
-The last two major function we are going to cover surround representing our data. 
+The last two major function we are going to cover surround representing our data. The `arrange()` function will place the values of the variable within the parentheses in ascending order while the `arrange(desc())` will place the values of the variable within the parentheses in descending order. 
 
 ## Arrange 
 
 Datasets often come in ways that are difficult to extract information at a glance. For example, the built in dataset mtcars has data on a variety of different cars. If we were deciding to buy a car, we might be interested in looking at cars by miles per gallon. `arrange()`, which comes from the dplyr package, provides a way to order rows by a column. 
+
+##Rename
+
+In R, it's quite simple to rename a variable all you have to do in the tidyverse package is to called the dataframe, use the magrittr pipe, and specify the new name of the variable followed by an equal sign with the name of the old variable. 
