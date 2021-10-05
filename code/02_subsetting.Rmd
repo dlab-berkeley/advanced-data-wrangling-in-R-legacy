@@ -85,6 +85,10 @@ penguins %>%
 
 1. (1) Use `filter(between())` to find characters whose bill lengths are between 35.1 and 42.2 and (2) count the number of these observations.
 
+```{r}
+#User code goes here
+```
+
 - Multiple conditions (character)
 
 ```{r}
@@ -114,7 +118,7 @@ penguins %>%
 Use `str_detect()` to find all the penguins whose species includes "Chin"
 
 ```{r}
-
+##User Code goes here 
 penguins %>%
   filter()
 
@@ -201,8 +205,14 @@ penguins %>%
 
 Use `select(where())` to find only non-numeric columns 
 
+
+```{r}
+#User code goes here
+```
+
+
 ## Select the columns that include "bill" in their names 
- 
+
 ```{r}
 
 penguins %>%
@@ -225,6 +235,11 @@ penguins[grepl('bill|mm', names(penguins))]
 **Challenge 4**
 
 Use `select(matches())` to find columns whose names include either "bill" or "mm". 
+
+```{r}
+#User code goes here
+```
+
 
 ## Select the columns that starts with "b"
 
