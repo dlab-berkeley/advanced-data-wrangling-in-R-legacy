@@ -116,7 +116,7 @@ Use `str_detect()` to find all the penguins whose species includes "Chin"
 ```{r}
 
 penguins %>%
-  filter(str_detect(species, "Chin"))
+  filter()
 
 ```
 
@@ -172,11 +172,8 @@ penguins %>%
 ## Top 10 rows orderd by height
 
 ```{r}
-# Old way 
-penguins %>%
-  top_n(10, bill_length_mm) 
 
-# New way
+# New way 
 penguins %>%
   slice_max(bill_length_mm, n = 10) # Variable first, Argument second 
 
