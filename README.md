@@ -1,9 +1,6 @@
+# D-Lab's Advanced Data Wrangling Workshop in R
 
-# Advanced Data Wrangling Workshop in R
-
-File an [issue](https://github.com/dlab-berkeley/advanced-data-wrangling-in-R/issues) if you have problems, questions or suggestions.
-
-## Overview
+## Workshop Goals
 
 The Advanced Data Wrangling Workshop aims to help students to learn powerful tools and techniques in R to wrangle data with less pain and more fun. The workshop will show how R can make your data wrangling process easier, faster, and more readable. The workshop focuses on introducing new developments in the tidyverse, particularly dplyr 1.0.0, and it has something new and exciting even for experienced R users.
 
@@ -24,41 +21,70 @@ The Advanced Data Wrangling Workshop aims to help students to learn powerful too
 
 We assume students have familiarity with the [`tidyverse`](https://www.tidyverse.org/) packages. 
 
-## Setup
+## Installation Instructions
 
-We strongly recommend to launch [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/dlab-berkeley/advanced-data-wrangling-in-R/master?urlpath=rstudio). Please do so before attending the worskshop as it takes a while (especially, if you do it for the first time).
+We will use RStudio to go through the workshop materials, which requires installation of both the R language and the RStudio software. 
 
-Or you can setup manually:
+1. Download R: Follow the links according to the operating system that you are running. Download the package, and install R onto your compute. You should install the most recent version (at least version 4.0).
 
-- Check your `dplyr` package is up-to-date by typing `packageVersion("dplyr")`.
-- If the current installed version is less than 1.0.0, then update it by typing `update.packages("dplyr")`. You may need to restart R to make it work.
+2. Download RStudio: Install RStudio Desktop. This should be free. Do this after you have already installed R.
 
-```{r}
+3. Download these workshop materials:
 
-ifelse(packageVersion("dplyr") > 1, 
-  print("The installed version of dplyr package is greater than or equal to 1.0.0"), 
-  update.packages("dplyr")
-  )
- ```
-All packages for this workshop can be installed with the following code.
+  - Click the green "Code" button in the top right of the repository information.
 
-```{r} 
-# p_load loads and, if necessary, install missing packages.
-# install.packages() + library() = p_load()
-# If you just want to install, then use p_install()
-if (!require("pacman")) install.packages("pacman")
-pacman::p_load(
-  tidyverse, # for the tidyverse framework
-  palmerpenguins,
-  gapminder, 
-  kableExtra, 
-  flextable,
-  modelr,
-  nycflights13 
-  )
+  - Click "Download Zip".
 
+  - Extract this file to a folder on your computer where you can easily access it (we recommend Desktop).
+
+4. Optional: If you are familiar with `git`, you can instead clone this repository by opening a terminal and entering 
+```
+git@github.com:dlab-berkeley/advanced-data-wrangling-in-R.git
 ```
 
-Original work by [Jae Yeon Kim](https://jaeyk.github.io/) and remixed for the D-Lab by [Alex Stephenson](https://www.alexstephenson.me/).
+5. Check your `dplyr` package is up-to-date by typing `packageVersion("dplyr")` in RStudio's console. If the current installed version is less than 1.0.0, then update it by typing `update.packages("dplyr")`. You may need to restart R to make it work.
+
+6. 
+
+## Run the Code 
+
+Now that you have all the required software and materials, you need to run the code: 
+
+1. Launch the RStudio software.
+
+2. Use the file navigator to find the `advanced-data-wrangling-in-R` folder that you downloaded. 
+
+3. Open up the file corresponding to the part of the workshop currently in focus. 
+
+4. Place your cursor on a given line and press "Command + Enter" (Mac) or "Control + Enter" (PC) to run an individual line of code. 
+
+5. The `solutions` folder contains the solutions to the challenge problems. 
+
+## Is R not working on your laptop? 
+
+If you do not have R installed and the materials loaded for your workshop by the time it starts, we *strongly* recommend using the UC Berkeley DataHub to run the materials. You can access the DataHub by clicking [this link](https://datahub.berkeley.edu/hub/user-redirect/git-pull?repo=https%3A%2F%2Fgithub.com%2Fdlab-berkeley%2Fadvanced-data-wrangling-in-R&urlpath=rstudio%2F&branch=main).
+
+The DataHub downloads this repository, along with any necessary packages, and allows you to run the materials in an RStudio instance on UC Berkeley's servers. No installation is necessary from your end--you only need an internet browser and a CalNet ID to log in. By using the DataHub, you can save your work and come back to it at any time. When you want to return to your saved work, go straight to [DataHub](https://datahub.berkeley.edu/), sign in, and click on the `advanced-data-wrangling-in-R` folder. 
+
+If you do not have a Berkeley CalNet ID, you can still run these lessons in the cloud via [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/dlab-berkeley/advanced-data-wrangling-in-R/master?urlpath=rstudio). If you choose to use Binder, please do so before attending the worskshop as it takes a while (especially, if you do it for the first time).
+
+All packages for this workshop listed in alphabetical order can be installed with the following code.
+
+```{r} 
+estimatr
+modelsummary
+nycflights13
+palmerpenguins 
+tidyverse
+```
+
+## Contributors 
+
+- [Alex Stephenson](https://www.alexstephenson.me/) 
+- [Jae Yeon Kim](https://jaeyk.github.io/)
+
+## Contribution
 
 ![](https://i.creativecommons.org/l/by/4.0/88x31.png) This work is licensed under a [Creative Commons Attribution 4.0 International License](https://creativecommons.org/licenses/by/4.0/).
+
+File an [issue](https://github.com/dlab-berkeley/advanced-data-wrangling-in-R/issues) if you have problems, questions or suggestions.
