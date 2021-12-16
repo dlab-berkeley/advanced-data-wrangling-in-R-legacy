@@ -1,25 +1,24 @@
 # D-Lab's Advanced Data Wrangling in R Workshop
 
+This repository contains the materials for D-Lab’s Advanced Data Wrangling in R workshop. Prior experience with [Data Wrangling and Manipulation in R](https://github.com/dlab-berkeley/R-wrang) is assumed.
+
 ## Workshop Goals
 
 The Advanced Data Wrangling Workshop aims to help students to learn powerful tools and techniques in R to wrangle data with less pain and more fun. The workshop will show how R can make your data wrangling process easier, faster, and more readable. The workshop focuses on introducing new developments in the tidyverse, particularly dplyr 1.0.0, and it has something new and exciting even for experienced R users.
 
-## Learning objectives
 
-- Part 1: Learn how to reshape and manipulate data
+First, we'll cover how [Aim1]
 
   - [Tidying and Reshaping](https://github.com/dlab-berkeley/advanced-data-wrangling-in-R/blob/master/code/01_tidy_reshaping.Rmd)
   - [Subsetting](https://github.com/dlab-berkeley/advanced-data-wrangling-in-R/blob/master/code/02_subsetting.Rmd)
 
-- Part 2: Learn how to summarize data using the tidyverse packages
+Then, we'll explore [Aim2]
 
   - [Summarising](https://github.com/dlab-berkeley/advanced-data-wrangling-in-R/blob/master/code/03_summarizing.Rmd)
   - [Grouping, Nesting, and Mapping](https://github.com/dlab-berkeley/advanced-data-wrangling-in-R/blob/master/code/04_grouping_nesting_mapping.Rmd)
   - [Joining](https://github.com/dlab-berkeley/advanced-data-wrangling-in-R/blob/master/code/05_joining.Rmd)
 
-## Prerequisites 
-
-We assume students have familiarity with the [`tidyverse`](https://www.tidyverse.org/) packages. 
+Basic familiarity with data wrangling and manipulation in R is assumed. If you are not familiar with material in [Data Wrangling and Manipulation in R](https://github.com/dlab-berkeley/R-wrang), we recommend attending that workshop first. 
 
 ## Installation Instructions
 
