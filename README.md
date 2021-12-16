@@ -1,4 +1,4 @@
-# D-Lab's Advanced Data Wrangling Workshop in R
+# D-Lab's Advanced Data Wrangling in R Workshop
 
 ## Workshop Goals
 
@@ -77,14 +77,37 @@ nycflights13
 palmerpenguins 
 tidyverse
 ```
+## About the UC Berkeley D-Lab
+
+D-Lab works with Berkeley faculty, research staff, and students to advance data-intensive social science and humanities research. Our goal at D-Lab is to provide practical training, staff support, resources, and space to enable you to use R for your own research applications. Our services cater to all skill levels and no programming, statistical, or computer science backgrounds are necessary. We offer these services in the form of workshops, one-to-one consulting, and working groups that cover a variety of research topics, digital tools, and programming languages.  
+
+Visit the [D-Lab homepage](https://dlab.berkeley.edu/) to learn more about us. You can view our [calendar](https://dlab.berkeley.edu/events/calendar) for upcoming events, learn about how to utilize our [consulting](https://dlab.berkeley.edu/consulting) and [data](https://dlab.berkeley.edu/data) services, and check out upcoming [workshops](https://dlab.berkeley.edu/events/workshops).
+
+## Other D-Lab [R] Workshops 
+
+Here are other R workshops offered by the D-Lab:
+
+### Basic Competency
+- [Fast-R](https://github.com/dlab-berkeley/Fast-R)
+- [R Data Wrangling](https://github.com/dlab-berkeley/R-wrang)
+- [R Graphics with ggplot2](https://github.com/dlab-berkeley/R-graphics)
+- [R Functional Programming](https://github.com/dlab-berkeley/R-functional-programming)
+- [Project Management in R](https://github.com/dlab-berkeley/efficient-reproducible-project-management-in-R)
+- [Geospatial Fundamentals in R with sf](https://github.com/dlab-berkeley/Geospatial-Fundamentals-in-R-with-sf)
+- [Census Data in R](https://github.com/dlab-berkeley/Census-Data-in-R)
+
+### Intermediate/Advanced Competency
+- [Advanced Data Wrangling in R](https://github.com/dlab-berkeley/advanced-data-wrangling-in-R)
+- [Introduction to Machine Learning in R](https://github.com/dlab-berkeley/Machine-Learning-in-R)
+- [Unsupervised Learning in R](https://github.com/dlab-berkeley/Unsupervised-Learning-in-R)
+- [R Machine Learning with tidymodels](https://github.com/dlab-berkeley/Machine-Learning-with-tidymodels)
+- [Introduction to Deep Learning in R](https://github.com/dlab-berkeley/Deep-Learning-in-R)
+- [Fairness and Bias in Machine Learning](https://github.com/dlab-berkeley/fairML)
+- [R Package Development](https://github.com/dlab-berkeley/R-package-development) 
 
 ## Contributors 
 
 - [Alex Stephenson](https://www.alexstephenson.me/) 
 - [Jae Yeon Kim](https://jaeyk.github.io/)
 
-## Contribution
-
 ![](https://i.creativecommons.org/l/by/4.0/88x31.png) This work is licensed under a [Creative Commons Attribution 4.0 International License](https://creativecommons.org/licenses/by/4.0/).
-
-File an [issue](https://github.com/dlab-berkeley/advanced-data-wrangling-in-R/issues) if you have problems, questions or suggestions.
