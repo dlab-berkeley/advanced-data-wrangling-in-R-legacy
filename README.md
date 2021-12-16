@@ -44,7 +44,15 @@ git@github.com:dlab-berkeley/advanced-data-wrangling-in-R.git
 
 5. Check your `dplyr` package is up-to-date by typing `packageVersion("dplyr")` in RStudio's console. If the current installed version is less than 1.0.0, then update it by typing `update.packages("dplyr")`. You may need to restart R to make it work.
 
-6. 
+6. Install all the packages for this workshop, which are listed below in alphabetical order.
+
+```{r} 
+estimatr
+modelsummary
+nycflights13
+palmerpenguins 
+tidyverse
+```
 
 ## Run the Code 
 
@@ -68,15 +76,6 @@ The DataHub downloads this repository, along with any necessary packages, and al
 
 If you do not have a Berkeley CalNet ID, you can still run these lessons in the cloud via [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/dlab-berkeley/advanced-data-wrangling-in-R/master?urlpath=rstudio). If you choose to use Binder, please do so before attending the worskshop as it takes a while (especially, if you do it for the first time).
 
-All packages for this workshop listed in alphabetical order can be installed with the following code.
-
-```{r} 
-estimatr
-modelsummary
-nycflights13
-palmerpenguins 
-tidyverse
-```
 ## About the UC Berkeley D-Lab
 
 D-Lab works with Berkeley faculty, research staff, and students to advance data-intensive social science and humanities research. Our goal at D-Lab is to provide practical training, staff support, resources, and space to enable you to use R for your own research applications. Our services cater to all skill levels and no programming, statistical, or computer science backgrounds are necessary. We offer these services in the form of workshops, one-to-one consulting, and working groups that cover a variety of research topics, digital tools, and programming languages.  
