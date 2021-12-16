@@ -31,11 +31,11 @@ We will use RStudio to go through the workshop materials, which requires install
 
 3. Download these workshop materials:
 
-  - Click the green "Code" button in the top right of the repository information.
+    - Click the green "Code" button in the top right of the repository information.
 
-  - Click "Download Zip".
+    - Click "Download Zip".
 
-  - Extract this file to a folder on your computer where you can easily access it (we recommend Desktop).
+    - Extract this file to a folder on your computer where you can easily access it (we recommend Desktop).
 
 4. Optional: If you are familiar with `git`, you can instead clone this repository by opening a terminal and entering 
 ```
