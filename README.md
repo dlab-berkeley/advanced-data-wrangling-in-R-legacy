@@ -7,12 +7,12 @@ This repository contains the materials for D-Lab’s Advanced Data Wrangling in 
 The Advanced Data Wrangling Workshop aims to help students to learn powerful tools and techniques in R to wrangle data with less pain and more fun. The workshop will show how R can make your data wrangling process easier, faster, and more readable. The workshop focuses on introducing new developments in the tidyverse, particularly dplyr 1.0.0, and it has something new and exciting even for experienced R users.
 
 
-First, we'll cover how [Aim1]
+First, we'll cover:
 
   - [Tidying and Reshaping](https://github.com/dlab-berkeley/advanced-data-wrangling-in-R/blob/master/code/01_tidy_reshaping.Rmd)
   - [Subsetting](https://github.com/dlab-berkeley/advanced-data-wrangling-in-R/blob/master/code/02_subsetting.Rmd)
 
-Then, we'll explore [Aim2]
+Then, we'll explore:
 
   - [Summarising](https://github.com/dlab-berkeley/advanced-data-wrangling-in-R/blob/master/code/03_summarizing.Rmd)
   - [Grouping, Nesting, and Mapping](https://github.com/dlab-berkeley/advanced-data-wrangling-in-R/blob/master/code/04_grouping_nesting_mapping.Rmd)
@@ -24,9 +24,9 @@ Basic familiarity with data wrangling and manipulation in R is assumed. If you a
 
 We will use RStudio to go through the workshop materials, which requires installation of both the R language and the RStudio software. 
 
-1. Download R: Follow the links according to the operating system that you are running. Download the package, and install R onto your compute. You should install the most recent version (at least version 4.0).
+1. [Download R](https://www.r-project.org/): Follow the links according to the operating system that you are running. Download the package, and install R onto your compute. You should install the most recent version (at least version 4.0).
 
-2. Download RStudio: Install RStudio Desktop. This should be free. Do this after you have already installed R.
+2. [Download RStudio](https://www.rstudio.com/products/rstudio/download/): Install RStudio Desktop. This should be free. Do this after you have already installed R.
 
 3. Download these workshop materials:
 
@@ -37,6 +37,7 @@ We will use RStudio to go through the workshop materials, which requires install
     - Extract this file to a folder on your computer where you can easily access it (we recommend Desktop).
 
 4. Optional: If you are familiar with `git`, you can instead clone this repository by opening a terminal and entering 
+
 ```
 git@github.com:dlab-berkeley/advanced-data-wrangling-in-R.git
 ```
@@ -45,11 +46,16 @@ git@github.com:dlab-berkeley/advanced-data-wrangling-in-R.git
 
 6. Install all the packages for this workshop, which are listed below in alphabetical order.
 
-```{r} 
+``` 
+broom
 estimatr
+here
+janitor
 modelsummary
-nycflights13
 palmerpenguins 
+survey
+srvyr
+rio
 tidyverse
 ```
 
@@ -61,11 +67,13 @@ Now that you have all the required software and materials, you need to run the c
 
 2. Use the file navigator to find the `advanced-data-wrangling-in-R` folder that you downloaded. 
 
-3. Open up the file corresponding to the part of the workshop currently in focus. 
+3. Open the `advanced-data-wrangling.Rproj` by double clicking to open the code in an R project. 
 
-4. Place your cursor on a given line and press "Command + Enter" (Mac) or "Control + Enter" (PC) to run an individual line of code. 
+4. Open up the file corresponding to the part of the workshop currently in focus. 
 
-5. The `solutions` folder contains the solutions to the challenge problems. 
+5. Place your cursor on a given line and press "Command + Enter" (Mac) or "Control + Enter" (PC) to run an individual line of code. 
+
+6. The `solutions` folder contains the solutions to the challenge problems. 
 
 ## Is R not working on your laptop? 
 
@@ -107,5 +115,6 @@ Here are other R workshops offered by the D-Lab:
 
 - [Alex Stephenson](https://www.alexstephenson.me/) 
 - [Jae Yeon Kim](https://jaeyk.github.io/)
+- [Aniket Kesari](https://github.com/Akesari12)
 
 ![](https://i.creativecommons.org/l/by/4.0/88x31.png) This work is licensed under a [Creative Commons Attribution 4.0 International License](https://creativecommons.org/licenses/by/4.0/).
